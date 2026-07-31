@@ -437,6 +437,21 @@
   .pc-list.cons{color:var(--warn);}
   .pc-list li{color:var(--ink);}
 
+  /* ---- 💳カードタブ専用（還元アップ・クレカ積立・チャージ経路） ---- */
+  .spec-rows{display:flex; flex-direction:column; gap:6px;}
+  .spec-row{border:1px solid var(--frame); background:var(--paper-raised); border-radius:10px; padding:8px 11px;}
+  .spec-row .sr-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .spec-row .sr-label{font-size:12.5px; font-weight:700; color:var(--ink);}
+  .spec-row .sr-value{font-size:15px; font-weight:800; color:var(--gold-ink); white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .spec-row .sr-note{font-size:11px; color:var(--ink-soft); margin-top:3px; line-height:1.6;}
+  .charge-cols{display:flex; flex-direction:column; gap:10px;}
+  .charge-col h4{margin:0 0 5px; font-size:11.5px; font-weight:800; color:var(--ink-soft); letter-spacing:.04em;}
+  .charge-list{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:4px;}
+  .charge-list li{display:flex; justify-content:space-between; gap:10px; align-items:baseline; font-size:12.5px; border-bottom:1px dashed var(--frame); padding:3px 2px;}
+  .charge-list li:last-child{border-bottom:0;}
+  .charge-list .cl-note{font-size:11px; color:var(--ink-soft); text-align:right; flex:none; max-width:55%;}
+  .card-plain{font-size:12.5px; margin:0; line-height:1.65;}
+
   .src-note{font-size:10.5px; color:var(--ink-soft); margin-top:16px; line-height:1.5;}
   .src-mark{font-size:.72em; color:var(--denim); font-weight:700; margin-left:2px; letter-spacing:0;}
   .src-mark-link{
@@ -647,7 +662,7 @@
     mark:   "",            // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "16行の銀行口座を1行1ページのトレーディングカードで比較し、自分のランク到達状況を記録できる個人用ツール",
-    build:  "2026-08-01-l-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-08-01-m-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
       sim:    "bankCardSim.v1",
@@ -1457,6 +1472,775 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       ] }
   ];
 
+  /* ==================== カードコレクション（💳タブのデータ） ====================
+     クレジットカード・プリペイドカードのカタログ。
+     出典：アプリ/メモ/クレジットカード比較/ の個別メモ（1カード1ファイル）。
+     ここには誰にでも当てはまる公開情報だけを書く。保有しているかどうかは
+     ♡ボタン（端末内localStorageのみ、公開されない）で本人だけが記録する。 */
+  var CARD_DATA = [
+    // ==== CARD_DATA_ENTRIES ====
+    { code:"C01", kind:"credit",
+      name:"三菱UFJカード",
+      intlBrand:"Visa/Mastercard/JCB/AMEX",
+      fee:"無料",
+      feeNote:"本人会員・家族会員とも永年無料",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"1,000円の利用で1グローバルポイント(1ポイント=5円相当)",
+      pointName:"グローバルポイント",
+      special:[
+        {label:"ポイントアッププログラム対象店舗", value:"最大20%", note:"コンビニ・カフェ・飲食店・スーパー等が対象。支払い口座を三菱UFJ銀行に設定しMDCアプリからエントリー必須。対象利用額は月間5万円が上限"},
+        {label:"COIN+連携", value:"+0.5%", note:"三菱UFJ銀行口座をCOIN+に登録し支払い口座に設定するなど3条件達成でグローバルポイント還元率に上乗せ"}
+      ],
+      tsumitate:null,
+      charge:null,
+      limits:"スペシャルポイント対象利用額は月間5万円が上限(集計期間は毎月16日〜翌月15日)",
+      family:"家族カードも年会費永年無料。ポイントは家族会員分も自動的に本会員に合算",
+      pros:[
+        "年会費永年無料で、条件を満たせば対象店舗での還元率が最大20%まで上がる",
+        "COIN+・グローバルポイントWalletと組み合わせて計画的にポイントを使い切る経路を作れる",
+        "家族カードが年会費無料で作れ、ポイントも自動的に合算される"
+      ],
+      cons:[
+        "通常還元率は0.5%と平均的で、最大20%を狙うには複数条件の達成と対象店舗での利用が前提",
+        "グローバルポイントの交換レートは交換先により差が大きく、汎用ポイント(Ponta/d/楽天等)への交換は目減りする",
+        "スペシャルポイント(最大20%還元)の対象利用額には月間5万円の上限がある"
+      ],
+      srcRefs:{rate:[1], special:[2,3,6], points:[4], family:[5]},
+      sources:[
+        {n:1,label:"三菱UFJカード公式(確認日2026-07-31)",url:"https://www.cr.mufg.jp/apply/card/mucard/index.html"},
+        {n:2,label:"最大20%ポイント還元「ポイントアッププログラム」開始発表(公式、2025年6月2日付)",url:"https://www.cr.mufg.jp/member/new/20250602_01.html"},
+        {n:3,label:"ポイントアッププログラム解説(公式、確認日2026-07-31)",url:"https://www.cr.mufg.jp/apply/card/mucard/pup/index03.html"},
+        {n:4,label:"グローバルポイントの交換先解説(公式、確認日2026-07-31)",url:"https://www.cr.mufg.jp/mycard/benefit/24032/index.html"},
+        {n:5,label:"家族カード公式(確認日2026-07-31)",url:"https://www.cr.mufg.jp/apply/card/family/index.html"},
+        {n:6,label:"COIN+連携で還元率0.5%UP(確認日2026-07-31)",url:"https://coinplus.jp/mucard/mucard-app/"}
+      ] },
+
+    { code:"C02", kind:"credit",
+      name:"三井住友カード(NL)",
+      intlBrand:"Visa/Mastercard",
+      fee:"無料",
+      feeNote:"永年無料",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"200円(税込)につき1ポイント",
+      pointName:"Vポイント",
+      special:[
+        {label:"対象コンビニ・飲食店でスマホタッチ決済", value:"7%", note:"セブン-イレブン・ローソン・マクドナルド等。スマホでのVisaのタッチ決済/Mastercardタッチ決済またはモバイルオーダー払いが条件(カード現物のタッチ決済・iD等は対象外)"},
+        {label:"セブン-イレブン追加条件達成", value:"最大10%", note:"セブンマイル分を含む"},
+        {label:"家族ポイント登録", value:"家族1人につき+1%(最大+5%)", note:"対象コンビニ・飲食店の還元率に上乗せ"},
+        {label:"Vポイントアッププログラム", value:"最大+7%", note:"SMBCグループサービスの利用状況に応じて上乗せ。組み合わせで対象店舗最大20%還元(確度中)"}
+      ],
+      tsumitate:{broker:"SBI証券", note:"年間利用額10万円以上で0.5%、10万円未満は0%。Olive限定上乗せプラン(Oliveアカウント円普通預金残高に応じ最大+0.5%)併用で理論上最大1.0%。月間積立上限10万円"},
+      charge:null,
+      limits:null,
+      family:"家族カード対応。「家族ポイント」登録で対象コンビニ・飲食店の還元率が家族1人につき+1%(最大+5%)",
+      pros:[
+        "年会費永年無料で維持コストがかからない",
+        "対象コンビニ・飲食店のスマホタッチ決済で7%還元と通常還元率(0.5%)より大幅に高い",
+        "年間100万円利用でゴールド(NL)へ年会費永年無料でアップグレードできる導線がある"
+      ],
+      cons:[
+        "高還元を得るにはスマホのタッチ決済/モバイルオーダーに限定され、カード現物のタッチ決済やiD払いは対象外",
+        "ショッピング補償が付帯しない",
+        "通常還元率は0.5%と平均的でコンビニ・飲食店以外の優位性は薄い"
+      ],
+      srcRefs:{rate:[1], special:[1], tsumitate:[3,4,5]},
+      sources:[
+        {n:1,label:"三井住友カード ナンバーレス(NL)公式",url:"https://www.smbc-card.com/nyukai/card/numberless.jsp"},
+        {n:2,label:"Vポイントの有効期限解説(公式マガジン)",url:"https://www.smbc-card.com/nyukai/magazine/tips/vpoints-expiration.jsp"},
+        {n:3,label:"「三井住友カード つみたて投資」Olive限定上乗せプラン(公式、確認日2026-07-31)",url:"https://www.smbc-card.com/mem/cardinfo/26/cardinfo4030055.jsp"},
+        {n:4,label:"クレカ積立の月間上限額引き上げに伴うポイント付与率(SBI証券FAQ、確認日2026-07-31)",url:"https://faq.sbisec.co.jp/answer/65fce159d14d3c49d60ba5e3/"},
+        {n:5,label:"三井住友カードでクレカ積立(SBI証券、確認日2026-07-31)",url:"https://go.sbisec.co.jp/lp/sbixsmcc_card_01.html"}
+      ] },
+
+    { code:"C03", kind:"credit",
+      name:"三井住友カード ゴールド(NL)",
+      intlBrand:"Visa/Mastercard",
+      fee:"5,500円",
+      feeNote:"年間100万円(税込)以上利用で翌年以降永年無料(初年度は利用有無に関わらず5,500円)",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"200円(税込)につき1ポイント",
+      pointName:"Vポイント",
+      special:[
+        {label:"対象コンビニ・飲食店でスマホタッチ決済", value:"7%", note:"スマホでのVisaのタッチ決済/Mastercardタッチ決済またはモバイルオーダー払いが条件"},
+        {label:"セブン-イレブン追加条件達成", value:"最大10%", note:null},
+        {label:"家族ポイント+Vポイントアッププログラム", value:"最大20%", note:"組み合わせ時の上限目安(確度中)"},
+        {label:"年間100万円利用の継続特典", value:"10,000ポイント", note:"毎年、年間100万円(税込)以上利用で進呈"}
+      ],
+      tsumitate:{broker:"SBI証券", note:"年間利用額100万円以上で1.0%、10万円以上100万円未満で0.75%、10万円未満で0%。Olive限定上乗せプラン併用で理論上最大1.5%。月間積立上限10万円"},
+      charge:null,
+      limits:null,
+      family:"家族カード対応",
+      pros:[
+        "対象のコンビニ・飲食店で7%還元と、年会費のかかるカードの中でも日常使いの還元率が高い",
+        "年間100万円利用で年会費が翌年以降永年無料になり、10,000ポイントの継続特典も得られる",
+        "国内主要空港とハワイの空港ラウンジが無料で使え、ショッピング補償(300万円)も付帯"
+      ],
+      cons:[
+        "年間100万円を使わないと年会費5,500円が発生し続ける",
+        "通常還元率自体は無印NLと同じ0.5%で、ゴールドだから還元率そのものが上がるわけではない",
+        "ゴールド独自の審査基準があり、収入等の条件次第では発行されない場合がある"
+      ],
+      srcRefs:{rate:[1], special:[1], tsumitate:[2,3,4]},
+      sources:[
+        {n:1,label:"三井住友カード ゴールド(NL)公式",url:"https://www.smbc-card.com/nyukai/card/gold-numberless.jsp"},
+        {n:2,label:"「三井住友カード つみたて投資」Olive限定上乗せプラン(公式、確認日2026-07-31)",url:"https://www.smbc-card.com/mem/cardinfo/26/cardinfo4030055.jsp"},
+        {n:3,label:"クレカ積立の月間上限額引き上げに伴うポイント付与率(SBI証券FAQ、確認日2026-07-31)",url:"https://faq.sbisec.co.jp/answer/65fce159d14d3c49d60ba5e3/"},
+        {n:4,label:"三井住友カードでクレカ積立(SBI証券、確認日2026-07-31)",url:"https://go.sbisec.co.jp/lp/sbixsmcc_card_01.html"}
+      ] },
+
+    { code:"C04", kind:"credit",
+      name:"Oliveフレキシブルペイ",
+      intlBrand:"Visa",
+      fee:"一般:無料/ゴールド:5,500円/プラチナプリファード:33,000円",
+      feeNote:"ゴールドは年間100万円(税込)以上利用で翌年以降永年無料(三井住友カード ゴールド(NL)を年間100万円以上利用した会員が2025年8月1日以降にOliveゴールドへ入会しクレジットモード利用開始した場合は初年度から無料の特例あり)",
+      rateHeadline:"0.5〜1.0%",
+      rateMax:1.0,
+      rateNote:"クレジットモード/デビットモードの基本還元率(200円につき1ポイント相当)。一般・ゴールドは0.5%、プラチナプリファードは1.0%。ポイント払いモードは別建て(プラチナプリファードは0.5%)",
+      pointName:"Vポイント",
+      special:[
+        {label:"対象コンビニ・飲食店でクレジットモードのスマホタッチ決済", value:"8%(全グレード共通)", note:"通常分含む。セブン-イレブンは条件達成でさらに最大11%"},
+        {label:"家族ポイント登録", value:"最大+5%", note:null},
+        {label:"Vポイントアッププログラム", value:"最大+7%", note:"デビットモードでの利用も対象"},
+        {label:"ゴールド以上のラウンジ特典", value:"国内主要空港等ラウンジ利用可", note:"プラチナプリファードはVトリップ予約で最大10%還元、入会後3ヵ月40万円利用で+40,000ポイントの特典も"}
+      ],
+      tsumitate:{broker:"SBI証券", note:"グレード別・年間利用額により変動。一般:年10万円以上0.5%(未満0%)/ゴールド:年100万円以上1.0%(10万円以上100万円未満0.75%、未満0%)/プラチナプリファード:年500万円以上3.0%(300万円以上500万円未満2.0%、300万円未満1.0%)。Olive限定上乗せプラン(円普通預金残高連動、最大+0.5%)併用で理論上最大 一般1.0%/ゴールド1.5%/プラチナプリファード3.5%。月間積立上限10万円"},
+      charge:null,
+      limits:null,
+      family:null,
+      pros:[
+        "年会費無料の一般ランクでもコンビニ・飲食店の還元率が常時8%と高水準",
+        "デビット・クレジット・ポイント払いが1枚に統合され、Oliveアプリで家計管理がしやすい",
+        "上位ランクへのアップグレード導線があり、利用実績に応じて育てやすい(ゴールドは空港ラウンジ特典、プラチナプリファードは基本還元率1.0%と保険が手厚い)"
+      ],
+      cons:[
+        "国際ブランドがVisaのみ",
+        "高還元を得るにはクレジットモード+スマホタッチ決済/モバイルオーダーに限定される",
+        "ゴールドは年間100万円未達だと年会費5,500円、プラチナプリファードは年会費33,000円と維持コストが上がる"
+      ],
+      srcRefs:{rate:[1,2,3], special:[1,2,3], tsumitate:[4,5,6]},
+      sources:[
+        {n:1,label:"Olive 一般 公式",url:"https://www.smbc.co.jp/kojin/olive-account/flexible-pay/"},
+        {n:2,label:"Olive ゴールド 公式",url:"https://www.smbc.co.jp/kojin/olive-account/gold/"},
+        {n:3,label:"Olive プラチナプリファード 公式",url:"https://www.smbc.co.jp/kojin/olive-account/platinum-preferred/"},
+        {n:4,label:"「三井住友カード つみたて投資」Olive限定上乗せプラン(公式、確認日2026-07-31)",url:"https://www.smbc-card.com/mem/cardinfo/26/cardinfo4030055.jsp"},
+        {n:5,label:"クレカ積立の月間上限額引き上げに伴うポイント付与率(SBI証券FAQ、確認日2026-07-31)",url:"https://faq.sbisec.co.jp/answer/65fce159d14d3c49d60ba5e3/"},
+        {n:6,label:"三井住友カードでクレカ積立(SBI証券、確認日2026-07-31)",url:"https://go.sbisec.co.jp/lp/sbixsmcc_card_01.html"}
+      ] },
+
+    { code:"C05", kind:"credit",
+      name:"楽天カード",
+      intlBrand:"Visa/Mastercard/JCB/AMEX",
+      fee:"無料",
+      feeNote:"利用金額等の条件なく永年無料",
+      rateHeadline:"1.0%",
+      rateMax:1.0,
+      rateNote:"100円につき1ポイント",
+      pointName:"楽天ポイント",
+      special:[
+        {label:"楽天市場でのSPU(スーパーポイントアッププログラム)", value:"3倍相当", note:"楽天市場利用分+楽天カード通常分+楽天カード特典分の合算。楽天カード分は月間1,000ポイント上限"},
+        {label:"毎月「5」「0」のつく日", value:"+3倍", note:"楽天市場での楽天カード利用時。内容は変更・中止の可能性あり"},
+        {label:"楽天銀行口座からの引き落とし設定", value:"普通預金優遇金利 年0.32%(税引後0.254%)", note:"2026年2月1日時点、楽天銀行調べ(確度中、変動あり)"}
+      ],
+      tsumitate:{broker:"楽天証券", note:"代行手数料が年率0.4%(税込)以上のファンドは1%還元、0.4%未満は0.5%還元(楽天カード一般の場合)。判定は毎月12日時点。月間積立上限10万円"},
+      charge:null,
+      limits:"SPUの楽天カード分は月間1,000ポイントが上限",
+      family:null,
+      pros:[
+        "年会費が永年無料で条件なく維持コストゼロで持てる",
+        "Visa/Mastercard/JCB/American Expressの4ブランドから選べ、すべてタッチ決済に対応",
+        "楽天市場でのSPUにより通常でも還元率3倍相当になり、楽天経済圏との相性が良い"
+      ],
+      cons:[
+        "楽天市場・楽天グループ以外の街の買い物では還元率1%が基本で、他社の高還元カードと比べ突出しない",
+        "iDには非対応(QUICPayもApple Pay/Google Pay経由のみでカード単体では利用不可)",
+        "国内旅行傷害保険は付帯せず、海外旅行傷害保険も利用付帯(事前のカード決済が条件)"
+      ],
+      srcRefs:{rate:[1], special:[1,3], tsumitate:[4,5]},
+      sources:[
+        {n:1,label:"楽天カード公式トップ",url:"https://www.rakuten-card.co.jp/card/rakuten-card/"},
+        {n:2,label:"楽天カードの付帯サービス比較(公式)",url:"https://www.rakuten-card.co.jp/product-service/"},
+        {n:3,label:"楽天カードのポイント解説(公式)",url:"https://www.rakuten-card.co.jp/point/"},
+        {n:4,label:"楽天カードクレジット決済のポイント還元率(楽天証券、ページ更新日2026-07-21、確認日2026-07-31)",url:"https://www.rakuten-sec.co.jp/web/rfund/guide/creditcard/list.html"},
+        {n:5,label:"クレカ積立(楽天カードクレジット決済)(楽天証券、確認日2026-07-31)",url:"https://www.rakuten-sec.co.jp/web/rfund/guide/creditcard.html"}
+      ] },
+
+    { code:"C06", kind:"credit",
+      name:"dカード",
+      intlBrand:"Visa/Mastercard",
+      fee:"無料",
+      feeNote:"本人カード・家族カードとも永年無料",
+      rateHeadline:"1.0%",
+      rateMax:1.0,
+      rateNote:"利用金額100円(税込)ごとに1ポイント",
+      pointName:"dポイント",
+      special:[
+        {label:"dカード特約店(マツキヨココカラ、ノジマなど40店舗以上)", value:"合計3%(マツキヨココカラの場合)", note:"店舗により上乗せ率は異なる"},
+        {label:"d払いの支払い方法にdカードを設定", value:"合計1.0〜1.5%相当", note:"公式表記に「合計1.0%」「+0.5%」が混在しており店舗・支払い方法により変動(確度中、要確認)"},
+        {label:"dカード ポイントモール経由のネットショッピング", value:"最大10.5%", note:"サイト・店舗によって変動"}
+      ],
+      tsumitate:{broker:"マネックス証券", note:"dカード(無印)は月5万円まで1.1%、5万円超7万円以下0.6%、7万円超10万円以下0.2%(NISA口座は0.73〜1.1%という情報もあり確度中)。月間積立上限10万円。SBI証券のクレカ積立には非対応"},
+      charge:null,
+      limits:null,
+      family:"家族カードあり(本人カードと同様に年会費永年無料)",
+      pros:[
+        "年会費が永年無料でありながら基本還元率1%と、無料カードとしては標準以上の水準",
+        "iD搭載でスマホ・カードのタッチ決済に幅広く対応し、d払いとの連携でポイント上乗せが狙える",
+        "マツキヨココカラなど身近な特約店で還元率が3%程度まで上がる"
+      ],
+      cons:[
+        "2026年3月31日で旅行保険・お買物あんしん保険が終了し、無料カードとしての付帯保険メリットがほぼ無くなった(ケータイ補償のみ継続)",
+        "上位カードのdカード GOLDに比べると通常還元率・特典の面で見劣りする",
+        "ポイント有効期限は最後の利用から12か月で自動延長されるが、長期間使わないと失効するリスクがある"
+      ],
+      srcRefs:{rate:[1], special:[2,3], family:[1], tsumitate:[4,5]},
+      sources:[
+        {n:1,label:"dカードなら年会費永年無料(公式)",url:"https://dcard.docomo.ne.jp/std/topics/af/regular.html"},
+        {n:2,label:"dポイントがさらにたまるdカード特約店(公式)",url:"https://dcard.docomo.ne.jp/st/dpoint_tokuyaku/index.html"},
+        {n:3,label:"マツキヨココカラ|dカード(公式)",url:"https://dcard.docomo.ne.jp/st/dpoint_tokuyaku/shop/matsukiyo_vm.html"},
+        {n:4,label:"dカード積立|クレカ積立|マネックス証券(確認日2026-07-31、本文はWebFetch403のため未取得)",url:"https://info.monex.co.jp/fund/tsumitate/card-tsumitate/dcard/index.html"},
+        {n:5,label:"dカード積立で将来のための資産形成(ドコモのNISA by マネックス証券、更新日2026-07-01、確認日2026-07-31)",url:"https://monex.docomo.ne.jp/articles/001/"}
+      ] },
+
+    { code:"C07", kind:"credit",
+      name:"au PAYカード",
+      intlBrand:"Visa/Mastercard/AMEX",
+      fee:"無料",
+      feeNote:"永年無料",
+      rateHeadline:"1.0%",
+      rateMax:1.0,
+      rateNote:"100円(税込)ごとに1 Pontaポイント",
+      pointName:"Pontaポイント",
+      special:[
+        {label:"au PAYへのオートチャージ", value:"最大2.0%", note:"通常0.5%+最大1.5%(200円(税込)ごとに最大3pt)、還元上限は月間500pt。au PAYカードによるチャージ限定"},
+        {label:"au PAYマーケットでの買い物", value:"最大10%", note:"複数特典の合算、特典ごとに上限あり"},
+        {label:"au携帯電話/UQ mobile利用料金", value:"1%+割引", note:"通常1%還元に加え「au PAYカードお支払い割」で年間最大2,640円の利用料金割引"},
+        {label:"三菱UFJ eスマート証券クレカ積立", value:"0.5%", note:"月10万円上限。上位のau PAYゴールドカードは1.0%"}
+      ],
+      tsumitate:{broker:"三菱UFJ eスマート証券", note:"投資信託積立金額(決済額)に0.5%Pontaポイント還元、月10万円上限。2025年1月10日引落分より1.0%→0.5%に改定済み"},
+      charge:{
+        from:null,
+        to:[{label:"au PAY(コード決済)残高", note:"通常ポイント0.5%+オートチャージ特典最大1.5%、月間上限500pt"}]
+      },
+      limits:"au PAYオートチャージ還元上限:月500 Pontaポイント／クレカ積立上限:月10万円",
+      family:null,
+      pros:[
+        "年会費永年無料でも通常還元率1%と、無料カードとしては高水準",
+        "au PAY残高のオートチャージや携帯料金の支払いに使うことで、日常の固定費・キャッシュレス決済でPontaポイントをまとめて貯めやすい",
+        "Ponta提携社でのカード決済+Pontaカード提示の二重取りができる"
+      ],
+      cons:[
+        "QUICPay・iDへの対応が確認できず、電子マネー系の決済手段としては使えない可能性がある",
+        "海外旅行あんしん保険が自動付帯ではなく利用付帯(事前のカード決済が条件)で、国内旅行あんしん保険は付帯しない",
+        "上位カードのau PAYゴールドカードと比べると、携帯料金の還元率やオートチャージ特典、保険の手厚さで見劣りする"
+      ],
+      srcRefs:{rate:[1,2], special:[1,2], tsumitate:[3,4,5], charge:[1,2]},
+      sources:[
+        {n:1,label:"auのクレジットカード｜au PAYカード(公式)",url:"https://www.kddi-fs.com/"},
+        {n:2,label:"カードを比較する｜au PAYカード(公式)",url:"https://www.kddi-fs.com/function/cardspec/"},
+        {n:3,label:"「au PAYカード決済による投資信託の積立」ポイント還元率等改定のお知らせ(三菱UFJ eスマート証券、2024年11月26日発表、確認日2026-07-31)",url:"https://kabu.com/company/pressrelease/20241126_1.html"},
+        {n:4,label:"au PAYカード決済(投資信託)(三菱UFJ eスマート証券、確認日2026-07-31)",url:"https://kabu.com/item/fund/creditcard/default.html"},
+        {n:5,label:"クレカ積立のポイント還元率が合計最大3倍に(三菱UFJ eスマート証券、確認日2026-07-31)",url:"https://kabu.com/company/lp/moneyactivity/01.html"}
+      ] },
+
+    { code:"C08", kind:"credit",
+      name:"PayPayカード",
+      intlBrand:"Visa/Mastercard/JCB",
+      fee:"無料",
+      feeNote:"永年無料。国際ブランドは1枚目の申し込みはVisaのみ(2枚目以降で他ブランド選択可)",
+      rateHeadline:"1.0〜1.5%",
+      rateMax:1.0,
+      rateNote:"200円(税込)につき2ポイント。公共料金・税金の支払いは0.5%に低下。交通系ICへのチャージは付与対象外",
+      pointName:"PayPayポイント",
+      special:[
+        {label:"Yahoo!ショッピング・LOHACO", value:"最大5.0%", note:"LYPプレミアム会員はさらに上乗せ"},
+        {label:"PayPayステップ達成", value:"+0.5%", note:"毎月30回以上・合計10万円以上の決済で翌月の基本還元率が+0.5%、最大1.5%"}
+      ],
+      tsumitate:{broker:"PayPay証券", note:"「クレジットつみたて」で積立金額の0.7%PayPayポイント還元、月10万円まで(付与上限月700pt)。PayPayマネー/ポイント払いは0.5%と低い。家族カードは対象外"},
+      charge:{
+        from:null,
+        to:[{label:"交通系IC(Suica/PASMO等)", note:"ポイント付与対象外"}]
+      },
+      limits:"PayPayステップ条件:月30回以上・合計10万円以上の決済／クレカ積立の還元対象上限:月10万円(付与上限700pt)",
+      family:null,
+      pros:[
+        "年会費永年無料でポイント還元率1.0%(条件達成で1.5%)と基本水準が高い",
+        "Yahoo!ショッピング・LOHACOでの還元率が最大5.0%と非常に高く、ソフトバンク・ワイモバイルユーザーとの相性が良い",
+        "貯まったポイントをPayPay残高として日常の支払いに柔軟に使い回せ、通常ポイントは無期限"
+      ],
+      cons:[
+        "還元率アップ(PayPayステップ)には毎月30回以上・合計10万円以上の支払いという条件があり、達成のための出費が本末転倒になりやすい",
+        "交通系ICカードへのチャージはポイント付与対象外",
+        "ポイントの出金・他社ポイントへの譲渡ができず、使い道がPayPay経済圏に限定される"
+      ],
+      srcRefs:{rate:[1,2,4], special:[2,4], tsumitate:[5,6], charge:[3]},
+      sources:[
+        {n:1,label:"クレジットカードなら、PayPayカード(公式)",url:"https://www.paypay-card.co.jp/"},
+        {n:2,label:"PayPayカード/PayPayカードゴールドとは(公式)",url:"https://www.paypay-card.co.jp/service/card/overview/"},
+        {n:3,label:"タッチ決済(公式)",url:"https://www.paypay-card.co.jp/service/payment-services/touch-pay/"},
+        {n:4,label:"PayPayステップについて(PayPayヘルプ)",url:"https://paypay.ne.jp/help/c0373/"},
+        {n:5,label:"「PayPay資産運用つみたて還元プログラム」ポイント付与上限額引き上げ(確認日2026-07-31)",url:"https://www.paypay-card.co.jp/company/info/004492.html"},
+        {n:6,label:"「PayPay資産運用」クレジットつみたて上限金額を10万円に引き上げ(確認日2026-07-31)",url:"https://www.paypay-card.co.jp/company/info/004189.html"}
+      ] },
+
+    { code:"C09", kind:"credit",
+      name:"リクルートカード",
+      intlBrand:"Visa/Mastercard/JCB",
+      fee:"無料",
+      feeNote:"永年無料(家族カード・ETCカードも永年無料)",
+      rateHeadline:"1.2%",
+      rateMax:1.2,
+      rateNote:"10,000円の利用で120ポイント。対象店舗を問わずどこで使っても一律1.2%",
+      pointName:"リクルートポイント",
+      special:[
+        {label:"じゃらんnet(宿泊予約)", value:"合計3.2%", note:"ネット予約2%上乗せ+カード決済1.2%"},
+        {label:"Hot Pepper Beauty", value:"合計2.2%", note:"ネット予約・来店1%上乗せ+カード決済1.2%"},
+        {label:"ホットペッパーグルメ", value:"予約人数×50pt", note:"ネット予約・来店加算+カード決済1.2%還元"},
+        {label:"電子マネーチャージ", value:"1.2%(JCBは0.75%)", note:"nanaco/楽天Edy/モバイルSuica/SMART ICOCA等、月3万円まで。JCBブランドは2022年2月〜0.75%に引下げ"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:null,
+        to:[{label:"電子マネー(nanaco/楽天Edy/モバイルSuica/SMART ICOCA等)", note:"月30,000円まで通常還元対象。JCBブランドは0.75%(2022年2月〜)"}]
+      },
+      limits:"電子マネーチャージの還元対象上限:月30,000円",
+      family:"家族カードあり(永年無料)",
+      pros:[
+        "年会費永年無料で、還元率が業界トップクラスの1.2%(対象店舗を問わず一律)",
+        "じゃらんnet・Hot Pepper Beauty・ホットペッパーグルメなどリクルート系サービス利用で還元率がさらに上乗せされる",
+        "Pontaポイント・dポイント・Amazon.co.jpと交換先の自由度が高い"
+      ],
+      cons:[
+        "タッチ決済・QUICPayはJCBブランドのみでVisa/Mastercardは非対応",
+        "iDへの対応は公式サイトに記載がなく非対応とみられる",
+        "上位ステータス・ゴールドカード等へのアップグレード制度がない"
+      ],
+      srcRefs:{rate:[1], special:[1,3], charge:[1,5]},
+      sources:[
+        {n:1,label:"カードの機能 - リクルートカード(公式)",url:"https://recruit-card.jp/basic-card/"},
+        {n:2,label:"リクルートのクレジットカード Recruit Card(公式トップ)",url:"https://recruit-card.jp/"},
+        {n:3,label:"もっとオトクに！ポイントの交換(公式)",url:"https://recruit-card.jp/technique/exchange/"},
+        {n:4,label:"リクルートカード ご利用ガイド(公式)",url:"https://recruit-card.jp/guide/"},
+        {n:5,label:"リクルートID規約 ポイント加算・利用条件一覧",url:"https://point.recruit.co.jp/doc/terms/pointlist6_sp.html"},
+        {n:6,label:"オンライン通販サイト『ポンパレモール』サービス終了のお知らせ(株式会社リクルート、2024年発表)",url:"https://www.recruit.co.jp/newsroom/pressrelease/2024/0401_14194.html"}
+      ] },
+
+    { code:"C10", kind:"credit",
+      name:"JQ CARD エポスゴールド",
+      intlBrand:"Visa",
+      fee:"条件付き無料",
+      feeNote:"招待または年間利用50万円達成で永年無料。新規申込は初年度5,000円(税込)、年間50万円以上利用で翌年以降無料。1年間ショッピング利用がないと年会費が発生",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"クレジット利用200円(税込)ごとにJRキューポ1ポイント",
+      pointName:"JRキューポ",
+      special:[
+        {label:"選べるポイントアップショップ", value:"最大2倍", note:"マルイ・モディ・ENEOSでんき等、200円(税込)ごとに3pt(2pt+ボーナス1pt)。2026年4月改定で従来の最大3倍から縮小(確度中)"},
+        {label:"年間利用額に応じたボーナスポイント", value:"最大10,000pt", note:"年間50万円以上で2,500pt、100万円以上で10,000pt進呈"},
+        {label:"JR九州グループ施設での割引", value:"5〜10%OFF", note:"アミュプラザ・アミュエスト等、カード利用1回ごとの即時値引き"}
+      ],
+      tsumitate:null,
+      charge:null,
+      limits:null,
+      family:null,
+      pros:[
+        "招待または年間50万円利用達成で年会費永年無料のゴールドカードを維持でき、コストパフォーマンスが高い",
+        "JR九州エリア(アミュプラザ、SUGOCA等)での優待・利便性が高く、九州在住・利用者に有利",
+        "セゾン版のJQ CARDと2枚持ちしてJRキューポを効率的に貯める運用ができる"
+      ],
+      cons:[
+        "2026年4月の改定で「選べるポイントアップショップ」の還元が最大3倍→最大2倍に縮小された(確度中)",
+        "通常還元率は0.5%と、汎用の高還元カード(1%超)と比べると見劣りする",
+        "ポイント優待の主眼がJR九州グループ関連施設に偏っており、九州エリア外での利用ではメリットを実感しにくい"
+      ],
+      srcRefs:{rate:[1,3], special:[1,4,5,6], other:[2]},
+      sources:[
+        {n:1,label:"JQ CARD エポスゴールド(公式、確認日2026-07-30)",url:"https://www.eposcard.co.jp/collabo/jq/gold.html"},
+        {n:2,label:"JQ CARD エポス(公式、確認日2026-07-30)",url:"https://www.eposcard.co.jp/collabo/jq/index.html"},
+        {n:3,label:"JQ CARD エポス お申し込みについて(ポイント制度)(公式、確認日2026-07-30)",url:"https://www.eposcard.co.jp/collabo/jq/point.html"},
+        {n:4,label:"JQ CARD JRキューポの付与率は？(JR九州公式FAQ、確認日2026-07-30)",url:"https://www.jrkyushu.co.jp/jq/support/faq/7-1.html"},
+        {n:5,label:"JQ CARDエポスゴールドもついに対象に「選べるポイントアップショップ」が2026年4月に改悪(ポイ探ニュース、確認日2026-07-30、2026年4月1日実施と明記)",url:"https://www.poitan.jp/archives/157374"},
+        {n:6,label:"会員ランクサービス｜JRキューポアプリ(JR九州公式、2026年4月1日開始、確認日2026-07-30)",url:"https://www.jrkyushu.co.jp/jrkyupoapp/rank/"}
+      ] },
+
+    { code:"C11", kind:"credit",
+      name:"イオンカードセレクト",
+      intlBrand:"Visa/Mastercard/JCB",
+      fee:"無料",
+      feeNote:"永年無料",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"イオンマークのカード払い200円(税込)ごとにWAON POINT1ポイント",
+      pointName:"WAON POINT",
+      special:[
+        {label:"イオングループ対象店舗でのカード払い", value:"1%相当", note:"基本の2倍のWAON POINT(イオン、イオンスタイル、マックスバリュ等)"},
+        {label:"お客さま感謝デー(毎月20日・30日)", value:"5%OFF", note:"イオンマークのカード払い等で買い物代金が割引"},
+        {label:"ありが10デー(毎月10日)", value:"10倍", note:"AEON Pay利用でポイント基本の10倍"},
+        {label:"WAONオートチャージ+WAON払い", value:"1%相当", note:"チャージとWAON払いの組み合わせでポイント二重取り"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:null,
+        to:[{label:"電子マネーWAON", note:"オートチャージ+WAON払いの組み合わせでポイント二重取り(合計還元率1%)"}]
+      },
+      limits:null,
+      family:null,
+      pros:[
+        "年会費永年無料でイオン銀行の普通預金金利優遇・各種手数料優遇が受けられる",
+        "イオングループでの買い物は還元率が実質1%相当まで上がり、毎月20日・30日は5%OFFにもなる",
+        "電子マネーWAONオートチャージ+WAON払いでポイント二重取りができる"
+      ],
+      cons:[
+        "イオングループ以外の店舗での通常還元率は0.5%とやや平凡",
+        "イオンカードセレクト自体には旅行傷害保険が付帯しない(ゴールドカード切替が必要)",
+        "QUICPay対応の可否が公式サイトで明記されておらず不明瞭"
+      ],
+      srcRefs:{rate:[1], special:[1,2], charge:[1], other:[3]},
+      sources:[
+        {n:1,label:"イオンカードセレクト(イオン銀行公式)",url:"https://www.aeonbank.co.jp/aeoncard/"},
+        {n:2,label:"イオンカードセレクトってどんなカード？(タマルWeb｜イオン銀行)",url:"https://www.aeonbank.co.jp/column/creditcard/aeoncard/shurui/"},
+        {n:3,label:"イオンゴールドカードの対象カードと発行条件(よくあるご質問｜暮らしのマネーサイト)",url:"https://faq.aeon.co.jp/faq/show/737?site_domain=default"},
+        {n:4,label:"WAON POINTの有効期限(よくあるご質問｜暮らしのマネーサイト)",url:"https://faq.aeon.co.jp/faq/show/10293?site_domain=default"},
+        {n:5,label:"WAON POINTから交換できる商品券や他社提携ポイント(よくあるご質問｜暮らしのマネーサイト)",url:"https://faq.aeon.co.jp/faq/show/2970?site_domain=default"},
+        {n:6,label:"クレジットカードのタッチ決済について(よくあるご質問｜暮らしのマネーサイト)",url:"https://faq.aeon.co.jp/faq/show/7949?site_domain=default"}
+      ] },
+
+    { code:"C12", kind:"credit",
+      name:"ビックカメラSuicaカード",
+      intlBrand:null,
+      fee:"条件付き無料",
+      feeNote:"初年度は利用有無にかかわらず無料。2年目以降は前年に1回以上クレジット利用があれば次年度の年会費524円(税込)も無料(未使用の場合は524円が発生)",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"1,000円(税込)の利用につきJRE POINT5ポイント",
+      pointName:"JRE POINT(ビックカメラ・コジマ・ソフマップ利用時はビックポイントも)",
+      special:[
+        {label:"Suicaへのチャージ(手動・オートチャージ)", value:"1.5%", note:"VIEWプラスの還元率"},
+        {label:"ビックカメラ店舗でのカード差し込み決済", value:"11%", note:"基本のビックポイント還元"},
+        {label:"ビックカメラ店舗でApple Pay・QUICPay払い", value:"9%相当", note:"基本8%ビックポイント+ビックポイント0.5%+JRE POINT0.5%"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:null,
+        to:[{label:"Suica", note:"手動・オートチャージともVIEWプラスで1.5%還元"}]
+      },
+      limits:null,
+      family:null,
+      pros:[
+        "Suicaへのチャージ(オートチャージ含む)でJRE POINTが1.5%還元され、交通系電子マネーへのチャージ還元率としては高水準",
+        "ビックカメラ店舗でのカード払いは基本11%のビックポイント還元と、家電量販店での還元率として非常に高い",
+        "年1回のクレジット利用で翌年度以降の年会費524円(税込)が無料になり、実質無料で維持しやすい"
+      ],
+      cons:[
+        "Suica機能搭載のため国際ブランドのタッチ決済(コンタクトレス決済)が使えない",
+        "ビックカメラ・コジマ・ソフマップ以外の一般加盟店での通常還元率は0.5%相当にとどまる",
+        "入会後は国際ブランドの変更ができず、変更したい場合は新規申込・解約が必要(一般ビューカードでの確認、本カードも同様と推測)"
+      ],
+      srcRefs:{rate:[5], special:[3,4], charge:[4], other:[1,2]},
+      sources:[
+        {n:1,label:"ビックカメラSuicaカードの年会費が無料になる条件(ビューカード公式FAQ)",url:"https://faq.viewcard.co.jp/faq/show/2943?site_domain=default"},
+        {n:2,label:"タッチ決済(コンタクトレス決済)対応について(ビューカード公式FAQ)",url:"https://faq.viewcard.co.jp/faq/show/1956?site_domain=default"},
+        {n:3,label:"ビックカメラ店舗でApple Payで支払う場合のポイント(ビューカード公式FAQ)",url:"https://faq.viewcard.co.jp/faq/show/801?site_domain=default"},
+        {n:4,label:"ポイントがおトクに貯まる「VIEWプラス」とは(ビューカード公式FAQ)",url:"https://faq.viewcard.co.jp/faq/show/124?site_domain=default"},
+        {n:5,label:"ビューカードで決済した場合のJRE POINT付与率(ビューカード公式FAQ)",url:"https://faq.viewcard.co.jp/faq/show/1532?site_domain=default"},
+        {n:6,label:"国際ブランド(Visa、Mastercard、JCB)の変更可否(ビューカード公式FAQ)",url:"https://faq.viewcard.co.jp/faq/show/159?site_domain=default"}
+      ] },
+
+    { code:"P01", kind:"prepaid",
+      name:"ANA Pay",
+      intlBrand:null,
+      fee:"無料",
+      feeNote:"発行手数料・年会費は無料(アプリ利用時の通信料は自己負担)",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"ANA Payキャッシュでの決済は200円につき1マイル(0.5%相当)。チャージ方法・キャンペーンにより上乗せあり",
+      pointName:"ANAマイル",
+      special:[
+        {label:"ANAカードからのチャージ", value:"チャージ自体に1,000円ごとに1〜11マイル付与", note:"一般1,000円=1マイル(0.1%)/ゴールド6マイル(0.6%)/プレミアム11マイル(1.1%)。決済時の200円=1マイルとは別枠のマイル二重取り"},
+        {label:"ANA Payボーナスマイル(不定期)", value:"チャージ額の2%相当", note:"対象チャージ額5,000〜20,000円。実施時期・還元率は変動(確度中)"},
+        {label:"マイルからのチャージボーナス(不定期キャンペーン)", value:"5〜7%相当(過去実施例)", note:"常時ではなくキャンペーン依存(確度中)"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"ANAカード(一般)", note:"チャージ自体に1,000円ごとに1マイル(0.1%)付与"},
+          {label:"ANAカード(ゴールド)", note:"チャージ自体に1,000円ごとに6マイル(0.6%)付与"},
+          {label:"ANAカード(プレミアム)", note:"チャージ自体に1,000円ごとに11マイル(1.1%)付与"},
+          {label:"ANAカード以外のクレジットカード(Visa/Mastercard/JCB/Diners)", note:"チャージ自体のマイル付与なし"},
+          {label:"Apple Pay(ANAカードを設定)", note:"クレジットカードチャージと同じレートで付与"},
+          {label:"Apple Pay(ANAカード以外)", note:"付与なし(推定、公式に明記なし)"},
+          {label:"銀行口座(Bank Pay)", note:"チャージ自体の付与なし"},
+          {label:"セブン銀行ATM(現金)", note:"チャージ自体の付与なし"},
+          {label:"ギフトコード", note:"チャージ自体の付与なし"},
+          {label:"ANAマイル", note:"マイルを使う側のため付与なし(1マイル=1円相当としてチャージ)"}
+        ],
+        to:null
+      },
+      limits:"本人確認済みで1回10万円・1日10万円・1か月30万円(本人確認前は上限が低い、詳細未確認)。残高有効期限は最終利用日から4年間",
+      family:null,
+      pros:["マイルを直接使え、買い物でもマイルが貯まる双方向のマイル運用ができる","ANAカードとの組み合わせでマイル二重取りができる","発行手数料・年会費が無料"],
+      cons:["基本還元率は0.5%相当でポイ活効率として突出して高くはない","ボーナスマイルは期間限定キャンペーン依存で常時高還元ではない","チャージ上限が本人確認の有無で制限され大口利用に不向き"],
+      srcRefs:{rate:[1,5], special:[5], charge:[5], limits:[3]},
+      sources:[
+        {n:1,label:"ANA Pay - マイルが貯まる・使えるANAのスマートフォン決済サービス｜ANAマイレージクラブ(公式)",url:"https://www.ana.co.jp/ja/jp/amc/ana-pay/"},
+        {n:2,label:"ANA Payの手数料や年会費を教えて - ANA Pay(公式FAQ)",url:"https://faq.ana-x.co.jp/faq/anapay/web/knowledge622.html"},
+        {n:3,label:"チャージできる金額の上限と下限を教えて - ANA Pay(公式FAQ)",url:"https://faq.ana-x.co.jp/faq/anapay/web/knowledge687.html"},
+        {n:4,label:"新しい「ANA Pay」が誕生!｜プレスリリース｜ANAグループ企業情報(公式)",url:"https://www.anahd.co.jp/group/pr/202305/20230523-3.html"},
+        {n:5,label:"ANA Payの使い方(チャージ方法)｜ANAマイレージクラブ(公式、確認日2026-07-31)",url:"https://www.ana.co.jp/ja/jp/amc/ana-pay/usage/charge/"}
+      ] },
+
+    { code:"P02", kind:"prepaid",
+      name:"au PAY プリペイドカード",
+      intlBrand:"Mastercard",
+      fee:"無料",
+      feeNote:"年会費無料・審査なし。リアルカード発行手数料600円(バーチャルカードは無料)",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"200円(税込)ごとに1Pontaポイント(0.5%相当)。決済方法自体による還元率アップの仕組みは見当たらない",
+      pointName:"Pontaポイント",
+      special:[
+        {label:"au PAY カード(クレジット)からのチャージ経由の二重取り", value:"au PAY カード側最大1%程度+本カード0.5%", note:"主にau PAY カード側の還元によるもので、プリペイドカード単体の還元率が上がるわけではない"},
+        {label:"Ponta提携店での提示+決済", value:"店舗側Pontaポイントとの二重取り", note:"Pontaカード/会員証の提示が必要"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"au PAYアプリ(リアルタイムチャージ・一定額チャージ)", note:"還元記載なし"},
+          {label:"auショップ", note:"還元記載なし"},
+          {label:"コンビニATM(ローソン銀行・セブン銀行)", note:"還元記載なし"},
+          {label:"auじぶん銀行口座(オートチャージ)", note:"還元記載なし"},
+          {label:"Pontaポイント", note:"月上限20,000円、還元記載なし"},
+          {label:"au PAYギフトカード", note:"還元記載なし"}
+        ],
+        to:null
+      },
+      limits:"Pontaポイントチャージは月2万円まで(その他チャージ方法の上限はメモに記載なし)",
+      family:null,
+      pros:["審査なしで作れMastercard加盟店で幅広く使える","Pontaポイントを直接チャージして使い切れる","auじぶん銀行との連携でオートチャージが可能"],
+      cons:["基本還元率0.5%で還元率を意図的に引き上げる仕組みが乏しい","リアルカードは発行手数料600円がかかる","チャージ方法によっては手数料や上限の制約がある"],
+      srcRefs:{rate:[1,2], special:[2], charge:[2,3], limits:[3]},
+      sources:[
+        {n:1,label:"au PAY プリペイドカード｜ポイント・決済｜au(公式)",url:"https://www.au.com/payment/prepaid/"},
+        {n:2,label:"au PAY ご利用ガイド｜au PAY プリペイドカード(公式)",url:"https://aupay.auone.jp/contents/lp/guide/prepaidcard.html"},
+        {n:3,label:"au PAY プリペイドカードのチャージ(入金)方法がわからない｜au PAYヘルプ(公式)",url:"https://aupay.auone.jp/contents/sp/help/charge/1.html"}
+      ] },
+
+    { code:"P03", kind:"prepaid",
+      name:"SoftBankカード",
+      intlBrand:"Visa",
+      fee:"無料",
+      feeNote:"入会金・年会費無料。バーチャルカードは無料発行、リアルカードも初回発行手数料無料",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"200円(税込)ごとに1ソフトバンクポイント(0.5%相当)。支払い方法や条件による還元率アップの仕組みは公式サイト上には見当たらない",
+      pointName:"ソフトバンクポイント",
+      special:[],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"携帯電話料金と合算(オートチャージ、事前チャージ不要)", note:"還元記載なし"},
+          {label:"ケータイ料金と合算(事前チャージ)", note:"還元記載なし"},
+          {label:"ポイントでチャージ", note:"還元記載なし"},
+          {label:"セブン銀行ATMからチャージ", note:"還元記載なし"}
+        ],
+        to:[
+          {label:"PayPay残高チャージ", note:"ソフトバンクポイント付与対象外"}
+        ]
+      },
+      limits:null,
+      family:null,
+      pros:["クレジットカードを作れない・作りたくない人でも審査なしで持てる","スマホ料金と合算払いできチャージの手間・振込手数料がかからない","年会費・発行手数料が無料"],
+      cons:["還元率は0.5%と高くなく、還元率アップの現行キャンペーン・仕組みが乏しい","PayPay残高チャージなど一部の支払い用途ではポイント付与対象外","ソフトバンク・ワイモバイル・LINEMO回線の契約者(1契約につき1枚)以外は利用できない"],
+      srcRefs:{rate:[1,5], charge:[1,4]},
+      sources:[
+        {n:1,label:"プリペイドカードとは？ | カード | ソフトバンク",url:"https://www.softbank.jp/card/about/prepaid/"},
+        {n:2,label:"ソフトバンクカードとは？ | カード | ソフトバンク",url:"https://www.softbank.jp/card/about/"},
+        {n:3,label:"便利でおトク！ソフトバンクカード | カード | ソフトバンク",url:"https://www.softbank.jp/card/special/member/prepaid/"},
+        {n:4,label:"オートチャージ | カード | ソフトバンク",url:"https://www.softbank.jp/card/howto/charge/sofma-ach/"},
+        {n:5,label:"ソフトバンクカードはプリペイドカード！ポイント還元率・使い方・メリットを解説 - The Goal",url:"https://matsunosuke.jp/softbank-card/"}
+      ] },
+
+    { code:"P04", kind:"prepaid",
+      name:"ワンバンク",
+      intlBrand:"Visa",
+      fee:"無料",
+      feeNote:"年会費無料。カード発行手数料はマイカード500円、ペアカード・ジュニアカード900円、バーチャルカードは無料(2026年6月29日手数料改定)",
+      rateHeadline:"還元なし",
+      rateMax:0,
+      rateNote:"決済自体のポイント還元制度はなし。支出記録に対し2P〜20P/件(100P=1円換算で残高に交換)が付与されるが、対象はマイカード・ペアカードのみ",
+      pointName:"ワンバンク独自ポイント",
+      special:[
+        {label:"招待コード経由の新規登録+チャージ", value:"300円分の残高", note:"1,000円以上チャージが条件。随時実施されるキャンペーン(確度中)"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"銀行口座振替", note:"還元記載なし"},
+          {label:"銀行振込(GMOあおぞらネット銀行の振込専用口座)", note:"還元記載なし"},
+          {label:"クレジットカード・デビットカード(Apple Pay/Google Pay登録カード経由)", note:"還元記載なし。カード会社によりキャッシングや現金化的な取引とみなされポイント対象外・利用制限になる場合がある"},
+          {label:"コンビニレジ入金", note:"還元記載なし"},
+          {label:"あとばらいチャージ", note:"還元記載なし"}
+        ],
+        to:[
+          {label:"IDARE(イデア)への出金", note:"IDAREの残高連動ボーナスと組み合わせた多重取り戦略の経由地として利用されることがある"}
+        ]
+      },
+      limits:null,
+      family:"ペアカード・ジュニアカードで夫婦・親子のお小遣い管理・仕送り管理が可能(家族間送金・上限設定など)",
+      pros:["公共料金・サブスクの支払いにも対応し生活費全般の決済導線として使える","家計簿アプリと一体化しており支出管理・予算管理がしやすい","ペアカード・ジュニアカードで家族間のお金の管理がしやすい"],
+      cons:["決済自体の還元率は実質ゼロに近くポイ活効果は薄い","カード発行に手数料がかかる(マイカード500円、ペア・ジュニアカード900円)","クレカでのチャージがキャッシング等とみなされポイント対象外・利用制限になるカードもある"],
+      srcRefs:{rate:[2], special:[3], charge:[2,4], family:[3]},
+      sources:[
+        {n:1,label:"ワンバンク公式サイト",url:"https://onebank.jp/"},
+        {n:2,label:"選べる入金(チャージ)方法｜AI家計簿アプリワンバンク",url:"https://onebank.jp/guide/charge/"},
+        {n:3,label:"ワンバンク(旧B/43)のアプリ機能や使い方を徹底解説",url:"https://paymentnavi.com/column-onebank.html"},
+        {n:4,label:"カード発行料一覧 - ワンバンク(旧:B/43)ヘルプ",url:"https://support.onebank.jp/hc/ja/articles/7508132013593-%E3%82%AB%E3%83%BC%E3%83%89%E7%99%BA%E8%A1%8C%E6%96%99%E4%B8%80%E8%A6%A7"},
+        {n:5,label:"ワンバンクに入金(チャージ)する方法は？",url:"https://support.onebank.jp/hc/ja/articles/900000522666-%E3%83%AF%E3%83%B3%E3%83%90%E3%83%B3%E3%82%AF%E3%81%AB%E5%85%A5%E9%87%91-%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8-%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AF"}
+      ] },
+
+    { code:"P05", kind:"prepaid",
+      name:"グローバルポイント Wallet",
+      intlBrand:"Visa",
+      fee:"無料",
+      feeNote:null,
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"利用金額の0.5%が自動でグローバルポイントWallet残高へキャッシュバック(常時)",
+      pointName:"グローバルポイント",
+      special:[
+        {label:"Visa×三菱UFJニコス共同キャンペーン(期間限定)", value:"最大30%(上限1,500円)", note:"2026年3月2日〜4月30日、対象飲食店でのVisaのタッチ決済が対象。Visa側15%(上限1,000円)+三菱UFJニコス側15%(上限500円)の合算"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"グローバルポイント", note:"1ポイント=5円換算、100ポイント単位でチャージ"},
+          {label:"登録済みクレジットカード・デビットカード", note:"1,000円単位、還元記載なし"},
+          {label:"銀行口座", note:"1,000円単位、還元記載なし"},
+          {label:"ギフトコード", note:"還元記載なし"}
+        ],
+        to:null
+      },
+      limits:"チャージ上限:全チャージ手段共通で1回3万円・月間12万円。保有可能な残高上限は10万円(2026-07-31確認)",
+      family:null,
+      pros:["三菱UFJカード等で貯めたグローバルポイントを1P=5円という比較的高いレートで使い切れる","常時0.5%の自動キャッシュバックがあり、チャージ元を柔軟に選べる","Visaのタッチ決済・QUICPay+の両対応で使える店舗が多い"],
+      cons:["通常時の還元率は0.5%とそれほど高くない","高還元キャンペーンは対象店舗・期間・上限額が限定的","グローバルポイントを貯めるには別のクレジットカードが実質的に必要になる場面が多い"],
+      srcRefs:{rate:[1], special:[3], charge:[1], limits:[1]},
+      sources:[
+        {n:1,label:"グローバルポイント Wallet - 三菱UFJニコス(チャージ上限を確認日2026-07-31)",url:"https://www.cr.mufg.jp/mufgcard/point/global/gpwallet/index.html"},
+        {n:2,label:"グローバルポイント Walletについて教えてください。｜クレジットカードなら三菱UFJニコス",url:"https://faq.cr.mufg.jp/mufgcard/detail?id=4339"},
+        {n:3,label:"三菱UFJニコス、「グローバルポイント Wallet」の利用で最大30%(上限1,500円)をキャッシュバック｜プレスリリース",url:"https://prtimes.jp/main/html/rd/p/000000112.000006650.html"}
+      ] },
+
+    { code:"P06", kind:"prepaid",
+      name:"Kyash Card",
+      intlBrand:"Visa",
+      fee:"無料",
+      feeNote:"Kyash Card Virtualは発行・年会費無料。リアルカード(Kyash Card)は発行手数料900円(本人確認要、有効期間5年、更新時に再度手数料)",
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"Kyashマネー(銀行口座チャージ)決済のみ0.5%還元(200円につき最大1ポイント)。クレジットカード/デビットカードチャージ分(Kyashバリュー)は2026年4月1日以降ポイント還元対象外(0%)",
+      pointName:"Kyashポイント",
+      special:[
+        {label:"還元上限の撤廃(2026年)", value:"上限なし", note:"従来あった月間還元上限(600円/1,200円相当など)が撤廃され、使うほど絶対還元額が伸びる仕組みに変更"},
+        {label:"Kyashポイントパーク", value:"指定アクションの実施でポイント獲得", note:"1pt=1円としてKyashバリューに交換可能"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"銀行口座(Kyashマネー)", note:"決済時0.5%還元の対象"},
+          {label:"コンビニ/ペイジー入金", note:"還元記載なし"},
+          {label:"クレジットカード/デビットカード(Kyashバリュー)", note:"2026年4月1日以降、チャージ・決済ともにポイント還元対象外"},
+          {label:"連携サービスの売上金・ポイント", note:"還元記載なし"}
+        ],
+        to:null
+      },
+      limits:null,
+      family:null,
+      pros:["審査不要・即日発行でクレジットカードを持てない人でもVisa加盟店のオンライン決済が可能","家計簿・通知・上限設定・カードロックなど利用管理機能が充実","送金・割り勘機能があり友人間のお金のやり取りが簡単"],
+      cons:["2026年4月の改定でクレジットカード/デビットカードチャージ分の還元がゼロになった","還元率自体は0.5%で他の高還元クレジットカードと比べ突出して高いわけではない","スーパー・コンビニ・交通機関など日常利用の多い加盟店ジャンルが還元対象外"],
+      srcRefs:{rate:[3,4], special:[3,4], charge:[4]},
+      sources:[
+        {n:1,label:"Kyash公式サイト",url:"https://www.kyash.co/"},
+        {n:2,label:"Kyashカードラインナップ(Kyash Card / Virtual)",url:"https://www.kyash.co/products/card-lineup"},
+        {n:3,label:"Kyashポイント – Kyash HELP",url:"https://help.kyash.co/Kyash%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88-67bd58147498c19af6c8ba73"},
+        {n:4,label:"かえざくらのつぶやき：Kyashはもうおしまい？マネーの還元率が半減(2026年改定の解説)",url:"https://www.kaesakura.com/2026/02/kyash-kangenhangen/"}
+      ] },
+
+    { code:"P07", kind:"prepaid",
+      name:"IDARE(イデア)",
+      intlBrand:"Visa",
+      fee:"無料",
+      feeNote:"アプリ利用自体は無料。実店舗のVisa加盟店で使うにはリアルカードが必要で発行手数料900円(オンラインショッピングのみならバーチャルカードで発行手数料なしに利用可)",
+      rateHeadline:"年率1.0〜2.2%",
+      rateMax:2.2,
+      rateNote:"決済ごとのポイント還元ではなく、口座残高そのものに前月平均残高に応じた年率ボーナスが付く貯蓄特化型の仕組み(IDAREランク制)",
+      pointName:"IDAREボーナス(残高連動)",
+      special:[
+        {label:"IDAREランク(2026年7月1日導入)", value:"プラチナ年率2.2%/ゴールド2.0%/シルバー1.5%/ブロンズ1.0%", note:"前月平均残高で判定(プラチナ70万円以上、ゴールド30万円以上70万円未満、シルバー5万円以上30万円未満、ブロンズ5万円未満)。ボーナスは当月入金額の20%が上限、入金がない月は付与なし"},
+        {label:"銀行振込チャージ", value:"即時1%相当キャッシュバック", note:null}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"銀行振込", note:"即時1%相当キャッシュバック対象"},
+          {label:"クレジットカード入金", note:"本人確認完了後に利用可。カード会社によりキャッシング等とみなされ対象外になる場合あり"},
+          {label:"アプリ内積立(手動・自動:毎日/毎週/毎月)", note:"還元記載なし"}
+        ],
+        to:[
+          {label:"ワンバンク(旧B/43)など他のプリペイド系サービスへの出金", note:"クレカチャージ→IDARE残高ボーナス→出金という多重取り戦略に利用されることがある"}
+        ]
+      },
+      limits:null,
+      family:null,
+      pros:["決済のたびの還元ではなく残高を置いておくだけで年率ボーナスが得られ貯蓄用途と相性が良い","自動積立・目的別BOX管理など貯蓄サポート機能が充実","銀行振込チャージの即時1%キャッシュバックなどチャージ自体にもメリットがある"],
+      cons:["2026年7月のランク制度導入により残高が少ないと還元率が下がり海外事務手数料も発生するようになった","ボーナス付与に当月入金額の20%上限があり大きな残高を維持していても入金がなければ伸びない","実店舗での利用にはリアルカード発行(900円)が必要でバーチャルカードのみだとオンライン限定"],
+      srcRefs:{rate:[3,4], special:[3,4], charge:[1]},
+      sources:[
+        {n:1,label:"IDARE(イデア)| 貯まるキャッシュレス(公式サイト)",url:"https://idare.jp/"},
+        {n:2,label:"貯まるプリペイドアプリ「IDARE(イデア)」という選択肢",url:"https://idare.jp/column/structure_2/"},
+        {n:3,label:"貯まるキャッシュレスアプリ「IDARE」、最大年率2.2%還元 残高に応じて還元率が変わるプログラム「IDAREランク」を導入(公式ニュース)",url:"https://idare.jp/news/1432/"},
+        {n:4,label:"ボーナスの付与条件とは？(公式FAQ)",url:"https://idare.jp/faq/60/"},
+        {n:5,label:"IDAREがランクに応じてボーナス利率と海外事務手数料が変動する制度を7月から新設(月間平均残高70万円未満の会員は改悪) | no cash news",url:"https://nocash.news/archives/9196"}
+      ] },
+
+    { code:"P08", kind:"prepaid",
+      name:"VポイントPay",
+      intlBrand:"Visa",
+      fee:"無料",
+      feeNote:null,
+      rateHeadline:"0.5%",
+      rateMax:0.5,
+      rateNote:"Visaのタッチ決済基本還元率0.5%(2025年11月以前は0.25%)",
+      pointName:"Vポイント",
+      special:[
+        {label:"セブン-イレブン金曜日限定キャンペーン", value:"最大10%程度", note:"セブン-イレブンアプリのバーコード提示(0.5%)+VポイントPayでのタッチ決済(キャンペーン時9.5%等)の合算。要事前設定(セブン-イレブンアプリでのVポイント利用手続き、VポイントPayアプリで「Vポイントで支払う」をON)。タバコ購入分・一部店舗は対象外。2025年11月利用分から上乗せ率変更予定"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"Vポイント/Vポイントギフト", note:"還元記載なし"},
+          {label:"クレジットカード・デビットカード・ブランドプリペイドカード(他社発行含む)", note:"2025年11月以降、他社カードからのチャージ手数料(従来204円)も無料化"},
+          {label:"銀行Pay", note:"還元記載なし"},
+          {label:"ポイント優先払い", note:"事前チャージなしでVポイント残高をそのまま決済に充当できる仕組み"}
+        ],
+        to:null
+      },
+      limits:null,
+      family:null,
+      pros:["Vポイントをそのまま実店舗のタッチ決済で使え、貯めたポイントの消化先として使い勝手が良い","他社カードからのチャージ手数料が無料化されコストをかけず他社クレカの還元と重ねられる","Visa加盟店で世界的に利用可能なため汎用性が高い"],
+      cons:["基本還元率は0.5%と、高還元クレジットカード(1%以上)と比べると単体では見劣りする","セブン-イレブンの高還元キャンペーンは金曜日限定かつ事前設定が必要","キャンペーン内容や還元率が随時見直される傾向がある"],
+      srcRefs:{rate:[3], special:[4,5], charge:[1,3]},
+      sources:[
+        {n:1,label:"VポイントPayが進化！事前チャージ不要でさらに便利にお買い物が可能に - VOIX",url:"https://voix.jp/credit-cards/vpointpay-evolution-no-precharge/"},
+        {n:2,label:"バーチャルプリペイドカード「VポイントPay」チャージ不要！(三井住友カード プレスリリース)",url:"https://prtimes.jp/main/html/rd/p/000000812.000032321.html"},
+        {n:3,label:"VポイントPay、チャージ手数料無料に 11月から0.5%還元 - Impress Watch",url:"https://www.watch.impress.co.jp/docs/news/2048673.html"},
+        {n:4,label:"【アプリ限定】毎週金曜日はVポイント利用でVポイントが最大10%戻ってくる!!(セブン-イレブン公式)",url:"https://www.sej.co.jp/products/app/vpoint_pay.html"},
+        {n:5,label:"VポイントPayの使い方完全ガイド｜セブン-イレブンで最大10%〜11%還元を受ける方法",url:"https://www.warau.jp/style/article/v-point-pay-guide/"}
+      ] },
+  ];
+
   // ブランドを想起しやすい色+頭文字の「モノグラムバッジ」。公式ロゴ画像ではなく独自デザイン。
   var LOGO = {
     "0001":{label:"みずほ", color:"#0A3F91"},
@@ -1482,10 +2266,32 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     "0150-ana":{label:"スルガANA", color:"#003DA5"},
     "0150-gpoint":{label:"スルガG", color:"#003DA5"},
     "0036-321":{label:"楽天生命", color:"#BF0000"},
-    "0036-jre":{label:"楽天JRE", color:"#BF0000"}
+    "0036-jre":{label:"楽天JRE", color:"#BF0000"},
+    // ==== CARD_LOGO_ENTRIES ====（💳タブのカード用バッジ）
+    "C01":{label:"UFJカード", color:"#E60012"},
+    "C02":{label:"三井住友NL", color:"#00A73C"},
+    "C03":{label:"SMBCゴールド", color:"#C9A227"},
+    "C04":{label:"Olive", color:"#7C8B3E"},
+    "C05":{label:"楽天カード", color:"#BF0000"},
+    "C06":{label:"dカード", color:"#E5004F"},
+    "C07":{label:"au PAY", color:"#F39800"},
+    "C08":{label:"PayPay", color:"#FF0033"},
+    "C09":{label:"リクルート", color:"#E4002B"},
+    "C10":{label:"JQエポスGold", color:"#C9A227"},
+    "C11":{label:"イオンセレクト", color:"#EC008C"},
+    "C12":{label:"ビックSuica", color:"#00A650"},
+    "P01":{label:"ANA Pay", color:"#13448F"},
+    "P02":{label:"auPAYプリカ", color:"#F39800"},
+    "P03":{label:"SoftBank", color:"#8A8A8A"},
+    "P04":{label:"ワンバンク", color:"#FF6F61"},
+    "P05":{label:"GPウォレット", color:"#E60012"},
+    "P06":{label:"Kyash", color:"#FF3366"},
+    "P07":{label:"IDARE", color:"#00A98F"},
+    "P08":{label:"VポイントPay", color:"#0F5AA6"},
   };
 
   var CATEGORY_LABEL = { mega:"メガバンク", net:"ネット銀行", local:"地銀・特色行" };
+  var CARD_KIND_LABEL = { credit:"クレジットカード", prepaid:"プリペイドカード" };
 
   // 各行のブランドカラー(LOGO[code].color)を起点に、ヒーローカードの
   // グラデーション終点色を自動生成する。24行分を手で決め打ちせず、
@@ -2180,17 +2986,19 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   }
 
   function applyCollectionVisibility(){
-    var isBank = activeCollection === "bank";
+    // 🏦銀行と💳カードは同じカタログUI（上部タブ＋1画面1カード）を共用する。
+    // どちらのデータを出すかはrender()がactiveCollectionを見て切り替える。
+    var isCatalog = activeCollection === "bank" || activeCollection === "card";
     var isPlan = activeCollection === "plan";   // 📋プランはアプリ内のビュー（別ページに移動しない）
     var isRush = activeCollection === "rush";   // 🪙シミュも同じくアプリ内のビュー
-    els.pages.style.display = isBank ? "" : "none";
-    els.tabStrip.style.display = isBank ? "" : "none";
+    els.pages.style.display = isCatalog ? "" : "none";
+    els.tabStrip.style.display = isCatalog ? "" : "none";
     els.planView.style.display = isPlan ? "" : "none";
     els.rushView.style.display = isRush ? "" : "none";
     // 表示していないあいだはアニメーションと音を止めてもらう（電池の無駄づかいを防ぐ）
     if(window.__rushShow) window.__rushShow(isRush);
-    els.emptyCollectionView.style.display = (isBank || isPlan || isRush) ? "none" : "";
-    if(!isBank && !isPlan && !isRush){
+    els.emptyCollectionView.style.display = (isCatalog || isPlan || isRush) ? "none" : "";
+    if(!isCatalog && !isPlan && !isRush){
       var meta = COLLECTIONS.filter(function(c){ return c.key === activeCollection; })[0];
       els.emptyCollectionView.innerHTML =
         '<div class="ec-icon">' + meta.icon + '</div>' +
@@ -2202,9 +3010,16 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   els.collectionSwitch.addEventListener("click", function(e){
     var btn = e.target.closest("[data-coll]");
     if(!btn) return;
+    var prev = activeCollection;
     activeCollection = btn.dataset.coll;
     renderCollectionSwitch();
     applyCollectionVisibility();
+    // 銀行⇄カードの切り替え時は一覧を作り直す（currentListの中身が変わるため）
+    if(activeCollection !== prev &&
+       (activeCollection === "bank" || activeCollection === "card")){
+      currentIndex = 0;
+      render();
+    }
   });
 
   // 🪙シミュボタンはHTML側の<a href target="_blank">リンクにしている。
@@ -2695,6 +3510,103 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     return chips || '<span class="hero-svc-none">資金移動サービスの対応なし</span>';
   }
 
+  /* ---------- 💳カードタブ（CARD_DATA）の描画 ---------- */
+  function passesCardFilters(card){
+    // 銀行専用の絞り込み（ことら・PayPay・高金利0.5%+など）はカードには
+    // 当てはまらないため無視し、「お気に入りのみ」だけを適用する
+    if(filters.owned && !getEntry(card.code).owned) return false;
+    return true;
+  }
+
+  function renderCardSpecials(card){
+    if(!card.special || !card.special.length) return "";
+    var rows = card.special.map(function(s){
+      return '<div class="spec-row">' +
+        '<div class="sr-top"><span class="sr-label">' + s.label + '</span>' +
+        '<span class="sr-value">' + s.value + '</span></div>' +
+        (s.note ? '<div class="sr-note">' + s.note + '</div>' : '') +
+      '</div>';
+    }).join("");
+    return '<div class="sect"><h3>還元アップ・特典' + srcMark(card,'special') + '</h3><div class="spec-rows">' + rows + '</div></div>';
+  }
+
+  function renderCardTsumitate(card){
+    if(!card.tsumitate) return "";
+    return '<div class="sect"><h3>クレカ積立（投信積立）' + srcMark(card,'tsumitate') + '</h3>' +
+      '<div class="spec-row"><div class="sr-top"><span class="sr-label">' + card.tsumitate.broker + '</span></div>' +
+      (card.tsumitate.note ? '<div class="sr-note">' + card.tsumitate.note + '</div>' : '') +
+      '</div></div>';
+  }
+
+  function renderCardCharge(card){
+    if(!card.charge && !card.limits) return "";
+    function col(title, items){
+      if(!items || !items.length) return "";
+      return '<div class="charge-col"><h4>' + title + '</h4><ul class="charge-list">' +
+        items.map(function(it){
+          return '<li><span>' + it.label + '</span>' + (it.note ? '<span class="cl-note">' + it.note + '</span>' : '') + '</li>';
+        }).join("") + '</ul></div>';
+    }
+    var cols = "";
+    if(card.charge){
+      cols += col("チャージ元（このカードに入れる）", card.charge.from);
+      cols += col("チャージ先・出口（ここから出す）", card.charge.to);
+    }
+    var limits = card.limits ? '<p class="stat-note" style="padding:0">' + card.limits + '</p>' : "";
+    if(!cols && !limits) return "";
+    return '<div class="sect"><h3>チャージ経路' + srcMark(card,'charge') + '</h3><div class="charge-cols">' + cols + '</div>' + limits + '</div>';
+  }
+
+  function renderCardPage(card){
+    var entry = getEntry(card.code);
+    var logo = LOGO[card.code] || {label:card.name.slice(0,4), color:"#8A93A0"};
+    var grad = heroGradient(logo.color);
+    var tokens = brandTokens(logo.color);
+    var cardVars = '--brand:' + grad.from + '; --brand-light:' + grad.to + ';' +
+      ' --brand-ink-light:' + tokens.inkLight + '; --brand-ink-dark:' + tokens.inkDark + ';' +
+      ' --brand-soft-light:' + tokens.softLight + '; --brand-soft-dark:' + tokens.softDark + ';';
+    var noteLine = (card.rateNote || "") + (card.feeNote ? ' ／ 年会費：' + card.feeNote : '');
+    return '' +
+    '<section class="bankpage">' +
+      '<div class="page-card" style="' + cardVars + '">' +
+        '<div class="hero">' +
+          '<div class="hero-top">' +
+            '<div class="hero-badge">' + logo.label + '</div>' +
+            '<div class="hero-head-main">' +
+              '<span class="hero-cat">' + CARD_KIND_LABEL[card.kind] + '</span>' +
+              '<span class="hero-code">No.' + card.code + '</span>' +
+              '<div class="hero-bank">' + card.name + '</div>' +
+            '</div>' +
+            '<button class="owned-btn ' + (entry.owned?'on':'') + '" data-owned-btn data-code="' + card.code + '" aria-label="お気に入りに登録/解除">' + (entry.owned?'♥':'♡') + '</button>' +
+          '</div>' +
+          '<div class="hero-num">' + card.rateHeadline + srcMark(card,'rate') + '</div>' +
+          '<div class="hero-label">基本還元率</div>' +
+          '<div class="hero-sub">' +
+            '<div>年会費<b>' + card.fee + '</b></div>' +
+            '<div>ポイント<b>' + (card.pointName || "—") + '</b></div>' +
+            '<div>国際ブランド<b>' + (card.intlBrand || "—") + '</b></div>' +
+          '</div>' +
+          renderHeroNews(card) +
+        '</div>' +
+        '<div class="page-body">' +
+        '<p class="tagline">' + card.pros[0] + '</p>' +
+        (noteLine ? '<p class="stat-note">' + noteLine + '</p>' : '') +
+        renderCardSpecials(card) +
+        renderCardTsumitate(card) +
+        renderCardCharge(card) +
+        (card.family ? '<div class="sect"><h3>家族カード</h3><p class="card-plain">' + card.family + '</p></div>' : '') +
+        renderCardNews(card) +
+        '<div class="sect"><h3>メリット・デメリット</h3><div class="pc-grid">' +
+          '<ul class="pc-list pros">' + card.pros.map(function(p){return '<li>'+p+'</li>';}).join("") + '</ul>' +
+          '<ul class="pc-list cons">' + card.cons.map(function(c){return '<li>'+c+'</li>';}).join("") + '</ul>' +
+        '</div></div>' +
+        renderSources(card) +
+        '<p class="src-note">2026年7月30日〜8月1日時点の調査メモに基づく個人用の記録です。年会費・還元率・制度は変更されるため、最新情報は各社公式サイトでご確認ください。ロゴはブランドカラーを用いた独自デザインで、各社の公式ロゴではありません。</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function renderPage(bank){
     var entry = getEntry(bank.code);
     var logo = LOGO[bank.code];
@@ -2772,7 +3684,8 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
 
   function renderCurrentPage(direction, isNav){
     if(currentList.length === 0){
-      els.pages.innerHTML = '<p class="empty">条件に一致する銀行がありません。検索語やフィルターを見直してみてください。</p>';
+      var kindWord = activeCollection === "card" ? "カード" : "銀行";
+      els.pages.innerHTML = '<p class="empty">条件に一致する' + kindWord + 'がありません。検索語やフィルターを見直してみてください。</p>';
       updatePager();
       return;
     }
@@ -2782,7 +3695,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     // その場の再描画ではスクロール位置を保持する(以前のwindow.scrollTo方式と同じ考え方)。
     var prevBody = els.pages.querySelector(".page-body");
     var prevScrollTop = (!isNav && prevBody) ? prevBody.scrollTop : 0;
-    els.pages.innerHTML = renderPage(currentList[currentIndex]);
+    var item = currentList[currentIndex];
+    // kindを持つのは💳カード（CARD_DATA）だけ。銀行エントリにkindは無い。
+    els.pages.innerHTML = item.kind ? renderCardPage(item) : renderPage(item);
     updatePager();
     var newBody = els.pages.querySelector(".page-body");
     if(newBody) newBody.scrollTop = prevScrollTop;
@@ -2958,8 +3873,15 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var q = els.search.value;
     var keepCode = currentList[currentIndex] ? currentList[currentIndex].code : null;
 
-    var list = DATA.filter(function(b){ return matchesSearch(b,q) && passesFilters(b); });
-    if(currentSort === "rate"){
+    var isCardColl = activeCollection === "card";
+    var source = isCardColl ? CARD_DATA : DATA;
+    var list = source.filter(function(b){
+      return matchesSearch(b,q) && (isCardColl ? passesCardFilters(b) : passesFilters(b));
+    });
+    if(isCardColl && currentSort && currentSort !== "rate" && currentSort !== "code"){
+      // カードのデータには銀行用のソート項目（デビット・振込回数・獲得pt）が無い。
+      // それらが選ばれていても並べ替えず元の順（クレカ→プリペイド）のままにする。
+    } else if(currentSort === "rate"){
       list = list.slice().sort(function(a,b){ return b.rateMax - a.rateMax; });
     } else if(currentSort === "debit"){
       list = list.slice().sort(function(a,b){ return debitRateSortValue(b) - debitRateSortValue(a); });
@@ -2976,9 +3898,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var cardChanged = keptIdx === -1;
     currentIndex = keptIdx !== -1 ? keptIdx : 0;
 
-    var ownedTotal = DATA.filter(function(b){ return getEntry(b.code).owned; }).length;
+    var ownedTotal = source.filter(function(b){ return getEntry(b.code).owned; }).length;
     els.ownedCount.textContent = ownedTotal;
-    els.totalCount.textContent = DATA.length;
+    els.totalCount.textContent = source.length;
     renderPointsSummary();
 
     renderTabs();
