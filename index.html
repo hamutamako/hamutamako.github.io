@@ -3,6 +3,11 @@
 <title>はむたまこのポイ活工房</title>
 <meta name="description" content="16行の銀行口座を1行1ページのトレーディングカードで比較し、自分のランク到達状況を記録できる個人用ツール">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ホーム画面アイコン(iPhone)とタブのアイコン。画像は公開サイト側に置いてある。
+     ローカルで直接開いたときは画像が見つからず標準アイコンになるだけで実害なし -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="apple-mobile-web-app-title" content="ポイ活工房">
 <style>
   /* ---------- tokens ---------- */
   :root{
@@ -639,7 +644,7 @@
     mark:   "",            // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "16行の銀行口座を1行1ページのトレーディングカードで比較し、自分のランク到達状況を記録できる個人用ツール",
-    build:  "2026-07-31-j-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-08-01-k-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
       sim:    "bankCardSim.v1",
