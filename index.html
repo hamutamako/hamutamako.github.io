@@ -18,7 +18,7 @@
     --frame:#D2DAE2; --frame-strong:#B9C6D2;
     --gold:#A0723A; --gold-soft:#F0E5D2; --gold-ink:#6B4A22;
     --sakura:var(--gold-ink); --denim:var(--gold-ink); --mega:#8A93A0;
-    --good:#2F8F5B; --good-bg:#DFF0E6; --warn:#A8681A; --warn-bg:#F5E4C9; --mute-bg:#E3E7EB;
+    --good:#2F8F5B; --good-bg:#DFF0E6; --warn:#A8681A; --warn-bg:#F5E4C9; --alert:#B0402F; --alert-bg:#F7E0DC; --mute-bg:#E3E7EB;
     --shadow:0 1px 2px rgba(30,39,51,.08), 0 8px 20px rgba(30,39,51,.10);
   }
   @media (prefers-color-scheme: dark){
@@ -27,7 +27,7 @@
       --frame:#2A3542; --frame-strong:#3B4B5C;
       --gold:#D6A868; --gold-soft:#3A2E1B; --gold-ink:#E8C68F;
       --sakura:var(--gold-ink); --denim:var(--gold-ink); --mega:#6E7A88;
-      --good:#6FCB93; --good-bg:#1C3627; --warn:#E7A855; --warn-bg:#3B2E15; --mute-bg:#1C2129;
+      --good:#6FCB93; --good-bg:#1C3627; --warn:#E7A855; --warn-bg:#3B2E15; --alert:#E88574; --alert-bg:#3B231F; --mute-bg:#1C2129;
       --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.45);
     }
   }
@@ -36,7 +36,7 @@
     --frame:#2A3542; --frame-strong:#3B4B5C;
     --gold:#D6A868; --gold-soft:#3A2E1B; --gold-ink:#E8C68F;
     --sakura:var(--gold-ink); --denim:var(--gold-ink); --mega:#6E7A88;
-    --good:#6FCB93; --good-bg:#1C3627; --warn:#E7A855; --warn-bg:#3B2E15; --mute-bg:#1C2129;
+    --good:#6FCB93; --good-bg:#1C3627; --warn:#E7A855; --warn-bg:#3B2E15; --alert:#E88574; --alert-bg:#3B231F; --mute-bg:#1C2129;
     --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.45);
   }
   :root[data-theme="light"]{
@@ -44,7 +44,7 @@
     --frame:#D2DAE2; --frame-strong:#B9C6D2;
     --gold:#A0723A; --gold-soft:#F0E5D2; --gold-ink:#6B4A22;
     --sakura:var(--gold-ink); --denim:var(--gold-ink); --mega:#8A93A0;
-    --good:#2F8F5B; --good-bg:#DFF0E6; --warn:#A8681A; --warn-bg:#F5E4C9; --mute-bg:#E3E7EB;
+    --good:#2F8F5B; --good-bg:#DFF0E6; --warn:#A8681A; --warn-bg:#F5E4C9; --alert:#B0402F; --alert-bg:#F7E0DC; --mute-bg:#E3E7EB;
     --shadow:0 1px 2px rgba(30,39,51,.08), 0 8px 20px rgba(30,39,51,.10);
   }
 
@@ -508,6 +508,117 @@
   .empty-collection .ec-title{font-size:15px; font-weight:800; color:var(--ink); margin-bottom:6px;}
   .empty-collection .ec-desc{font-size:12.5px; line-height:1.7; max-width:320px; margin:0 auto;}
 
+  /* ---------- ホーム画面(🏠) ----------
+     クラス名は既存のカタログ用CSSと衝突しないよう、すべて hv- で始める。 */
+  .home-view{
+    flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    padding:12px 14px 26px; max-width:480px; margin:0 auto; width:100%;
+  }
+  .hv-hero{
+    position:relative;
+    background:var(--gold-soft); border:1.5px solid var(--gold);
+    border-radius:16px; padding:14px 15px 13px; margin:0 0 16px;
+  }
+  .hv-lbl{font-size:11.5px; color:var(--gold-ink); font-weight:700; letter-spacing:.04em;}
+  .hv-big{display:flex; align-items:baseline; gap:5px; margin:3px 0 2px; font-variant-numeric:tabular-nums;}
+  .hv-big b{font-size:32px; font-weight:800; letter-spacing:-.02em; color:var(--gold-ink);}
+  .hv-big span{font-size:13.5px; color:var(--gold-ink); opacity:.8;}
+  .hv-yen{font-size:12.5px; color:var(--gold-ink); font-variant-numeric:tabular-nums;}
+  .hv-bar{height:9px; border-radius:99px; background:rgba(160,114,58,.22); margin:9px 0 6px; overflow:hidden;}
+  .hv-bar i{display:block; height:100%; border-radius:99px; background:var(--gold);}
+  .hv-rest{font-size:12px; color:var(--gold-ink); font-weight:700;}
+  .hv-hero-edit{position:absolute; top:9px; right:9px;}
+  .hv-edit{
+    border:none; background:none; color:var(--ink-soft); opacity:.75;
+    font-size:13px; cursor:pointer; padding:2px 5px; flex:none; line-height:1;
+  }
+  .hv-sec{margin:0 0 16px;}
+  .hv-sec-h{display:flex; align-items:baseline; gap:7px; margin:0 0 7px;}
+  .hv-sec-h h2{font-size:12px; font-weight:700; margin:0; letter-spacing:.05em; color:var(--ink-soft);}
+  .hv-cnt{font-size:11px; color:var(--ink-soft); font-variant-numeric:tabular-nums; margin-left:auto;}
+  .hv-mini-btn{
+    flex:none; border:1px solid var(--frame-strong); background:var(--paper-raised); color:var(--ink-soft);
+    border-radius:999px; padding:2px 9px; font-size:11px; cursor:pointer; white-space:nowrap;
+  }
+  .hv-empty{
+    border:1.5px dashed var(--frame-strong); border-radius:12px; padding:11px 13px;
+    font-size:12px; color:var(--ink-soft); line-height:1.7; margin:0 0 8px;
+  }
+  .hv-card{background:var(--paper-raised); border:1px solid var(--frame); border-radius:13px; padding:10px 12px; margin:0 0 8px;}
+  .hv-card.urgent{border-color:var(--alert); background:var(--alert-bg);}
+  .hv-card.soon{border-color:var(--warn); background:var(--warn-bg);}
+  .hv-row{display:flex; align-items:flex-start; gap:8px;}
+  .hv-ico{font-size:15px; line-height:1.4; flex:none;}
+  .hv-body{flex:1; min-width:0;}
+  .hv-ttl{font-size:13.5px; font-weight:700; margin:0 0 1px;}
+  .hv-sub{font-size:11.5px; color:var(--ink-soft); margin:0; line-height:1.55;}
+  .hv-tag{
+    flex:none; font-size:11px; font-weight:800; padding:2px 7px; border-radius:99px;
+    white-space:nowrap; font-variant-numeric:tabular-nums; align-self:center;
+  }
+  .hv-tag.red{background:var(--alert); color:#fff;}
+  .hv-tag.amber{background:var(--warn); color:#fff;}
+  .hv-tag.gray{background:var(--mute-bg); color:var(--ink-soft);}
+  /* 今月のうごき（タイムライン型チェックリスト） */
+  .hv-tl{border-left:2px solid var(--frame); margin:2px 0 0 8px; padding:0 0 0 14px; list-style:none;}
+  .hv-tl li{position:relative; margin:0 0 11px; cursor:pointer;}
+  .hv-tl li::before{
+    content:""; position:absolute; left:-21px; top:5px; width:8px; height:8px; border-radius:50%;
+    background:var(--frame-strong); border:2px solid var(--paper);
+  }
+  .hv-tl li.done::before{background:var(--good);}
+  .hv-tl li.today::before{background:var(--gold); box-shadow:0 0 0 3px var(--gold-soft);}
+  .hv-d{font-size:11px; font-weight:800; color:var(--ink-soft); font-variant-numeric:tabular-nums; letter-spacing:.03em;}
+  .hv-tl li.today .hv-d{color:var(--gold-ink);}
+  .hv-t{font-size:13px; margin:0;}
+  .hv-n{font-size:11px; color:var(--ink-soft); margin:1px 0 0;}
+  .hv-tl li.done .hv-t{color:var(--ink-soft); text-decoration:line-through;}
+  /* 内訳（ポイント数の大きい順） */
+  .hv-brkbox{padding:3px 12px 7px;}
+  .hv-brk{margin:0; padding:0; list-style:none;}
+  .hv-brk li{
+    display:grid; grid-template-columns:1fr auto; gap:1px 10px; padding:7px 0;
+    border-bottom:1px solid var(--frame); font-variant-numeric:tabular-nums; cursor:pointer;
+  }
+  .hv-brk li:last-child{border-bottom:0;}
+  .hv-nm{font-size:12.5px;}
+  .hv-pt{font-size:12.5px; font-weight:700; text-align:right;}
+  .hv-mt{grid-column:1/2; font-size:11px; color:var(--ink-soft);}
+  .hv-rt{grid-column:2/3; font-size:11px; color:var(--ink-soft); text-align:right;}
+  .hv-brk li.hv-sum{border-top:2px solid var(--frame-strong); border-bottom:0; margin-top:3px; padding-top:8px; cursor:default;}
+  .hv-brk li.hv-sum .hv-nm, .hv-brk li.hv-sum .hv-pt{font-weight:800;}
+  .hv-note{font-size:11px; color:var(--ink-soft); line-height:1.7; margin:14px 2px 0; text-align:center;}
+  /* しらべる📚の選択シート */
+  .explore-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:8px 0 2px;}
+  .explore-btn{
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    border:1.5px solid var(--frame-strong); background:var(--paper-raised); color:var(--ink);
+    border-radius:14px; padding:14px 6px; font-size:13px; font-weight:700; cursor:pointer;
+  }
+  .explore-btn .eb-ico{font-size:22px; line-height:1;}
+  .explore-btn.active{border-color:var(--sakura); color:var(--sakura); background:var(--gold-soft);}
+  /* ホームの入力フォーム（シート内） */
+  .hv-field{margin:10px 0;}
+  .hv-field label{display:block; font-size:12px; color:var(--ink-soft); font-weight:700; margin-bottom:4px;}
+  .hv-field input, .hv-field select{
+    width:100%; font-family:inherit; font-size:16px; padding:9px 10px;
+    border:1.5px solid var(--frame-strong); border-radius:10px;
+    background:var(--paper); color:var(--ink);
+  }
+  .hv-form-note{font-size:11.5px; color:var(--ink-soft); line-height:1.7; margin:8px 0 0;}
+  .hv-form-btns{display:flex; flex-direction:column; gap:8px; margin-top:14px;}
+  .hv-btn{width:100%; border-radius:11px; padding:11px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;}
+  .hv-btn-save{border:1.5px solid var(--gold); background:var(--gold-soft); color:var(--gold-ink);}
+  .hv-btn-del{border:1.5px solid var(--alert); background:var(--paper); color:var(--alert);}
+  .hv-preset{
+    display:block; width:100%; text-align:left; margin:0 0 8px;
+    border:1px solid var(--frame-strong); background:var(--paper-raised); color:var(--ink);
+    border-radius:12px; padding:10px 12px; cursor:pointer; font-family:inherit;
+  }
+  .hv-preset b{display:block; font-size:13px; margin-bottom:2px;}
+  .hv-preset span{font-size:11px; color:var(--ink-soft); line-height:1.5; display:block;}
+
   /* ---------- 資金シミュレーション ---------- */
   .sim-view{flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 14px 20px; max-width:480px; margin:0 auto; width:100%;}
   .sim-req-box{
@@ -597,6 +708,36 @@
       <button class="sheet-close" type="button" data-close-news>とじる</button>
     </div>
   </div>
+  <!-- しらべる📚：銀行・カード・証券・ポイントのカタログを選ぶシート -->
+  <div class="settings-wrap" id="exploreWrap">
+    <div class="sheet">
+      <div class="sheet-head">
+        <h2>📚 しらべる</h2>
+        <button class="sheet-x" type="button" data-close-explore aria-label="とじる">✕</button>
+      </div>
+      <div class="explore-grid">
+        <button class="explore-btn" type="button" data-explore="bank"><span class="eb-ico">🏦</span>銀行</button>
+        <button class="explore-btn" type="button" data-explore="card"><span class="eb-ico">💳</span>カード</button>
+        <button class="explore-btn" type="button" data-explore="stock"><span class="eb-ico">📈</span>証券</button>
+        <button class="explore-btn" type="button" data-explore="point"><span class="eb-ico">🎁</span>ポイント</button>
+      </div>
+      <button class="sheet-close" type="button" data-close-explore>とじる</button>
+    </div>
+  </div>
+  <!-- ホーム🏠の入力フォーム。中身（#homeFormBody）はJSが用途ごとに組み立てる -->
+  <div class="settings-wrap" id="homeFormWrap">
+    <div class="sheet">
+      <div class="sheet-head">
+        <h2 id="homeFormTitle">編集</h2>
+        <button class="sheet-x" type="button" data-close-homeform aria-label="とじる">✕</button>
+      </div>
+      <div id="homeFormBody"></div>
+      <div class="hv-form-btns">
+        <button class="hv-btn hv-btn-save" id="homeFormSave" type="button">保存する</button>
+        <button class="hv-btn hv-btn-del" id="homeFormDelete" type="button">この項目を削除</button>
+      </div>
+    </div>
+  </div>
   <button class="news-bar" id="newsBar" type="button" aria-label="制度の変更予定を見る"></button>
   <div class="chips-wrap" id="chipsWrap">
     <div class="chips" id="chipRow">
@@ -619,21 +760,21 @@
 
 <main class="pages" id="pages"></main>
 <main class="empty-collection" id="emptyCollectionView" style="display:none"></main>
+<!-- ホーム🏠：専用データを持たない「見せ方だけの画面」。中身はrenderHome()が組み立てる -->
+<main class="home-view" id="homeView" style="display:none"></main>
 <main class="sim-view" id="simView" style="display:none"></main>
 <main class="plan-view" id="planView" style="display:none"></main>
 <main class="rush-view" id="rushView" style="display:none"></main>
 
 <div class="pager" id="pagerBar">
   <div class="collection-switch" id="collectionSwitch">
-    <button class="coll-btn active" data-coll="bank" type="button"><span class="coll-ico">🏦</span><span class="coll-label">銀行</span></button>
-    <button class="coll-btn" data-coll="card" type="button"><span class="coll-ico">💳</span><span class="coll-label">カード</span></button>
-    <button class="coll-btn" data-coll="stock" type="button"><span class="coll-ico">📈</span><span class="coll-label">証券</span></button>
-    <button class="coll-btn" data-coll="point" type="button"><span class="coll-ico">🎁</span><span class="coll-label">ポイント</span></button>
-    <!-- 外部の成果物（別Artifact）へのリンク。
-         target="_blank"を付けない：ホーム画面から起動している場合、新しいタブで開くと
-         Safariのアドレスバー等が現れて画面の高さを取られてしまう。同じ画面で移動すれば
-         アドレスバーなしの表示が保たれる（戻るときは画面左端から右へスワイプ）。
-         中身をアプリ側に作り直す必要はなく、リンクを増やすだけで新しい成果物を足せる。 -->
+    <!-- 2026-08-01に5個へ整理（ラフ案どおり、ユーザー確認済み）。
+         銀行・カード・証券・ポイントの4カタログは「しらべる📚」1つにまとめ、
+         タップで開くシート（#exploreWrap）から選ぶ方式にした。
+         planBtn / simGameBtn のidは、公開版の生成(build_public.py)がこのidを目印に
+         ボタンごと取り除くために使っている。idを変えないこと。 -->
+    <button class="coll-btn active" data-coll="home" type="button"><span class="coll-ico">🏠</span><span class="coll-label">ホーム</span></button>
+    <button class="coll-btn" id="exploreBtn" type="button" title="銀行・カード・証券・ポイントのカタログ"><span class="coll-ico">📚</span><span class="coll-label">しらべる</span></button>
     <button class="coll-btn coll-btn-settings" id="settingsToggle" type="button"><span class="coll-ico">⚙️</span><span class="coll-label">設定</span></button>
   </div>
 </div>
@@ -661,11 +802,12 @@
     name2:  "工房",        // アプリ名の後半（飾りの後ろ）
     mark:   "",            // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える
     joiner: "の",          // 作者名とアプリ名のつなぎ
-    desc:   "16行の銀行口座を1行1ページのトレーディングカードで比較し、自分のランク到達状況を記録できる個人用ツール",
-    build:  "2026-08-01-m-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
+    build:  "2026-08-01-n-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
       sim:    "bankCardSim.v1",
+      home:   "homeState.v1",
       diag:   "bankCardDiag.v1",
       backup: "bankCardLastBackup.v1"
     },
@@ -2497,7 +2639,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
      登録したデータが消えても戻せるようにするための書き出し・読み込み。
      BACKUP_KEYS に並べたものがまとめて1つのファイルになる。
      今後データの種類が増えたら、ここに1行足すだけでよい。 */
-  var BACKUP_KEYS = [STORE_KEY, SIM_STORE_KEY, DIAG_KEY];
+  var BACKUP_KEYS = [STORE_KEY, SIM_STORE_KEY, APP.store.home, DIAG_KEY];
   var LASTBK_KEY = APP.store.backup;
   var BACKUP_FORMAT = APP.backupFormat;
 
@@ -2833,7 +2975,8 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     rushView: document.getElementById("rushView"),
     pagerBar: document.getElementById("pagerBar"),
     collectionSwitch: document.getElementById("collectionSwitch"),
-    emptyCollectionView: document.getElementById("emptyCollectionView")
+    emptyCollectionView: document.getElementById("emptyCollectionView"),
+    homeView: document.getElementById("homeView")
   };
 
   var COLLECTIONS = [
@@ -2842,7 +2985,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     {key:"stock", label:"証券", icon:"📈"},
     {key:"point", label:"ポイント", icon:"🎁"}
   ];
-  var activeCollection = "bank";
+  var activeCollection = "home";   // 起動時はホーム🏠から（2026-08-01〜）
 
   var filters = {kotra:false, paypay:false, air:false, nyukin:false, furikomi:false, foil:false, owned:false};
   var currentSort = null;
@@ -2968,11 +3111,23 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   els.simToggle.addEventListener("click", function(){
     simMode = !simMode;
     els.simToggle.classList.toggle("active", simMode);
-    els.pages.style.display = simMode ? "none" : "";
-    els.simView.style.display = simMode ? "" : "none";
-    els.pagerBar.style.display = simMode ? "none" : "";
-    els.tabStrip.style.display = simMode ? "none" : "";
-    if(simMode) renderSim();
+    if(simMode){
+      // どのビューにいてもシミュレーションだけを表示する
+      els.pages.style.display = "none";
+      els.tabStrip.style.display = "none";
+      els.homeView.style.display = "none";
+      els.emptyCollectionView.style.display = "none";
+      els.planView.style.display = "none";
+      els.rushView.style.display = "none";
+      if(window.__rushShow) window.__rushShow(false);
+      els.pagerBar.style.display = "none";
+      els.simView.style.display = "";
+      renderSim();
+    } else {
+      els.simView.style.display = "none";
+      els.pagerBar.style.display = "";
+      applyCollectionVisibility();   // 元いたビューの表示に戻す
+    }
   });
 
   // ---------- カテゴリ切り替え(銀行/カード/証券/ポイント) ----------
@@ -2983,6 +3138,10 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     btns.forEach(function(btn){
       btn.classList.toggle("active", btn.dataset.coll === activeCollection);
     });
+    // しらべる📚ボタンは、4カタログ（銀行/カード/証券/ポイント）のどれかを開いているとき点灯する
+    var ex = document.getElementById("exploreBtn");
+    if(ex) ex.classList.toggle("active",
+      ["bank","card","stock","point"].indexOf(activeCollection) >= 0);
   }
 
   function applyCollectionVisibility(){
@@ -2991,14 +3150,17 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var isCatalog = activeCollection === "bank" || activeCollection === "card";
     var isPlan = activeCollection === "plan";   // 📋プランはアプリ内のビュー（別ページに移動しない）
     var isRush = activeCollection === "rush";   // 🪙シミュも同じくアプリ内のビュー
+    var isHome = activeCollection === "home";   // 🏠ホームも同じくアプリ内のビュー
     els.pages.style.display = isCatalog ? "" : "none";
     els.tabStrip.style.display = isCatalog ? "" : "none";
     els.planView.style.display = isPlan ? "" : "none";
     els.rushView.style.display = isRush ? "" : "none";
+    els.homeView.style.display = isHome ? "" : "none";
+    if(isHome) renderHome();   // 開くたびに、その時点の記録から作り直す（専用データを持たない画面）
     // 表示していないあいだはアニメーションと音を止めてもらう（電池の無駄づかいを防ぐ）
     if(window.__rushShow) window.__rushShow(isRush);
-    els.emptyCollectionView.style.display = (isCatalog || isPlan || isRush) ? "none" : "";
-    if(!isCatalog && !isPlan && !isRush){
+    els.emptyCollectionView.style.display = (isCatalog || isPlan || isRush || isHome) ? "none" : "";
+    if(!isCatalog && !isPlan && !isRush && !isHome){
       var meta = COLLECTIONS.filter(function(c){ return c.key === activeCollection; })[0];
       els.emptyCollectionView.innerHTML =
         '<div class="ec-icon">' + meta.icon + '</div>' +
@@ -3022,9 +3184,490 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     }
   });
 
-  // 🪙シミュボタンはHTML側の<a href target="_blank">リンクにしている。
-  // Artifactの表示枠(iframe)内ではJSのwindow.open()がブロックされて何も起きないため、
-  // リンク要素にしないと外部ページを開けない。data-collを持たないのでカテゴリ切り替えの対象外。
+  // ---------- しらべる📚（4カタログを選ぶシート） ----------
+  document.getElementById("exploreBtn").addEventListener("click", function(){
+    var wrap = document.getElementById("exploreWrap");
+    wrap.querySelectorAll("[data-explore]").forEach(function(b){
+      b.classList.toggle("active", b.dataset.explore === activeCollection);
+    });
+    wrap.classList.add("open");
+  });
+  document.getElementById("exploreWrap").addEventListener("click", function(e){
+    var wrap = this;
+    if(e.target === wrap || e.target.closest("[data-close-explore]")){
+      wrap.classList.remove("open");
+      return;
+    }
+    var btn = e.target.closest("[data-explore]");
+    if(!btn) return;
+    var prev = activeCollection;
+    activeCollection = btn.dataset.explore;
+    renderCollectionSwitch();
+    applyCollectionVisibility();
+    // 銀行⇄カードの切り替え時は一覧を作り直す（currentListの中身が変わるため）
+    if(activeCollection !== prev &&
+       (activeCollection === "bank" || activeCollection === "card")){
+      currentIndex = 0;
+      render();
+    }
+    wrap.classList.remove("open");
+  });
+
+  /* ==================== ホーム画面(🏠) ここから ====================
+     ホームは「見せ方だけの画面」。専用のデータベースは持たず、開くたびに
+     端末内の homeState.v1（localStorage）から計算して組み立てる。
+     個人の数字（金額・目標・チェック・期限）はすべて端末側にあり、
+     公開HTMLに焼き込むのは還元率などの制度情報（定番プリセット）だけ。
+     ＝公開ページに個人情報が入らない二層構造（2026-08-01の設計相談どおり）。 */
+
+  var HOME_KEY = APP.store.home;
+
+  function defaultHomeState(){
+    // goalPt の初期値3万は「ウエルシアで1か月に使えるポイントの上限」という制度側の数字
+    return {goalPt:30000, routes:[], deadlines:[], routines:[], checks:{}};
+  }
+  function loadHomeState(){
+    var s = defaultHomeState();
+    try{
+      var raw = localStorage.getItem(HOME_KEY);
+      var p = raw ? JSON.parse(raw) : null;
+      if(p && typeof p === "object"){
+        if(typeof p.goalPt === "number" && isFinite(p.goalPt) && p.goalPt >= 0) s.goalPt = Math.round(p.goalPt);
+        ["routes","deadlines","routines"].forEach(function(k){
+          if(Array.isArray(p[k])) s[k] = p[k];
+        });
+        if(p.checks && typeof p.checks === "object") s.checks = p.checks;
+      }
+    }catch(e){}
+    return s;
+  }
+  var homeState = loadHomeState();
+  function homeYM(offset){
+    var d = new Date();
+    d.setDate(1); d.setMonth(d.getMonth() + (offset || 0));
+    return d.getFullYear() + "-" + pad2(d.getMonth() + 1);
+  }
+  function saveHomeState(){
+    // チェックの記録は今月・先月の分だけ残す。月キー方式なので、
+    // 月が替わるとチェックリストは自動でまっさらに戻る（手動リセット不要）。
+    var keep = [homeYM(0), homeYM(-1)];
+    Object.keys(homeState.checks).forEach(function(k){
+      if(keep.indexOf(k) < 0) delete homeState.checks[k];
+    });
+    try{ localStorage.setItem(HOME_KEY, JSON.stringify(homeState)); }catch(e){}
+  }
+  function homeId(){
+    return "h" + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
+  }
+
+  /* ---- 定番プリセット（制度側の情報だけ。金額は入れない） ---- */
+  var HOME_ROUTE_PRESETS = [
+    {name:"ANA Pay → 楽天Edy", mode:"rate", rate:4.0,
+     note:"マイルの等価交換の枠（年2万マイル/人）に注意"},
+    {name:"au PAYプリカ → Suica → Amazon", mode:"rate", rate:3.0,
+     note:"プリカ1枚あたり月5万円まで"},
+    {name:"三菱UFJカード（対象店）", mode:"rate", rate:15.0,
+     note:"公式最大15%。自分の達成条件に合わせた率に直して使う"},
+    {name:"Olive（コンビニ・飲食のタッチ決済）", mode:"rate", rate:10.0,
+     note:"Vポイントアッププログラム。自分の到達率に直して使う"},
+    {name:"クレカ積立（即売り）", mode:"fixed",
+     note:"各社の還元ポイントの合計を入力"},
+    {name:"銀行のポイ活", mode:"fixed",
+     note:"資金循環プランで貯まる月間ポイントを入力"}
+  ];
+  var HOME_ROUTINE_PRESETS = [
+    {day:8,  title:"三井住友銀行に残高を寄せる", note:"Olive上乗せプランの判定日"},
+    {day:20, title:"ウエル活（ウエルシアで使う）", note:"毎月20日はポイントが1.5倍ぶんの買い物に"},
+    {day:25, title:"楽天銀行の判定日", note:"ハッピープログラムの残高判定"}
+  ];
+
+  /* ---- 計算・表示のこまごま ---- */
+  function homeRoutePt(r){
+    if(r.mode === "fixed") return Math.max(0, Math.round(Number(r.pt) || 0));
+    return Math.max(0, Math.round((Number(r.amountMan) || 0) * 10000 * (Number(r.rate) || 0) / 100));
+  }
+  function homeFmt(n){ return (Number(n) || 0).toLocaleString("ja-JP"); }
+  function homeEsc(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function homeToday(){ var d = new Date(); d.setHours(0,0,0,0); return d; }
+  function homeParseDate(iso){
+    if(!iso) return null;
+    var p = String(iso).split("-");
+    if(p.length < 3) return null;
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    d.setHours(0,0,0,0);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function homeDateJP(iso){
+    var p = String(iso).split("-");
+    return (+p[0]) + "年" + (+p[1]) + "月" + (+p[2]) + "日";
+  }
+  // 期限アイテム1件ぶんの表示情報（残り日数・色・説明文）を作る
+  function homeDeadlineInfo(d){
+    var due = null, sub = "";
+    if(d.dtype === "card"){
+      if(d.lastUsed){
+        var base = homeParseDate(d.lastUsed);
+        if(base){ due = new Date(base.getTime()); due.setFullYear(due.getFullYear() + 1); }
+        sub = "年1回の利用が必要。最後の利用は " + homeDateJP(d.lastUsed);
+      } else {
+        sub = "年1回の利用が必要。✏️で最後に使った日を入れてください";
+      }
+      if(d.note) sub += "。" + d.note;
+    } else if(d.dtype === "due"){
+      if(d.due){ due = homeParseDate(d.due); sub = "期日：" + homeDateJP(d.due); }
+      if(d.note) sub += (sub ? "。" : "") + d.note;
+    } else {
+      sub = d.note || "";
+    }
+    if(!due) return {days:null, sub:sub, tagText:(d.when || "いつでも"), tagClass:"gray", cardClass:""};
+    var days = Math.round((due.getTime() - homeToday().getTime()) / 86400000);
+    if(days < 0)    return {days:days, sub:sub, tagText:"すぎてる！", tagClass:"red", cardClass:"urgent"};
+    if(days <= 60)  return {days:days, sub:sub, tagText:"あと " + days + "日", tagClass:"red", cardClass:"urgent"};
+    if(days <= 180) return {days:days, sub:sub, tagText:"あと " + days + "日", tagClass:"amber", cardClass:"soon"};
+    return {days:days, sub:sub, tagText:"あと " + days + "日", tagClass:"gray", cardClass:""};
+  }
+  function homeSecHead(title, cnt, btnsHtml){
+    return '<div class="hv-sec-h"><h2>' + title + '</h2>' +
+      '<span class="hv-cnt">' + (cnt || "") + '</span>' + (btnsHtml || "") + '</div>';
+  }
+  function homeAddBtn(kind){
+    return '<button class="hv-mini-btn" type="button" data-home-add="' + kind + '">＋追加</button>';
+  }
+
+  /* ---- ホーム画面本体のレンダリング ---- */
+  function renderHome(){
+    var d = new Date();
+    var ym = homeYM(0);
+    var checks = homeState.checks[ym] || {};
+
+    var total = 0;
+    var routesCalc = homeState.routes.map(function(r){
+      var pt = homeRoutePt(r); total += pt; return {r:r, pt:pt};
+    }).sort(function(a,b){ return b.pt - a.pt; });
+    var goal = Math.max(0, Math.round(Number(homeState.goalPt) || 0));
+    var pct = goal > 0 ? Math.max(0, Math.min(100, total / goal * 100)) : 0;
+    var rest = goal - total;
+
+    var h = "";
+
+    // ---- 主役：ウエル活の枠 ----
+    h += '<div class="hv-hero">' +
+      '<button class="hv-edit hv-hero-edit" type="button" data-home-goal aria-label="目標を変更">✏️</button>' +
+      '<div class="hv-lbl">' + (d.getMonth() + 1) + '月 ウエル活の枠</div>' +
+      '<div class="hv-big"><b>' + homeFmt(total) + '</b><span>/ ' + homeFmt(goal) + ' pt</span></div>' +
+      '<div class="hv-yen">ウエルシアで ' + homeFmt(Math.round(total * 1.5)) + ' 円分（満額 ' + homeFmt(Math.round(goal * 1.5)) + ' 円分）</div>' +
+      '<div class="hv-bar"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
+      '<div class="hv-rest">' +
+        (goal <= 0 ? "✏️で月の目標ポイントを設定できます"
+         : total <= 0 ? "下の「今月の内訳」を登録すると、ここが自動で計算されます"
+         : rest > 0 ? "あと " + homeFmt(rest) + " pt で枠が埋まります"
+         : "🎉 枠いっぱいまで貯まる見込みです") +
+      '</div></div>';
+
+    // ---- ⏰ 期限があるもの（不可逆なものを上に、の設計） ----
+    var dls = homeState.deadlines.map(function(x){ return {d:x, info:homeDeadlineInfo(x)}; });
+    dls.sort(function(a,b){
+      var av = a.info.days == null ? 99999 : a.info.days;
+      var bv = b.info.days == null ? 99999 : b.info.days;
+      return av - bv;
+    });
+    h += '<div class="hv-sec">' +
+      homeSecHead("⏰ 期限があるもの", dls.length ? dls.length + "件" : "", homeAddBtn("deadline"));
+    if(!dls.length){
+      h += '<div class="hv-empty">年1回使わないと年会費がかかるカードや、確認したい発表などを登録しておくと、ここで残り日数を数えます。</div>';
+    } else {
+      h += dls.map(function(x){
+        var ic = x.d.dtype === "due" ? "📣" : x.d.dtype === "memo" ? "📌" : "💳";
+        return '<div class="hv-card ' + x.info.cardClass + '"><div class="hv-row">' +
+          '<span class="hv-ico">' + ic + '</span>' +
+          '<div class="hv-body"><p class="hv-ttl">' + homeEsc(x.d.title) + '</p>' +
+          (x.info.sub ? '<p class="hv-sub">' + homeEsc(x.info.sub) + '</p>' : '') +
+          '</div>' +
+          '<span class="hv-tag ' + x.info.tagClass + '">' + homeEsc(x.info.tagText) + '</span>' +
+          '<button class="hv-edit" type="button" data-home-edit="deadline" data-id="' + x.d.id + '" aria-label="編集">✏️</button>' +
+          '</div></div>';
+      }).join("");
+    }
+    h += '</div>';
+
+    // ---- 🔁 今月のうごき（タップで完了。月が替わると自動リセット） ----
+    var rts = homeState.routines.slice().sort(function(a,b){ return (a.day || 0) - (b.day || 0); });
+    var doneN = rts.filter(function(r){ return checks[r.id]; }).length;
+    h += '<div class="hv-sec">' +
+      homeSecHead("🔁 今月のうごき", rts.length ? doneN + " / " + rts.length + " 完了" : "", homeAddBtn("routine"));
+    if(!rts.length){
+      h += '<div class="hv-empty">毎月の決まったうごき（判定日・ウエル活の日など）を登録すると、タップで完了にできるチェックリストになります。チェックは月が替わると自動でリセットされます。</div>' +
+        '<button class="hv-mini-btn" type="button" data-home-routine-presets>📚 定番の3件を入れてみる</button>';
+    } else {
+      var todayDate = d.getDate();
+      h += '<ul class="hv-tl">' + rts.map(function(r){
+        var done = !!checks[r.id];
+        var isToday = r.day === todayDate;
+        return '<li class="' + (done ? "done " : "") + (isToday ? "today" : "") + '" data-home-check="' + r.id + '">' +
+          '<div class="hv-d">' + r.day + '日' + (isToday ? "・今日" : "") + '</div>' +
+          '<p class="hv-t">' + homeEsc(r.title) +
+          ' <button class="hv-edit" type="button" data-home-edit="routine" data-id="' + r.id + '" aria-label="編集">✏️</button></p>' +
+          (r.note ? '<p class="hv-n">' + homeEsc(r.note) + '</p>' : '') +
+          '</li>';
+      }).join("") + '</ul>';
+    }
+    h += '</div>';
+
+    // ---- 📊 今月の内訳（ポイント数の大きい順。率が高い＝貢献が大きい、ではないため） ----
+    h += '<div class="hv-sec">' +
+      homeSecHead("📊 今月の内訳", routesCalc.length ? "見込み" : "",
+        '<button class="hv-mini-btn" type="button" data-home-route-presets>📚 定番</button>' + homeAddBtn("route"));
+    if(!routesCalc.length){
+      h += '<div class="hv-empty">ポイントの稼ぎ方（ルート）を登録すると、ここに大きい順で並び、いちばん上の「ウエル活の枠」が自動で計算されます。まずは「📚 定番」からえらぶと簡単です。</div>';
+    } else {
+      var amountSum = 0;
+      homeState.routes.forEach(function(r){ if(r.mode !== "fixed") amountSum += Number(r.amountMan) || 0; });
+      var rows = routesCalc.map(function(x){
+        var r = x.r;
+        var left = r.mode === "fixed" ? (r.note || "手入力") : ((Number(r.amountMan) || 0) + "万円");
+        var right = r.mode === "fixed" ? "—" : ((Number(r.rate) || 0) + "%");
+        return '<li data-home-edit="route" data-id="' + r.id + '">' +
+          '<span class="hv-nm">' + homeEsc(r.name) + '</span><span class="hv-pt">' + homeFmt(x.pt) + '</span>' +
+          '<span class="hv-mt">' + homeEsc(left) + '</span><span class="hv-rt">' + homeEsc(right) + '</span></li>';
+      }).join("");
+      var eff = amountSum > 0 ? (total / (amountSum * 10000) * 100) : null;
+      rows += '<li class="hv-sum"><span class="hv-nm">合計</span><span class="hv-pt">' + homeFmt(total) + '</span>' +
+        '<span class="hv-mt">' + (amountSum > 0 ? "決済 " + (Math.round(amountSum * 10) / 10) + "万円" : "") + '</span>' +
+        '<span class="hv-rt">' + (eff != null ? "実質 " + eff.toFixed(1) + "%" : "") + '</span></li>';
+      h += '<div class="hv-card hv-brkbox"><ul class="hv-brk">' + rows + '</ul></div>' +
+        '<p class="hv-sub" style="margin:2px 2px 0">行をタップすると数字を直せます。</p>';
+    }
+    h += '</div>';
+
+    h += '<p class="hv-note">🔒 この画面の数字はすべてこの端末の中（ブラウザの保存領域）にだけ記録され、公開ページのファイルには含まれません。<br>設定⚙️の「📤 記録をエクスポート」で、ホームの内容も一緒にバックアップされます。</p>';
+
+    els.homeView.innerHTML = h;
+  }
+
+  /* ---- ホームの入力フォーム（シート） ---- */
+  var homeFormCtx = null;
+  function hvField(label, inner){
+    return '<div class="hv-field"><label>' + label + '</label>' + inner + '</div>';
+  }
+  function openHomeForm(kind, id, preset){
+    var wrap = document.getElementById("homeFormWrap");
+    var body = document.getElementById("homeFormBody");
+    var titleEl = document.getElementById("homeFormTitle");
+    var delBtn = document.getElementById("homeFormDelete");
+    var saveBtn = document.getElementById("homeFormSave");
+    var item = null;
+    if(id){
+      var list = kind === "route" ? homeState.routes
+               : kind === "deadline" ? homeState.deadlines
+               : kind === "routine" ? homeState.routines : null;
+      if(list) item = list.filter(function(x){ return x.id === id; })[0];
+      if(!item) return;
+    }
+    homeFormCtx = {kind:kind, id:id || null};
+    saveBtn.style.display = "";
+    delBtn.style.display = id ? "" : "none";
+    var h = "";
+    if(kind === "goal"){
+      titleEl.textContent = "🎯 ウエル活の目標";
+      h = hvField("月の目標ポイント",
+        '<input type="number" id="hf_goal" inputmode="numeric" min="0" value="' + (homeState.goalPt || 0) + '">') +
+        '<p class="hv-form-note">ウエルシアでは毎月20日、1ポイントを1.5円分として使えます。月に使えるポイントの上限から目標を決めるのがおすすめです。</p>';
+      delBtn.style.display = "none";
+    } else if(kind === "route"){
+      var r = item || preset || {};
+      titleEl.textContent = item ? "📊 内訳を編集" : "📊 内訳に追加";
+      var mode = r.mode === "fixed" ? "fixed" : "rate";
+      h = hvField("名前（なんのルート？）",
+          '<input type="text" id="hf_name" value="' + homeEsc(r.name || "") + '" placeholder="例：ANA Pay → 楽天Edy">') +
+        hvField("計算のしかた",
+          '<select id="hf_mode">' +
+          '<option value="rate"' + (mode === "rate" ? " selected" : "") + '>月の利用額 × 還元率で計算</option>' +
+          '<option value="fixed"' + (mode === "fixed" ? " selected" : "") + '>ポイント数を直接入力</option>' +
+          '</select>') +
+        '<div id="hf_rateBox"' + (mode === "fixed" ? ' style="display:none"' : '') + '>' +
+          hvField("月の利用額（万円）",
+            '<input type="number" id="hf_amount" inputmode="decimal" step="0.1" min="0" value="' + (r.amountMan != null ? r.amountMan : "") + '">') +
+          hvField("還元率（%）",
+            '<input type="number" id="hf_rate" inputmode="decimal" step="0.1" min="0" value="' + (r.rate != null ? r.rate : "") + '">') +
+        '</div>' +
+        '<div id="hf_fixedBox"' + (mode === "fixed" ? '' : ' style="display:none"') + '>' +
+          hvField("月のポイント（pt）",
+            '<input type="number" id="hf_pt" inputmode="numeric" min="0" value="' + (r.pt != null ? r.pt : "") + '">') +
+        '</div>' +
+        hvField("メモ（任意）", '<input type="text" id="hf_note" value="' + homeEsc(r.note || "") + '">');
+    } else if(kind === "deadline"){
+      var dd = item || {};
+      titleEl.textContent = item ? "⏰ 期限を編集" : "⏰ 期限を追加";
+      var dt = dd.dtype || "card";
+      h = hvField("タイトル",
+          '<input type="text" id="hf_title" value="' + homeEsc(dd.title || "") + '" placeholder="例：エムアイカード">') +
+        hvField("種類",
+          '<select id="hf_dtype">' +
+          '<option value="card"' + (dt === "card" ? " selected" : "") + '>年1回の利用が必要なカード</option>' +
+          '<option value="due"' + (dt === "due" ? " selected" : "") + '>期日が決まっている</option>' +
+          '<option value="memo"' + (dt === "memo" ? " selected" : "") + '>目安だけ（期日なし）</option>' +
+          '</select>') +
+        '<div id="hf_cardBox"' + (dt === "card" ? '' : ' style="display:none"') + '>' +
+          hvField("最後に使った日", '<input type="date" id="hf_lastUsed" value="' + homeEsc(dd.lastUsed || "") + '">') +
+          '<p class="hv-form-note">この日から1年後を期限として残り日数を数えます。カードを使ったら、ここを新しい日付に更新してください。</p>' +
+        '</div>' +
+        '<div id="hf_dueBox"' + (dt === "due" ? '' : ' style="display:none"') + '>' +
+          hvField("期日", '<input type="date" id="hf_due" value="' + homeEsc(dd.due || "") + '">') +
+        '</div>' +
+        '<div id="hf_whenBox"' + (dt === "memo" ? '' : ' style="display:none"') + '>' +
+          hvField("時期の目安（自由に）",
+            '<input type="text" id="hf_when" value="' + homeEsc(dd.when || "") + '" placeholder="例：8月ごろ・いつでも">') +
+        '</div>' +
+        hvField("メモ（任意）", '<input type="text" id="hf_note" value="' + homeEsc(dd.note || "") + '">');
+    } else if(kind === "routine"){
+      var rt = item || {};
+      titleEl.textContent = item ? "🔁 うごきを編集" : "🔁 うごきを追加";
+      h = hvField("毎月の日にち（1〜31）",
+          '<input type="number" id="hf_day" inputmode="numeric" min="1" max="31" value="' + (rt.day != null ? rt.day : "") + '">') +
+        hvField("やること",
+          '<input type="text" id="hf_title" value="' + homeEsc(rt.title || "") + '" placeholder="例：ウエル活（ウエルシアで使う）">') +
+        hvField("メモ（任意）", '<input type="text" id="hf_note" value="' + homeEsc(rt.note || "") + '">');
+    }
+    body.innerHTML = h;
+    wrap.classList.add("open");
+  }
+  function openRoutePresets(){
+    homeFormCtx = null;
+    document.getElementById("homeFormTitle").textContent = "📚 定番のルートから追加";
+    document.getElementById("homeFormSave").style.display = "none";
+    document.getElementById("homeFormDelete").style.display = "none";
+    document.getElementById("homeFormBody").innerHTML = HOME_ROUTE_PRESETS.map(function(p, i){
+      return '<button class="hv-preset" type="button" data-home-preset="' + i + '"><b>' + homeEsc(p.name) + '</b>' +
+        '<span>' + (p.mode === "rate" ? "還元率 " + p.rate + "%" : "ポイントを直接入力") +
+        (p.note ? "｜" + homeEsc(p.note) : "") + '</span></button>';
+    }).join("");
+    document.getElementById("homeFormWrap").classList.add("open");
+  }
+  function homeUpsert(list, obj){
+    if(homeFormCtx.id){
+      for(var i = 0; i < list.length; i++){
+        if(list[i].id === homeFormCtx.id){ obj.id = homeFormCtx.id; list[i] = obj; return; }
+      }
+    }
+    obj.id = homeId();
+    list.push(obj);
+  }
+  function homeFormRead(){
+    var k = homeFormCtx.kind;
+    function num(id){ var el = document.getElementById(id); if(!el) return 0; var n = Number(el.value); return isFinite(n) ? n : 0; }
+    function txt(id){ var el = document.getElementById(id); return el ? el.value.trim() : ""; }
+    if(k === "goal"){
+      homeState.goalPt = Math.max(0, Math.round(num("hf_goal")));
+      return true;
+    }
+    if(k === "route"){
+      var name = txt("hf_name");
+      if(!name){ alert("名前を入れてください。"); return false; }
+      var mode = document.getElementById("hf_mode").value === "fixed" ? "fixed" : "rate";
+      var obj = {name:name, mode:mode, note:txt("hf_note")};
+      if(mode === "rate"){
+        obj.amountMan = Math.max(0, num("hf_amount"));
+        obj.rate = Math.max(0, num("hf_rate"));
+      } else {
+        obj.pt = Math.max(0, Math.round(num("hf_pt")));
+      }
+      homeUpsert(homeState.routes, obj);
+      return true;
+    }
+    if(k === "deadline"){
+      var title = txt("hf_title");
+      if(!title){ alert("タイトルを入れてください。"); return false; }
+      var dtype = document.getElementById("hf_dtype").value;
+      var obj2 = {title:title, dtype:dtype, note:txt("hf_note")};
+      if(dtype === "card") obj2.lastUsed = txt("hf_lastUsed");
+      else if(dtype === "due") obj2.due = txt("hf_due");
+      else obj2.when = txt("hf_when");
+      homeUpsert(homeState.deadlines, obj2);
+      return true;
+    }
+    if(k === "routine"){
+      var t2 = txt("hf_title");
+      if(!t2){ alert("やることを入れてください。"); return false; }
+      var day = Math.round(num("hf_day"));
+      if(day < 1 || day > 31){ alert("日にちは1〜31で入れてください。"); return false; }
+      homeUpsert(homeState.routines, {day:day, title:t2, note:txt("hf_note")});
+      return true;
+    }
+    return false;
+  }
+
+  /* ---- ホームのイベント ---- */
+  els.homeView.addEventListener("click", function(e){
+    var t;
+    if(e.target.closest("[data-home-goal]")){ openHomeForm("goal"); return; }
+    t = e.target.closest("[data-home-add]");
+    if(t){ openHomeForm(t.dataset.homeAdd); return; }
+    if(e.target.closest("[data-home-route-presets]")){ openRoutePresets(); return; }
+    if(e.target.closest("[data-home-routine-presets]")){
+      HOME_ROUTINE_PRESETS.forEach(function(p){
+        homeState.routines.push({id:homeId(), day:p.day, title:p.title, note:p.note});
+      });
+      saveHomeState(); renderHome(); return;
+    }
+    t = e.target.closest("[data-home-edit]");   // ✏️や内訳の行（チェック切替より先に判定する）
+    if(t){ openHomeForm(t.dataset.homeEdit, t.dataset.id); return; }
+    t = e.target.closest("[data-home-check]");
+    if(t){
+      var ym = homeYM(0);
+      if(!homeState.checks[ym]) homeState.checks[ym] = {};
+      var idc = t.getAttribute("data-home-check");
+      homeState.checks[ym][idc] = !homeState.checks[ym][idc];
+      saveHomeState(); renderHome(); return;
+    }
+  });
+  document.getElementById("homeFormWrap").addEventListener("click", function(e){
+    var wrap = this;
+    if(e.target === wrap || e.target.closest("[data-close-homeform]")){
+      wrap.classList.remove("open");
+      return;
+    }
+    var p = e.target.closest("[data-home-preset]");
+    if(p){ openHomeForm("route", null, HOME_ROUTE_PRESETS[+p.dataset.homePreset]); return; }
+  });
+  document.getElementById("homeFormBody").addEventListener("change", function(e){
+    if(e.target.id === "hf_mode"){
+      var fixed = e.target.value === "fixed";
+      document.getElementById("hf_rateBox").style.display = fixed ? "none" : "";
+      document.getElementById("hf_fixedBox").style.display = fixed ? "" : "none";
+    }
+    if(e.target.id === "hf_dtype"){
+      var v = e.target.value;
+      document.getElementById("hf_cardBox").style.display = v === "card" ? "" : "none";
+      document.getElementById("hf_dueBox").style.display = v === "due" ? "" : "none";
+      document.getElementById("hf_whenBox").style.display = v === "memo" ? "" : "none";
+    }
+  });
+  document.getElementById("homeFormSave").addEventListener("click", function(){
+    if(!homeFormCtx) return;
+    if(!homeFormRead()) return;
+    saveHomeState(); renderHome();
+    document.getElementById("homeFormWrap").classList.remove("open");
+  });
+  document.getElementById("homeFormDelete").addEventListener("click", function(){
+    if(!homeFormCtx || !homeFormCtx.id) return;
+    var k = homeFormCtx.kind;
+    var list = k === "route" ? homeState.routes
+             : k === "deadline" ? homeState.deadlines
+             : k === "routine" ? homeState.routines : null;
+    if(!list) return;
+    var item = list.filter(function(x){ return x.id === homeFormCtx.id; })[0];
+    if(!item) return;
+    var nm = item.name || item.title || "この項目";
+    if(!confirm("「" + nm + "」をホーム画面から削除します。よろしいですか？")) return;
+    list.splice(list.indexOf(item), 1);
+    saveHomeState(); renderHome();
+    document.getElementById("homeFormWrap").classList.remove("open");
+  });
+  /* ==================== ホーム画面(🏠) ここまで ==================== */
 
   els.simView.addEventListener("input", function(e){
     var slider = e.target.closest("[data-sim-code]");
@@ -3079,24 +3722,40 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   });
 
   els.exportBtn.addEventListener("click", function(){
-    if(!window.claude || !window.claude.downloads){
-      alert("この環境ではファイル保存機能が使えません。");
-      return;
-    }
     var pad = function(n){ return String(n).padStart(2,"0"); };
     var d = new Date();
     var filename = APP.name + "_バックアップ_" + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + ".json";
     var data = JSON.stringify(buildBackup(), null, 2);
     var originalLabel = els.exportBtn.textContent;
-    window.claude.downloads.save({filename: filename, data: data}).then(function(){
+    function done(){
       markBackedUp();
       renderDiag();
       els.exportBtn.textContent = "✅";
       setTimeout(function(){ els.exportBtn.textContent = originalLabel; }, 1500);
-    }).catch(function(err){
-      if(err && err.code === "declined") return;
-      alert("保存に失敗しました: " + (err && err.message ? err.message : "不明なエラー"));
-    });
+    }
+    // Artifactの表示枠の中では専用の保存機能（window.claude.downloads）を使う
+    if(window.claude && window.claude.downloads){
+      window.claude.downloads.save({filename: filename, data: data}).then(done).catch(function(err){
+        if(err && err.code === "declined") return;
+        alert("保存に失敗しました: " + (err && err.message ? err.message : "不明なエラー"));
+      });
+      return;
+    }
+    // GitHub Pagesなどふつうのブラウザでは、標準のダウンロードで保存する
+    // （iPhoneのSafariでは「ダウンロード」に入る。ファイルAppの「ダウンロード」フォルダから取り出せる）
+    try{
+      var blob = new Blob([data], {type:"application/json"});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      done();
+    }catch(err2){
+      alert("保存に失敗しました: " + (err2 && err2.message ? err2.message : "不明なエラー"));
+    }
   });
 
   els.importBtn.addEventListener("click", function(){
@@ -3128,7 +3787,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       // localStorage を書き換えたので、画面の側も読み直す
       state = loadState();
       simState = loadSimState();
+      homeState = loadHomeState();
       render();
+      if(activeCollection === "home") renderHome();
       if(simMode) renderSim();
       renderDiag();
       alert(r.legacy
