@@ -179,13 +179,6 @@
   .chip.sort.active{background:var(--denim); border-color:var(--denim);}
 
   /* ---------- お知らせ（制度の変更予定） ---------- */
-  .news-bar{
-    display:none; width:100%; text-align:left; cursor:pointer;
-    border:1px dashed var(--gold); background:var(--gold-soft); color:var(--gold-ink);
-    border-radius:10px; padding:6px 10px; margin:6px 0 2px;
-    font-size:11.5px; font-weight:700; line-height:1.4;
-  }
-  .news-bar.show{display:block;}
   .news-head{margin:12px 0 2px; font-size:13.5px; font-weight:700;}
   .news-dates{font-size:11px; color:var(--ink-soft); margin:2px 0 0; line-height:1.6;}
   .news-item{border:1px solid var(--frame); border-radius:10px; padding:8px 10px; margin:8px 0; background:var(--paper);}
@@ -738,7 +731,6 @@
       </div>
     </div>
   </div>
-  <button class="news-bar" id="newsBar" type="button" aria-label="制度の変更予定を見る"></button>
   <div class="chips-wrap" id="chipsWrap">
     <div class="chips" id="chipRow">
       <button class="chip" data-filter="kotra" type="button">ことら○</button>
@@ -804,7 +796,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-01-o-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-08-01-p-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
       sim:    "bankCardSim.v1",
@@ -853,6 +845,107 @@
      書き方：changes は1変更点ごとに1行（before=変更前、after=変更後、from=適用の起点）。
      targets には対象カードの code（DATAのcodeと同じ書き方）を入れる。 */
   var NEWS = [
+    { id:"20260616-mega3",
+      announced:"2026-06-16",            // 3行そろって同日発表
+      effective:"2026-08-03",
+      targets:["0001","0005","0009"],    // みずほ・三菱UFJ・三井住友
+      title:"メガバンク3行 普通預金金利 引き上げ",
+      changes:[
+        { item:"普通預金金利（みずほ・三菱UFJ・三井住友 共通）",
+          before:"年0.30%",
+          after:"年0.40%（税引前）",
+          from:"2026年8月3日から" }
+      ],
+      impact:"3行そろって0.10%の引き上げ（日銀の追加利上げを受けたもの）。ネット銀行の優遇金利との差は縮まるが、順位が入れ替わるほどではない。",
+      sources:[
+        { label:"みずほ銀行：円預金金利の改定について（公式PDF・2026年6月16日発表）",
+          url:"https://www.mizuhobank.co.jp/release/pdf/20260616_2release_jp.pdf" },
+        { label:"三菱UFJ銀行：円普通預金金利の改定について（公式PDF・2026年6月16日発表）",
+          url:"https://www.bk.mufg.jp/news/news2026/pdf/news0616_1.pdf" },
+        { label:"三井住友銀行：各種預金金利の変更について（公式PDF・2026年6月16日発表）",
+          url:"https://www.smbc.co.jp/notice/letter_20260616_01.pdf" }
+      ] },
+    { id:"20260626-sony",
+      announced:"2026-06-26",
+      effective:"2026-08-03",
+      targets:["0035"],
+      title:"ソニー銀行 円普通預金金利 引き上げ",
+      changes:[
+        { item:"円普通預金 基準金利",
+          before:"年0.30%",
+          after:"年0.40%（税引前）。円リッチプログラム等の優遇込みで最大 年0.80%",
+          from:"2026年8月3日から" }
+      ],
+      source:{ label:"円普通預金金利を最大年0.80%（税引前）へ引上げのお知らせ（公式・2026年6月26日付）",
+               url:"https://sonybank.jp/info/2026/0626-02.html" } },
+    { id:"20260618-rakuten",
+      announced:"2026-06-18",            // 公式発表日は未確認のため記事公開日
+      effective:"2026-08-03",
+      targets:["0036"],
+      title:"楽天銀行 普通預金金利 引き上げ",
+      changes:[
+        { item:"通常の普通預金",
+          before:"年0.30%",
+          after:"年0.40%",
+          from:"2026年8月3日から" },
+        { item:"マネーブリッジ優遇（楽天証券連携・1,000万円以下の部分）",
+          before:"年0.38%",
+          after:"年0.48%",
+          from:"2026年8月3日から" },
+        { item:"ボーナス金利の積み上げ最大",
+          before:"最大 年0.64%",
+          after:"最大 年0.74%（給与受取・口座振替・楽天モバイル等の上乗せ込み。楽天モバイル分は毎月エントリー必要）",
+          from:"2026年8月3日から" }
+      ],
+      impact:"マネーブリッジ単独では0.48%。0.74%は各種ボーナス金利を全部積み上げた場合の最大値（対象残高の上限・毎月エントリーなどの条件つき）。",
+      sources:[
+        { label:"楽天銀行の普通預金金利アップは8月3日から（Money Magazine・記事公開2026年6月18日）",
+          url:"https://money-magazine.org/rakuten-bank-deposit-rate-up/" },
+        { label:"楽天銀行 預金金利ページ（公式・現行値の確認 2026-08-01）",
+          url:"https://www.rakuten-bank.co.jp/interest/details.html" }
+      ] },
+    { id:"20251219-sumishin-rename",
+      announced:"2025-12-19",
+      effective:"2026-08-03",
+      targets:["0038-d","0038-502","0038-203","0038-303","0038-309","0038-201"],
+      title:"住信SBIネット銀行 →「ドコモSMTBネット銀行」に商号変更",
+      changes:[
+        { item:"銀行の商号（名前）",
+          before:"住信SBIネット銀行",
+          after:"ドコモSMTBネット銀行（金融機関コード0038・支店番号・口座番号は変更なし。既存サービスは当面そのまま使える）",
+          from:"2026年8月3日" },
+        { item:"dアカウント連携",
+          before:"—",
+          after:"連携サービス開始（銀行の利用でdポイントが貯まる仕組みへ）",
+          from:"2026年8月20日から" },
+        { item:"ミライノカード Travelers Gold",
+          before:"新規申込可（契約＋引落口座指定でゴールドランク相当）",
+          after:"新規受付終了（既存会員は継続利用可）",
+          from:"2026年8月3日" }
+      ],
+      impact:"名前が変わるだけで、口座番号や各支店（Vポイント支店・第一生命支店など）のサービスはそのまま。このアプリ内の銀行名表記は8/3以降に一括で更新する予定。",
+      sources:[
+        { label:"住信SBIネット銀行の商号の「ドコモSMTBネット銀行」への変更について（NTTドコモ・2025年12月19日付）",
+          url:"https://www.docomo.ne.jp/info/news_release/2025/12/19_00.html" },
+        { label:"「ドコモの銀行」誕生。8月3日スタート！（公式）",
+          url:"https://www.netbk.co.jp/contents/docomo-bank/" },
+        { label:"ミライノカード（Mastercard・Travelers Gold）の新規受付終了について（公式・2026年7月3日付）",
+          url:"https://www.netbk.co.jp/contents/company/info/2026/0703_005688.html" }
+      ] },
+    { id:"20260801-aujibun",
+      announced:"2026-07-26",            // 公式発表日は未確認のため公式ページでの確認日
+      effective:"2026-08-01",
+      targets:["0039"],
+      title:"auじぶん銀行 基準金利 引き上げ",
+      changes:[
+        { item:"円普通預金 基準金利",
+          before:"年0.31%（auまとめて金利優遇などの上乗せ込みで最大0.55%）",
+          after:"年0.41%（同・上乗せ込みで最大0.75%、税引前）",
+          from:"2026年8月1日から" }
+      ],
+      impact:"すでに適用ずみ。アプリのカード数値は8/3のメガバンク改定とあわせて更新する予定。",
+      source:{ label:"auまとめて金利優遇（公式・2026-07-26確認）",
+               url:"https://www.jibunbank.co.jp/landing/kinri_up_tokuten/" } },
     { id:"20260731-vneobank",
       announced:"2026-07-31",            // 発表日
       effective:"2026-11-01",            // 適用日
@@ -1038,7 +1131,7 @@
       pros:["外貨に強くWALLETは海外決済で有利になりやすい","Club Sの条件・特典が公式に明快","家族最大5名で資産合算しステージを底上げできる(ファミリー優遇)"],
       cons:["ことら送金・Airウォレットいずれも非対応","高ステージには相応の資産保有が必要"] },
 
-    { code:"0036", name:"楽天銀行", category:"net", rateHeadline:"0.38→0.80%", rateNote:"マネーブリッジ設定時0.74%(2026年8月3日〜)+楽天ブラックカード引落口座指定で単独+0.06%(残高300万円までの部分、併用可、確度中〜高)。※年会費無料の通常楽天カードはグレード別優遇の対象外(公式確認済み)、代わりに口座振替枠の年0.32%が適用される", rateMax:0.80,
+    { code:"0036", name:"楽天銀行", category:"net", rateHeadline:"0.38→0.80%", rateNote:"マネーブリッジ設定時0.38%(2026年8月3日から0.48%)、各種ボーナス金利の積み上げで最大0.74%(楽天モバイル分は毎月エントリー必要)+楽天ブラックカード引落口座指定で単独+0.06%(残高300万円までの部分、併用可、確度中〜高)。※年会費無料の通常楽天カードはグレード別優遇の対象外(公式確認済み)、代わりに口座振替枠の年0.32%が適用される", rateMax:0.80,
       pointName:"楽天ポイント",
       services:{kotra:"no",paypay:"no",air:"yes",nyukin:"no",furikomi:"yes"},
       serviceNotes:{paypay:"銀行口座からの直接チャージ登録は不可",furikomi:"毎月おまかせ振込予約(楽天銀行→他行の一方向)",nyukin:"他行→楽天銀行への自動入金の仕組みは提供なし"},
@@ -3252,6 +3345,14 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   function newsForCard(code){
     return NEWS.filter(function(n){ return n.targets.indexOf(code) >= 0; });
   }
+  // 出典リンクのHTML（source単体・sources複数のどちらの形式でも出せる）
+  function newsSrcHtml(n){
+    var list = n.sources || (n.source ? [n.source] : []);
+    if(!list.length) return "";
+    return '<div class="news-src">出典：' + list.map(function(s){
+      return '<a href="' + s.url + '" target="_blank" rel="noopener noreferrer">' + s.label + '</a>';
+    }).join("　／　") + '</div>';
+  }
   function renderNewsItems(n){
     return n.changes.map(function(c){
       return '<div class="news-item">' +
@@ -3272,22 +3373,13 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         (applied ? '<div class="news-applied-note">※適用日を過ぎています。カードの数値が新制度に更新ずみか確認してください。</div>' : '') +
         renderNewsItems(n) +
         (n.impact ? '<div class="news-impact">💡 ' + n.impact + '</div>' : '') +
-        '<div class="news-src">出典：<a href="' + n.source.url + '" target="_blank" rel="noopener noreferrer">' + n.source.label + '</a></div>';
+        newsSrcHtml(n);
     }
     var h = "";
     up.forEach(function(n){ h += block(n, false); });
     done.forEach(function(n){ h += block(n, true); });
     if(!h) h = '<p class="news-applied-note">いま出ているお知らせはありません。</p>';
     document.getElementById("newsBody").innerHTML = h;
-  }
-  function renderNewsBar(){
-    var bar = document.getElementById("newsBar");
-    var up = NEWS.filter(newsIsUpcoming).sort(function(a,b){ return a.effective < b.effective ? -1 : 1; });
-    if(up.length === 0){ bar.classList.remove("show"); return; }
-    var n = up[0];
-    bar.innerHTML = '📢 <b>' + newsShortDate(n.effective) + '〜</b> ' + n.title +
-      (up.length > 1 ? '（ほか' + (up.length-1) + '件）' : '') + '　▶ 変更前→変更後を見る';
-    bar.classList.add("show");
   }
   // カードのヘッダーに出すバッジ（変更予定があるカードだけ）
   function renderHeroNews(bank){
@@ -3306,12 +3398,11 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       h += '<div class="news-dates">' + (applied ? '✅ 適用ずみ：' : '🔔 ') + n.title +
         ' ｜ 適用：' + newsDateJP(n.effective) + '</div>' +
         renderNewsItems(n) +
-        '<div class="news-src">出典：<a href="' + n.source.url + '" target="_blank" rel="noopener noreferrer">' + n.source.label + '</a></div>';
+        newsSrcHtml(n);
     });
     h += '</div>';
     return h;
   }
-  document.getElementById("newsBar").addEventListener("click", openNewsSheet);
   function openNewsSheet(){
     renderNewsBody();
     document.getElementById("newsWrap").classList.add("open");
@@ -3323,7 +3414,6 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   document.addEventListener("click", function(e){
     if(e.target.closest("[data-open-news]")) openNewsSheet();
   });
-  renderNewsBar();
 
   els.simToggle.addEventListener("click", function(){
     simMode = !simMode;
@@ -3584,6 +3674,39 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
          : rest > 0 ? "あと " + homeFmt(rest) + " pt で枠が埋まります"
          : "🎉 枠いっぱいまで貯まる見込みです") +
       '</div></div>';
+
+    // ---- 📰 ニュース（銀行の制度変更。NEWS配列から自動で作られる） ----
+    var nUp = NEWS.filter(newsIsUpcoming).sort(function(a,b){ return a.effective < b.effective ? -1 : 1; });
+    var nDone = NEWS.filter(function(n){ return !newsIsUpcoming(n); }).sort(function(a,b){ return a.effective < b.effective ? 1 : -1; }).slice(0, 3);
+    h += '<div class="hv-sec">' +
+      homeSecHead("📰 ニュース", nUp.length ? "変更予定 " + nUp.length + "件" : "",
+        '<button class="hv-mini-btn" type="button" data-open-news>くわしく ▶</button>');
+    if(!nUp.length && !nDone.length){
+      h += '<div class="hv-empty">いま出ているお知らせはありません。制度の変更が発表されるとここに並びます。</div>';
+    } else {
+      h += nUp.map(function(n){
+        var days = Math.round((new Date(n.effective + "T00:00:00").getTime() - homeToday().getTime()) / 86400000);
+        var tagClass = days <= 7 ? "red" : days <= 45 ? "amber" : "gray";
+        var tg = n.targets.map(newsBankName);
+        var tgTxt = tg.length > 2 ? tg[0] + " ほか" + (tg.length - 1) + "件" : tg.join("、");
+        return '<div class="hv-card' + (days <= 7 ? ' urgent' : '') + '" data-open-news><div class="hv-row">' +
+          '<span class="hv-ico">📢</span>' +
+          '<div class="hv-body"><p class="hv-ttl">' + n.title + '</p>' +
+          '<p class="hv-sub">' + newsDateJP(n.effective) + 'から ｜ ' + tgTxt + '</p></div>' +
+          '<span class="hv-tag ' + tagClass + '">' + (days <= 0 ? "きょう" : "あと" + days + "日") + '</span>' +
+          '</div></div>';
+      }).join("");
+      h += nDone.map(function(n){
+        return '<div class="hv-card" data-open-news><div class="hv-row">' +
+          '<span class="hv-ico">✅</span>' +
+          '<div class="hv-body"><p class="hv-ttl">' + n.title + '</p>' +
+          '<p class="hv-sub">' + newsDateJP(n.effective) + ' 適用ずみ</p></div>' +
+          '<span class="hv-tag gray">反映確認</span>' +
+          '</div></div>';
+      }).join("");
+      h += '<p class="hv-sub" style="margin:2px 2px 0">タップすると変更前→変更後のくわしい内容が見られます。</p>';
+    }
+    h += '</div>';
 
     // ---- ⏰ 期限があるもの（不可逆なものを上に、の設計） ----
     var dls = homeState.deadlines.map(function(x){ return {d:x, info:homeDeadlineInfo(x)}; });
