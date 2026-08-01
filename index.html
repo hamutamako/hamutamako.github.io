@@ -796,7 +796,9 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-01-p-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-08-01-q-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    dataChecked: "2026-08-01", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
+    checkSchedule: "毎月5・15・25日ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
       sim:    "bankCardSim.v1",
@@ -3379,6 +3381,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     up.forEach(function(n){ h += block(n, false); });
     done.forEach(function(n){ h += block(n, true); });
     if(!h) h = '<p class="news-applied-note">いま出ているお知らせはありません。</p>';
+    h += '<p class="news-applied-note">🗓 金利・還元率などの情報は' + APP.checkSchedule + 'に確認しています（最終確認 ' + APP.dataChecked + '）。急な変更に気づいたときは、その都度更新しています。</p>';
     document.getElementById("newsBody").innerHTML = h;
   }
   // カードのヘッダーに出すバッジ（変更予定があるカードだけ）
@@ -3706,6 +3709,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       }).join("");
       h += '<p class="hv-sub" style="margin:2px 2px 0">タップすると変更前→変更後のくわしい内容が見られます。</p>';
     }
+    h += '<p class="hv-sub" style="margin:4px 2px 0">🗓 情報の確認：' + APP.checkSchedule + ' ｜ 最終確認 ' + APP.dataChecked + '</p>';
     h += '</div>';
 
     // ---- ⏰ 期限があるもの（不可逆なものを上に、の設計） ----
