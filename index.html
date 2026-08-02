@@ -1,8 +1,13 @@
+<!-- 文字コードの宣言。これが無いと、文字コードを教えてくれない配信方法
+     （ローカルの簡易サーバー等）で開いたときに文字化けする。必ず先頭に置く -->
+<meta charset="utf-8">
 <!-- ↓この2行は配信サービスがファイルから直接読む用。画面表示は下の APP 設定から
      JSで上書きされるので、名前を変えるときは APP 設定のほうを直せばよい -->
 <title>はむとたまこのポイ活⭐️工房</title>
 <meta name="description" content="銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- maximum-scale=1 は「入力欄タップ時にiOSが画面を勝手に拡大するのを止める」ためのもの。
+     ユーザー自身の2本指ピンチ拡大はiOS 10以降では止められない仕様なので、操作は妨げない -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- 検索よけ。Google等の検索結果に載せない（URLを知っている人だけが来られる運用）。
      一般公開したくなったらこの1行を消して再アップロードする -->
 <meta name="robots" content="noindex">
@@ -758,12 +763,14 @@
 <main class="plan-view" id="planView" style="display:none"></main>
 <main class="rush-view" id="rushView" style="display:none"></main>
 
+<main class="engine-view" id="engineView" style="display:none"></main>
+
 <div class="pager" id="pagerBar">
   <div class="collection-switch" id="collectionSwitch">
     <!-- 2026-08-01に5個へ整理（ラフ案どおり、ユーザー確認済み）。
          銀行・カード・証券・ポイントの4カタログは「しらべる📚」1つにまとめ、
          タップで開くシート（#exploreWrap）から選ぶ方式にした。
-         planBtn / simGameBtn のidは、公開版の生成(build_public.py)がこのidを目印に
+         planBtn / simGameBtn / engineBtn のidは、公開版の生成(build_public.py)がこのidを目印に
          ボタンごと取り除くために使っている。idを変えないこと。 -->
     <button class="coll-btn active" data-coll="home" type="button"><span class="coll-ico">🏠</span><span class="coll-label">ホーム</span></button>
     <button class="coll-btn" id="exploreBtn" type="button" title="銀行・カード・証券・ポイントのカタログ"><span class="coll-ico">📚</span><span class="coll-label">しらべる</span></button>
@@ -796,14 +803,15 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-01-q-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
-    dataChecked: "2026-08-01", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
+    build:  "2026-08-03-a-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    dataChecked: "2026-08-03", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・15・25日ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
       sim:    "bankCardSim.v1",
       home:   "homeState.v1",
       diag:   "bankCardDiag.v1",
+      engine: "engineProfile.v1",
       backup: "bankCardLastBackup.v1"
     },
     backupFormat: 2        // バックアップファイルの形式番号
@@ -973,7 +981,7 @@
   ];
 
   var DATA = [
-    { code:"0001", name:"みずほ銀行", category:"mega", rateHeadline:"0.30→0.40%", rateNote:"2026年8月3日改定予定。変動金利、利息決済は年2回", rateMax:0.40,
+    { code:"0001", name:"みずほ銀行", category:"mega", rateHeadline:"0.40%", rateNote:"2026年8月3日改定済み。変動金利、利息決済は年2回", rateMax:0.40,
       pointName:"みずほポイント",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"partial",furikomi:"yes"},
       serviceNotes:{nyukin:"公式FAQに案内がなく提供していない可能性(確度中)",furikomi:"みずほ自動送金サービス。有料・要窓口申込(最長10年)"},
@@ -1005,7 +1013,7 @@
         {n:10,label:"「うれしい特典」の改定2026年(公式FAQ)",url:"https://www.faq.mizuhobank.co.jp/category/show/672?site_domain=default"}
       ] },
 
-    { code:"0005", name:"三菱UFJ銀行", category:"mega", rateHeadline:"0.30→0.40%", rateNote:"2026年8月3日改定予定", rateMax:0.40,
+    { code:"0005", name:"三菱UFJ銀行", category:"mega", rateHeadline:"0.40%", rateNote:"2026年8月3日改定済み", rateMax:0.40,
       pointName:"Pontaポイント",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"no",furikomi:"yes"},
       serviceNotes:{nyukin:"公式FAQで「該当のサービスはございません」と明記",furikomi:"定額自動送金サービス。窓口申込のみ、最長5年"},
@@ -1041,7 +1049,7 @@
         {n:9,label:"メインバンク プラスの優遇内容(公式FAQ)",url:"https://faq01.bk.mufg.jp/faq/show/245?site_domain=default"}
       ] },
 
-    { code:"0009", name:"三井住友銀行", category:"mega", rateHeadline:"0.30→0.40%", rateNote:"2026年8月3日改定予定。残高別金利型普通預金は契約が必要", rateMax:0.40,
+    { code:"0009", name:"三井住友銀行", category:"mega", rateHeadline:"0.40%", rateNote:"2026年8月3日改定済み。残高別金利型普通預金は契約が必要", rateMax:0.40,
       pointName:"Vポイント",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"1回10万円以下の個人宛送金は他行宛含め手数料無料",nyukin:"Oliveアカウント限定。1万〜100万円(1,000円単位)、最大3件",furikomi:"「きちんと振込」。Oliveアカウントなら手数料無料"},
@@ -1100,7 +1108,7 @@
         {n:8,label:"給与受取で振込手数料が月3回無料(公式)",url:"https://www.paypay-bank.co.jp/payment/salary/benefit/index.html"}
       ] },
 
-    { code:"0035", name:"ソニー銀行", category:"net", rateHeadline:"0.40→0.80%", rateNote:"円リッチプログラム込み、2026年8月3日〜", rateMax:0.80,
+    { code:"0035", name:"ソニー銀行", category:"net", rateHeadline:"0.40→0.80%", rateNote:"基準0.40%、円リッチプログラム込みで最大0.80%(2026年8月3日改定済み)", rateMax:0.80,
       pointName:"ポイント制度なし(キャッシュバック型)",
       services:{kotra:"no",paypay:"yes",air:"no",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{nyukin:"おまかせ入金サービス",furikomi:"おまかせ振込サービス。月1回無料、WALLET保有で2回目まで無料"},
@@ -1133,7 +1141,7 @@
       pros:["外貨に強くWALLETは海外決済で有利になりやすい","Club Sの条件・特典が公式に明快","家族最大5名で資産合算しステージを底上げできる(ファミリー優遇)"],
       cons:["ことら送金・Airウォレットいずれも非対応","高ステージには相応の資産保有が必要"] },
 
-    { code:"0036", name:"楽天銀行", category:"net", rateHeadline:"0.38→0.80%", rateNote:"マネーブリッジ設定時0.38%(2026年8月3日から0.48%)、各種ボーナス金利の積み上げで最大0.74%(楽天モバイル分は毎月エントリー必要)+楽天ブラックカード引落口座指定で単独+0.06%(残高300万円までの部分、併用可、確度中〜高)。※年会費無料の通常楽天カードはグレード別優遇の対象外(公式確認済み)、代わりに口座振替枠の年0.32%が適用される", rateMax:0.80,
+    { code:"0036", name:"楽天銀行", category:"net", rateHeadline:"0.48→0.80%", rateNote:"マネーブリッジ設定時0.48%(2026年8月3日改定済み)、通常0.40%。各種ボーナス金利の積み上げで最大0.74%(楽天モバイル分は毎月エントリー必要)+楽天ブラックカード引落口座指定で単独+0.06%(残高300万円までの部分、併用可、確度中〜高)。※年会費無料の通常楽天カードはグレード別優遇の対象外(公式確認済み)、代わりに口座振替枠の年0.32%が適用される", rateMax:0.80,
       pointName:"楽天ポイント",
       services:{kotra:"no",paypay:"no",air:"yes",nyukin:"no",furikomi:"yes"},
       serviceNotes:{paypay:"銀行口座からの直接チャージ登録は不可",furikomi:"毎月おまかせ振込予約(楽天銀行→他行の一方向)",nyukin:"他行→楽天銀行への自動入金の仕組みは提供なし"},
@@ -1236,7 +1244,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:4,label:"ハッピープログラム(公式)",url:"https://www.rakuten-bank.co.jp/happyprogram/"}
       ] },
 
-    { code:"0038-d", name:"住信SBIネット銀行 d NEOBANK(フルーツ支店等)", category:"net", rateHeadline:"0.30%", rateNote:"税引前。2026年1月9日に0.20%から引き上げ。SBI証券口座と連携するSBIハイブリッド預金併用時は0.31%", rateMax:0.31,
+    { code:"0038-d", name:"ドコモSMTBネット銀行 d NEOBANK(フルーツ支店等)", category:"net", rateHeadline:"0.30%", rateNote:"税引前。旧：住信SBIネット銀行（2026年8月3日に商号変更、コード・口座番号は不変）。2026年1月9日に0.20%から引き上げ。SBI証券口座と連携するSBIハイブリッド預金併用時は0.31%", rateMax:0.31,
       pointName:"dポイント(2026年8月20日連携開始予定)",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
@@ -1277,7 +1285,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:11,label:"d NEOBANKのご紹介(公式)",url:"https://www.netbk.co.jp/contents/lp/docomo_dneobank/"}
       ] },
 
-    { code:"0038-502", name:"住信SBIネット銀行 中電カテエネ支店", category:"net", rateHeadline:"0.30%(推定)", rateNote:"住信SBI・中部電力ミライズ連名の公式資料で金利数値への言及が一切ないことを確認(確度高)。標準支店の金利に準じるとみられる", rateMax:0.30,
+    { code:"0038-502", name:"ドコモSMTBネット銀行 中電カテエネ支店", category:"net", rateHeadline:"0.30%(推定)", rateNote:"住信SBI・中部電力ミライズ連名の公式資料で金利数値への言及が一切ないことを確認(確度高)。標準支店の金利に準じるとみられる", rateMax:0.30,
       pointName:"カテエネポイント(倍率型)",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
@@ -1301,7 +1309,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:4,label:"カテエネBANKの概要(住信SBI・中部電力ミライズ連名公式資料PDF)",url:"https://www.netbk.co.jp/contents/resources/pdf/info_kateene_241219.pdf"}
       ] },
 
-    { code:"0038-203", name:"住信SBIネット銀行 Vポイント支店", category:"net", rateHeadline:"0.3%", rateNote:"V NEOBANK、支店コード203。Vポイント会員限定(1人1口座)", rateMax:0.30,
+    { code:"0038-203", name:"ドコモSMTBネット銀行 Vポイント支店", category:"net", rateHeadline:"0.3%", rateNote:"V NEOBANK、支店コード203。Vポイント会員限定(1人1口座)", rateMax:0.30,
       pointName:"Vポイント",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
@@ -1327,7 +1335,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:4,label:"V NEOBANKとは(公式)",url:"https://tneobank.tsite.jp/"}
       ] },
 
-    { code:"0038-303", name:"住信SBIネット銀行 第一生命支店", category:"net", rateHeadline:"0.30%", rateNote:"第一生命NEOBANK、支店コード303", rateMax:0.30,
+    { code:"0038-303", name:"ドコモSMTBネット銀行 第一生命支店", category:"net", rateHeadline:"0.30%", rateNote:"第一生命NEOBANK、支店コード303", rateMax:0.30,
       pointName:"第一生命NEOBANKポイント",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
@@ -1357,7 +1365,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:4,label:"第一生命NEOBANK(公式)",url:"https://www.netbk.co.jp/contents/lineup/neobank/dlb/"}
       ] },
 
-    { code:"0038-309", name:"住信SBIネット銀行 MATSUI Bank", category:"net", rateHeadline:"0.51〜0.75%", rateNote:"松井証券支店。証券残高連動、2026年7月6日改定(レギュラー0.51%/ゴールド0.62%/プラチナ0.75%)", rateMax:0.75,
+    { code:"0038-309", name:"ドコモSMTBネット銀行 MATSUI Bank", category:"net", rateHeadline:"0.51〜0.75%", rateNote:"松井証券支店。証券残高連動、2026年7月6日改定(レギュラー0.51%/ゴールド0.62%/プラチナ0.75%)", rateMax:0.75,
       pointName:"ポイント制度なし",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
@@ -1382,7 +1390,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:5,label:"MATSUI Bank円普通預金金利を年0.75%に引上げ(公式プレスリリース)",url:"https://www.netbk.co.jp/contents/company/press/2026/0626_005966.html"}
       ] },
 
-    { code:"0038-201", name:"住信SBIネット銀行 JAL NEOBANK", category:"net", rateHeadline:"0.30%", rateNote:"JAL支店、支店コード201。住宅ローン商品としての性格が強く、普通預金の金利優遇は他支店ほど突出せず", rateMax:0.30,
+    { code:"0038-201", name:"ドコモSMTBネット銀行 JAL NEOBANK", category:"net", rateHeadline:"0.30%", rateNote:"JAL支店、支店コード201。住宅ローン商品としての性格が強く、普通預金の金利優遇は他支店ほど突出せず", rateMax:0.30,
       pointName:"JALマイル",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料",nyukin:"マイル加算対象"},
@@ -2951,7 +2959,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
      登録したデータが消えても戻せるようにするための書き出し・読み込み。
      BACKUP_KEYS に並べたものがまとめて1つのファイルになる。
      今後データの種類が増えたら、ここに1行足すだけでよい。 */
-  var BACKUP_KEYS = [STORE_KEY, SIM_STORE_KEY, APP.store.home, DIAG_KEY];
+  var BACKUP_KEYS = [STORE_KEY, SIM_STORE_KEY, APP.store.home, APP.store.engine, DIAG_KEY];
   var LASTBK_KEY = APP.store.backup;
   var BACKUP_FORMAT = APP.backupFormat;
 
@@ -3288,7 +3296,8 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     pagerBar: document.getElementById("pagerBar"),
     collectionSwitch: document.getElementById("collectionSwitch"),
     emptyCollectionView: document.getElementById("emptyCollectionView"),
-    homeView: document.getElementById("homeView")
+    homeView: document.getElementById("homeView"),
+    engineView: document.getElementById("engineView")
   };
 
   var COLLECTIONS = [
@@ -3461,16 +3470,20 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var isPlan = activeCollection === "plan";   // 📋プランはアプリ内のビュー（別ページに移動しない）
     var isRush = activeCollection === "rush";   // 🪙シミュも同じくアプリ内のビュー
     var isHome = activeCollection === "home";   // 🏠ホームも同じくアプリ内のビュー
+    var isEngine = activeCollection === "engine"; // 🧭診断（判定エンジン。公開版ではボタンごと無いので到達しない）
     els.pages.style.display = isCatalog ? "" : "none";
     els.tabStrip.style.display = isCatalog ? "" : "none";
     els.planView.style.display = isPlan ? "" : "none";
     els.rushView.style.display = isRush ? "" : "none";
     els.homeView.style.display = isHome ? "" : "none";
+    if(els.engineView) els.engineView.style.display = isEngine ? "" : "none";
     if(isHome) renderHome();   // 開くたびに、その時点の記録から作り直す（専用データを持たない画面）
+    if(isEngine && window.__engineShow) window.__engineShow();
+    if(!isEngine && window.__engineHide) window.__engineHide();  // 🧭を離れたらBGM停止など
     // 表示していないあいだはアニメーションと音を止めてもらう（電池の無駄づかいを防ぐ）
     if(window.__rushShow) window.__rushShow(isRush);
-    els.emptyCollectionView.style.display = (isCatalog || isPlan || isRush || isHome) ? "none" : "";
-    if(!isCatalog && !isPlan && !isRush && !isHome){
+    els.emptyCollectionView.style.display = (isCatalog || isPlan || isRush || isHome || isEngine) ? "none" : "";
+    if(!isCatalog && !isPlan && !isRush && !isHome && !isEngine){
       var meta = COLLECTIONS.filter(function(c){ return c.key === activeCollection; })[0];
       els.emptyCollectionView.innerHTML =
         '<div class="ec-icon">' + meta.icon + '</div>' +
@@ -3786,6 +3799,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         '<p class="hv-sub" style="margin:2px 2px 0">行をタップすると数字を直せます。</p>';
     }
     h += '</div>';
+
+    // 🧭診断（判定エンジン）への誘導カード。エンジンのブロックが無い公開版では関数が未定義なので何も出ない
+    if(window.__engineHomeCard) h += window.__engineHomeCard();
 
     h += '<p class="hv-note">🔒 この画面の数字はすべてこの端末の中（ブラウザの保存領域）にだけ記録され、公開ページのファイルには含まれません。<br>設定⚙️の「📤 記録をエクスポート」で、ホームの内容も一緒にバックアップされます。</p>';
 
@@ -5231,6 +5247,8 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     }
     dragCard = null; dragDirDecided = false; dragIsHorizontal = false;
   }, {passive:true});
+
+  
 
   renderCollectionSwitch();
   applyCollectionVisibility();
