@@ -803,8 +803,8 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-03-a-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
-    dataChecked: "2026-08-03", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
+    build:  "2026-08-05-a-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    dataChecked: "2026-08-05", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・15・25日ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
@@ -977,7 +977,21 @@
       ],
       impact:"資金循環プランの「V支店へ振込で稼ぐ」は月最大500pt→250ptに半減。V支店デビットからのチャージにもポイントが付かなくなる。2026年10月末までは今の数値のまま有効。",
       source:{ label:"【V NEOBANK】ポイントプログラムの改定について（公式・2026年7月31日付）",
-               url:"https://www.netbk.co.jp/contents/company/info/2026/0731_006043.html" } }
+               url:"https://www.netbk.co.jp/contents/company/info/2026/0731_006043.html" } },
+    { id:"20260709-docomobank-dcard",
+      announced:"2026-07-09",
+      effective:"2026-09-01",            // ポイント還元対象は2026年9月以降利用分から（アカウント連携自体は8/20開始）
+      targets:["0038-d","0038-502","0038-203","0038-303","0038-309","0038-201","C06"],
+      title:"ドコモの銀行×dカード連携の新ポイント特典",
+      changes:[
+        { item:"ドコモの銀行(旧住信SBIネット銀行)×dカードの連携特典",
+          before:"連携特典なし",
+          after:"口座振替設定＋dアカウント連携＋マネックス証券口座連携の3点セットで初年度最大4.5%還元",
+          from:"アカウント連携は2026年8月20日開始、ポイント還元対象は2026年9月以降の利用分から" }
+      ],
+      impact:"条件が3点セット(口座振替・dアカウント連携・マネックス証券口座連携)とやや重く、達成のハードルは高め。詳細な還元の内訳(還元元の内訳・上限)は公式リリースに詳細な言及が薄く確度中。実際の反映要否は次回巡回で条件達成の現実性を見て判断する。",
+      source:{ label:"「ドコモの銀行」×dカードで最大4.5%還元（NTTドコモ・2026年7月9日付）",
+               url:"https://www.docomo-fg.com/info/news_release/20260709_001.html" } }
   ];
 
   var DATA = [
@@ -1477,7 +1491,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:6,label:"イオン銀行Myステージ(公式)",url:"https://www.aeonbank.co.jp/mystage/"}
       ] },
 
-    { code:"0133", name:"武蔵野銀行", category:"local", rateHeadline:"0.300%", rateNote:"2026年7月時点、変動金利", rateMax:0.30,
+    { code:"0133", name:"武蔵野銀行", category:"local", rateHeadline:"0.400%", rateNote:"2026年8月3日に0.300%から0.400%へ改定(変動金利)。同時に短期プライムレートも2.5%→2.75%に改定", rateMax:0.40,
       pointName:"ポイント制度なし",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"no",furikomi:"yes"},
       serviceNotes:{nyukin:"公式サイトに記載が見当たらず、提供していない可能性が高い",furikomi:"自動送金サービス。振込手数料+自動送金手数料が発生"},
@@ -1498,7 +1512,8 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:3,label:"預金金利(公式)",url:"https://www2.musashinobank.co.jp/rate/yokin/index.php"},
         {n:4,label:"手数料一覧(公式)",url:"https://www.musashinobank.co.jp/fee/"},
         {n:5,label:"その他のサービス(公式)",url:"https://www.musashinobank.co.jp/convenience/others/"},
-        {n:6,label:"自動送金(公式)",url:"https://www.musashinobank.co.jp/convenience/others/send/"}
+        {n:6,label:"自動送金(公式)",url:"https://www.musashinobank.co.jp/convenience/others/send/"},
+        {n:7,label:"円預金金利引き上げのお知らせ(公式PDF・2026年6月18日発表)",url:"https://www.musashinobank.co.jp/ir/news/pdf/2026/ennyokinnkinnrihikiage20260618.pdf"}
       ] },
 
     { code:"0150-ana", name:"スルガ銀行 ANA支店", category:"local", rateHeadline:"0.300%", rateNote:"税引前・変動金利。支店ごとに金利ページが分かれるため厳密な差は未確認", rateMax:0.30,
@@ -1563,7 +1578,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:6,label:"4ツ星ランクへの最速お手続ガイド(公式)",url:"https://www.surugabank.co.jp/common/star_program/index_suruga.html"}
       ] },
 
-    { code:"0310", name:"GMOあおぞらネット銀行", category:"net", rateHeadline:"0.70%", rateNote:"ハビト支店、100万円以下の部分(条件なし型)", rateMax:0.70,
+    { code:"0310", name:"GMOあおぞらネット銀行", category:"net", rateHeadline:"0.70%", rateNote:"ハビト支店、100万円以下の部分(条件なし型、変更なし)。100万円超の部分は2026年8月1日に0.300%→0.400%へ改定。証券コネクト口座は標準0.300%→0.400%、常設プログラム0.310%→0.410%(同日改定)", rateMax:0.70,
       pointName:"GMOポイント/Pontaポイント(選択制)",
       services:{kotra:"no",paypay:"partial",air:"no",nyukin:"no",furikomi:"yes"},
       serviceNotes:{paypay:"デビット付キャッシュカードでの支払いのみ。口座からの直接チャージは不可",nyukin:"公式サービス一覧に記載がなく、提供していない可能性が高い",furikomi:"最大1,000件まで登録可能"},
@@ -1584,7 +1599,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       ],
       points:"GMOポイントまたはPontaポイントのどちらか一方を選んで連携(銀行独自ポイントではない)。毎月15日に前月分をまとめて付与。",
       debit:{name:"GMOあおぞらネット銀行デビットカード(Mastercard)", rate:"0.6%(1テックま君)〜1.2%(4テックま君)", note:"カスタマーステージに連動。4テックま君の到達条件の一つがMastercardプラチナデビットカード契約(年会費3,300円)。"},
-      pros:["条件なしで100万円まで年0.70%","証券コネクト口座なら100万円超でも0.31%を維持","プラチナデビットで手数料が月20回無料に"],
+      pros:["条件なしで100万円まで年0.70%","証券コネクト口座なら100万円超でも年0.41%(2026年8月1日改定)","プラチナデビットで手数料が月20回無料に"],
       cons:["ことら送金・Airウォレットともに非対応","PayPayは直接チャージ不可(デビット払いのみ)"],
       srcRefs:{rate:[4],rank:[5],points:[2,3],debit:[1]},
       sources:[
@@ -1592,7 +1607,8 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:2,label:"ポイントサービス(公式)",url:"https://gmo-aozora.com/priv/service/point.html"},
         {n:3,label:"定額自動振込(公式)",url:"https://gmo-aozora.com/priv/service/auto-received.html"},
         {n:4,label:"GMOあおぞらネット銀行のメリット・デメリット(二次情報)",url:"https://diamond.jp/zai/articles/-/179515"},
-        {n:5,label:"カスタマーステージ(公式)",url:"https://gmo-aozora.com/priv/contents/customer-stage.html"}
+        {n:5,label:"カスタマーステージ(公式)",url:"https://gmo-aozora.com/priv/contents/customer-stage.html"},
+        {n:6,label:"円普通預金金利引き上げのお知らせ(公式・2026年7月29日発表)",url:"https://gmo-aozora.com/news/2026/20260729-01.html"}
       ] },
 
     { code:"0397", name:"SBI新生銀行", category:"net", rateHeadline:"0.40→0.45%", rateNote:"ダイヤモンドステージ到達時、2026年7月10日改定", rateMax:0.45,
@@ -1655,7 +1671,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:6,label:"BANK口座のおトクな優遇特典(公式)",url:"https://www.aozorabank.co.jp/bank/products/lp/yugu/index.html"}
       ] },
 
-    { code:"0526", name:"東京スター銀行", category:"local", rateHeadline:"最大1.050%", rateNote:"通常0.30%。給与年金受取のみ0.800%、資産300万円以上のみ0.350%、NISA+投信購入のみ0.350%、これらのうち2つ以上達成で1.050%。別枠でエムアイカード支払い口座指定(月1回以上引き落とし)でも単独0.800%(2026年7月開始、初回適用は2026年9月、他条件との併用可否は未確認)", rateMax:1.05,
+    { code:"0526", name:"東京スター銀行", category:"local", rateHeadline:"最大1.050%", rateNote:"通常0.30%。給与年金受取のみ0.900%(2026年8月1日に0.800%から改定)、資産300万円以上のみ0.450%(同日0.350%から改定)、NISA+投信購入のみ0.450%(同)、これらのうち2つ以上達成で1.050%(変更なし)。別枠でエムアイカード支払い口座指定(月1回以上引き落とし)でも単独0.800%(2026年7月開始、初回適用は2026年9月、他条件との併用可否は未確認)。金利改定は公式金利ページで直接確認(確度中、プレスリリース原文との文言突合は未了)", rateMax:1.05,
       pointName:"常設ポイント制度なし",
       services:{kotra:"partial",paypay:"yes",air:"no",nyukin:"partial",furikomi:"yes"},
       serviceNotes:{kotra:"ことら公式の対応金融機関一覧に掲載なし。非対応の可能性が高いが確定情報はなし",nyukin:"東京スター銀行自体の受取サービスはないが、他行(住信SBIネット銀行等)の定額自動入金サービスの送金元口座としては利用可能",furikomi:"スターワン口座の「自動振込サービス」。手数料は金額確定登録の場合、5万円未満なら本支店110円/他行220円、5万円以上なら本支店330円/他行550円、加えて契約期間1年につき660円が別途発生(2026-07-27公式手数料ページで再確認、旧記載の「一律110円」は簡略化された誤りだったため訂正)"},
@@ -2551,7 +2567,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       bankLink:{bank:"現時点（2026-08-01）で証券残高連動の銀行預金金利優遇制度なし。住信SBIネット銀行と2025年12月に業務提携契約を締結し、2026年2月2日から同行サイト経由の口座開設（金融商品仲介）を開始済み",
         benefit:"—（金利優遇の制度自体が現状なし）",
         sweep:"—（2026年8月に資金スイープサービスの提供開始予定だが2026-08-01時点で未提供）",
-        note:"2026年8月（予定）に住信SBIネット銀行との「銀行口座と証券口座の同時開設」「資金スイープサービス」「3社連携による優遇特典」の提供開始が予定されているが、金利優遇の有無・具体的内容は本調査時点のプレスリリースに明記されておらず不明（確度中、要フォロー）"},
+        note:"2026年8月（予定）に住信SBIネット銀行との「銀行口座と証券口座の同時開設」「資金スイープサービス」「3社連携による優遇特典」の提供開始が予定されているが、金利優遇の有無・具体的内容は本調査時点のプレスリリースに明記されておらず不明（確度中、要フォロー）。2026-08-04再確認、続報なし"},
       mileage:{name:"投信保有ポイントプログラム", rate:"年率0.03〜0.08%（基本水準）／0.16〜0.26%（対象銘柄）",
         note:"銘柄ごとに異なる段階制。2026年3月27日付で付与率アップ対象ファンドを全11銘柄に見直し。対象ポイントはマネックスポイント、またはdアカウント連携時はdポイントに切り替わる"},
       pointInvest:"マネックスポイントは投資信託の買付（スポット・積立）に利用可能。dアカウント連携時はdポイントに切り替わり、1ポイント単位から投信のスポット・積立買付に利用可能",
@@ -3351,6 +3367,8 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   }
   function newsBankName(code){
     for(var i=0;i<DATA.length;i++) if(DATA[i].code===code) return DATA[i].name;
+    for(var j=0;j<CARD_DATA.length;j++) if(CARD_DATA[j].code===code) return CARD_DATA[j].name;
+    for(var k=0;k<STOCK_DATA.length;k++) if(STOCK_DATA[k].code===code) return STOCK_DATA[k].name;
     return code;
   }
   function newsForCard(code){
