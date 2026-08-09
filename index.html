@@ -803,7 +803,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-05-a-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-08-09-a-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-08-05", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・15・25日ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -855,6 +855,20 @@
      書き方：changes は1変更点ごとに1行（before=変更前、after=変更後、from=適用の起点）。
      targets には対象カードの code（DATAのcodeと同じ書き方）を入れる。 */
   var NEWS = [
+    { id:"20260809-sbishinsei-furikomi",
+      announced:"2026-08-09",
+      effective:"2026-08-09",
+      targets:["0397"],
+      title:"SBI新生銀行 定額自動振込サービスを開始",
+      changes:[
+        { item:"定額自動振込（毎月/毎週、指定日に決まった金額を自動送金）",
+          before:"非対応（2026年7月26日リリース予定が延期・再開時期未公表のまま保留）",
+          after:"対応開始。他行宛振込の無料回数（ステージ別月1〜10回）を消費する形（確度中）",
+          from:"2026年8月9日から" }
+      ],
+      impact:"これまで延期されていた機能がついに開始。専用の無料枠が別途あるわけではなさそうで、既存の無料振込回数の範囲内での利用になる見込み（公式ページの接続が不安定なため確度中）。",
+      source:{ label:"定額自動振込・振込予約機能追加のお知らせ（公式）",
+               url:"https://www.sbishinseibank.co.jp/info/news2607_transfer.html" } },
     { id:"20260616-mega3",
       announced:"2026-06-16",            // 3行そろって同日発表
       effective:"2026-08-03",
@@ -1613,8 +1627,8 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
 
     { code:"0397", name:"SBI新生銀行", category:"net", rateHeadline:"0.40→0.45%", rateNote:"ダイヤモンドステージ到達時、2026年7月10日改定", rateMax:0.45,
       pointName:"キャッシュプレゼント(円、ポイントではない)",
-      services:{kotra:"yes",paypay:"yes",air:"no",nyukin:"no",furikomi:"no"},
-      serviceNotes:{nyukin:"他行からの定額自動入金は非対応(公式FAQで確認)",furikomi:"2026年7月26日リリース予定だったが、サービス品質向上のため延期(2026年7月29日時点、公式FAQで再開時期未公表)"},
+      services:{kotra:"yes",paypay:"yes",air:"no",nyukin:"no",furikomi:"yes"},
+      serviceNotes:{nyukin:"他行からの定額自動入金は非対応(公式FAQで確認)",furikomi:"2026年8月9日にお取り扱い開始(公式)。他行宛振込の無料回数(ステージ別月1〜10回)を消費する形で、専用の無料枠が別途あるわけではない模様(確度中、公式ページのWebFetchが接続不安定のため検索結果の抜粋で確認)。振込可能日の範囲(月末月初の扱い等)は公式記載を確認できず未確認"},
       freeTransferMax:10, freeTransferNote:"プラチナ・ダイヤモンドステージ",
       rank:{name:"ステップアッププログラム", stages:[
         {name:"スタンダード", cond:"条件未達", benefit:"振込月1回・ATM月5回・金利0.40%"},
@@ -1644,7 +1658,8 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:7,label:"円普通預金・SBIハイパー預金の金利改定(公式プレスリリース全文)",url:"https://prtimes.jp/main/html/rd/p/000000188.000005652.html"},
         {n:8,label:"ダイヤモンドステージ金利年0.40%へ利上げ(公式)",url:"https://www.sbishinseibank.co.jp/info/news250124_rate_yen_diamond.html"},
         {n:9,label:"ステップアッププログラム(公式)",url:"https://www.sbishinseibank.co.jp/service/relationship/"},
-        {n:10,label:"ステップアッププログラムのステージ判定基準(公式FAQ)",url:"https://faq.sbishinseibank.co.jp/faq_detail.html?page=1&id=164"}
+        {n:10,label:"ステップアッププログラムのステージ判定基準(公式FAQ)",url:"https://faq.sbishinseibank.co.jp/faq_detail.html?page=1&id=164"},
+        {n:11,label:"定額自動振込・振込予約機能追加のお知らせ(公式、2026年8月9日開始)",url:"https://www.sbishinseibank.co.jp/info/news2607_transfer.html"}
       ] },
 
     { code:"0398", name:"あおぞら銀行(BANK支店)", category:"net", rateHeadline:"1.00% / 0.65%", rateNote:"100万円までの部分1.00%・超過分0.65%、2026年7月1日改定(無条件型)", rateMax:1.00,
