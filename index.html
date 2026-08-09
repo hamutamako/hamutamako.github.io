@@ -803,7 +803,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-09-a-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-08-09-b-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-08-05", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・15・25日ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -3407,9 +3407,10 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       '</div>';
     }).join("");
   }
-  function renderNewsBody(){
-    var up = NEWS.filter(newsIsUpcoming).sort(function(a,b){ return a.effective < b.effective ? -1 : 1; });
-    var done = NEWS.filter(function(n){ return !newsIsUpcoming(n); }).sort(function(a,b){ return a.effective < b.effective ? 1 : -1; });
+  function renderNewsBody(id){
+    var src = id ? NEWS.filter(function(n){ return n.id === id; }) : NEWS;
+    var up = src.filter(newsIsUpcoming).sort(function(a,b){ return a.effective < b.effective ? -1 : 1; });
+    var done = src.filter(function(n){ return !newsIsUpcoming(n); }).sort(function(a,b){ return a.effective < b.effective ? 1 : -1; });
     function block(n, applied){
       return '<div class="news-head">' + (applied ? '✅ ' : '🔔 ') + n.title + '</div>' +
         '<div class="news-dates">対象：' + n.targets.map(newsBankName).join("、") +
@@ -3431,7 +3432,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var list = newsForCard(bank.code).filter(newsIsUpcoming);
     if(list.length === 0) return "";
     var n = list.sort(function(a,b){ return a.effective < b.effective ? -1 : 1; })[0];
-    return '<button class="news-badge" type="button" data-open-news>📢 ' + newsShortDate(n.effective) + ' 制度変更あり ▶</button>';
+    return '<button class="news-badge" type="button" data-open-news="' + n.id + '">📢 ' + newsShortDate(n.effective) + ' 制度変更あり ▶</button>';
   }
   // カード本文に出す「制度の変更予定」欄（適用ずみになっても確認用に残る）
   function renderCardNews(bank){
@@ -3448,16 +3449,17 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     h += '</div>';
     return h;
   }
-  function openNewsSheet(){
-    renderNewsBody();
+  function openNewsSheet(id){
+    renderNewsBody(id);
     document.getElementById("newsWrap").classList.add("open");
   }
   document.getElementById("newsWrap").addEventListener("click", function(e){
     if(e.target === this || e.target.closest("[data-close-news]")) this.classList.remove("open");
   });
-  // カード内のバッジ等、data-open-news が付いた要素ならどこからでも開ける
+  // カード内のバッジ等、data-open-news が付いた要素ならどこからでも開ける（値があればその記事だけ、なければ全件）
   document.addEventListener("click", function(e){
-    if(e.target.closest("[data-open-news]")) openNewsSheet();
+    var el = e.target.closest("[data-open-news]");
+    if(el) openNewsSheet(el.dataset.openNews || null);
   });
 
   els.simToggle.addEventListener("click", function(){
@@ -3738,7 +3740,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         var tagClass = days <= 7 ? "red" : days <= 45 ? "amber" : "gray";
         var tg = n.targets.map(newsBankName);
         var tgTxt = tg.length > 2 ? tg[0] + " ほか" + (tg.length - 1) + "件" : tg.join("、");
-        return '<div class="hv-card' + (days <= 7 ? ' urgent' : '') + '" data-open-news><div class="hv-row">' +
+        return '<div class="hv-card' + (days <= 7 ? ' urgent' : '') + '" data-open-news="' + n.id + '"><div class="hv-row">' +
           '<span class="hv-ico">📢</span>' +
           '<div class="hv-body"><p class="hv-ttl">' + n.title + '</p>' +
           '<p class="hv-sub">' + newsDateJP(n.effective) + 'から ｜ ' + tgTxt + '</p></div>' +
@@ -3746,7 +3748,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
           '</div></div>';
       }).join("");
       h += nDone.map(function(n){
-        return '<div class="hv-card" data-open-news><div class="hv-row">' +
+        return '<div class="hv-card" data-open-news="' + n.id + '"><div class="hv-row">' +
           '<span class="hv-ico">✅</span>' +
           '<div class="hv-body"><p class="hv-ttl">' + n.title + '</p>' +
           '<p class="hv-sub">' + newsDateJP(n.effective) + ' 適用ずみ</p></div>' +
