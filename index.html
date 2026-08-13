@@ -803,7 +803,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-09-b-public",// 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-08-13-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-08-05", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・15・25日ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -855,6 +855,24 @@
      書き方：changes は1変更点ごとに1行（before=変更前、after=変更後、from=適用の起点）。
      targets には対象カードの code（DATAのcodeと同じ書き方）を入れる。 */
   var NEWS = [
+    { id:"20251215-yuchopay-end",
+      announced:"2025-12-15",
+      effective:"2026-12-20",
+      targets:["9900"],
+      title:"ゆうちょ銀行 スマホ決済「ゆうちょPay」サービス終了",
+      changes:[
+        { item:"ゆうちょPay（スマホ決済）",
+          before:"コード決済・払込票決済とも利用可能",
+          after:"サービス終了。コード新規表示は2026年12月20日23:55まで（有効期限内のコードは23:59まで利用可）、コード読取・払込票決済は2026年12月21日以降不可",
+          from:"2026年12月20日（日）をもって終了" }
+      ],
+      impact:"終了理由は公式発表で「口座即時引き落とし等、銀行が提供するサービスとしての特色を十分に活かせなかった」と説明。残高照会等は「ゆうちょ通帳アプリ」への移行、払込票支払いは同アプリの一部対応または他社運営の「PayBアプリ」へのゆうちょ口座登録が案内されている。<strong>ゆうちょPayポイントの終了時点（2026年12月20日）での取り扱い（残っていた場合に失効するか等）は2026-08-13時点でまだ未定</strong>、公式サイトで「改めてご案内」とされている。通常のポイント有効期限は原則1年間（進呈月の翌月から12ヶ月後の月末）のため、リスクを避けるなら早めに使い切っておくのが無難。",
+      sources:[
+        { label:"ゆうちょPayの終了について（公式）",
+          url:"https://www.jp-bank.japanpost.jp/kojin/sokin/yuchopay/kj_sk_yp_finish_user.html" },
+        { label:"スマホ決済サービス「ゆうちょPay」の終了のお知らせ（公式プレスリリース・2025年12月15日発表）",
+          url:"https://www.jp-bank.japanpost.jp/aboutus/press/2025/abt_prs_id002028.html" }
+      ] },
     { id:"20260809-sbishinsei-furikomi",
       announced:"2026-08-09",
       effective:"2026-08-09",
@@ -1045,8 +1063,8 @@
       pointName:"Pontaポイント",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"no",furikomi:"yes"},
       serviceNotes:{nyukin:"公式FAQで「該当のサービスはございません」と明記",furikomi:"定額自動送金サービス。窓口申込のみ、最長5年"},
-      freeTransferMax:3, freeTransferNote:"プラチナステージ到達時",
-      rank:{name:"メインバンクプラス", stages:[
+      freeTransferMax:3, freeTransferNote:"最大(条件による。旧プラチナステージ相当の条件を満たした場合)",
+      rank:{name:"メインバンクプラス(旧ステージ名。現在は廃止され条件別の優遇組み合わせ型に変わった可能性が高い。2026-08-13時点、要再確認)", stages:[
         {name:"ステージなし", cond:"条件未達", benefit:"優遇なし"},
         {name:"ホワイト", cond:"UFJダイレクト利用等の基本条件", benefit:"当行ATM 何度でも無料"},
         {name:"シルバー", cond:"給与・年金受取や積立等の追加条件", benefit:"当行ATM無料+コンビニATM月2回無料"},
@@ -1190,7 +1208,7 @@
         {label:"毎月おまかせ振込予約の設定(連携記録用、通常振込ポイント区分が適用)", value:3, unit:"pt/件", note:"「毎月おまかせ振込予約」。振込日は1〜31日(指定日が存在しない月は楽天銀行宛なら当月末日、他行宛は当月末の金融機関営業日、公式)。楽天銀行口座宛は休日でもそのまま実行、他行口座宛は休日の場合前営業日/翌営業日を選択可(公式、デフォルトなし)。専用のポイント項目はなく上記「他行口座への振込」区分(ステージ別1〜3pt)が適用されると推定。登録可能件数は公式に明記なし(二次情報で99件との情報もあるが未検証)",
           schedule:{kind:"furikomi", minDay:1, maxDay:31, note:"指定日が存在しない月は楽天銀行宛→当月末日、他行宛→当月末の金融機関営業日(公式)。楽天銀行宛は休日でもそのまま実行、他行宛は休日なら前/翌営業日を選択可(公式、デフォルトなし)"}},
         {label:"他行からの振込入金(1件3,000円以上、5件達成でボーナス)", value:150, unit:"円/月", note:"「国内外の入金・送金・ATM利用で現金プレゼントプログラム」(公式、ハッピープログラムとは別制度)。1件10円×5件+完了ボーナス100円=最大150円。給与・賞与・年金・株式配当金の受取は対象外。JRE支店は対象外(本体・第一生命支店等は対象)。他の対象取引(振込出金・ATM入出金・海外送金等)とエントリーは共通(月1回でOK)", reqAmount:3000, entryRequired:true,
-          schedule:{kind:"received", capCount:5, note:"月上限5件(1件3,000円以上)。5件達成で追加100円ボーナス。振込元は複数登録可"}},
+          schedule:{kind:"received", capCount:5, perDayCap:1, note:"月上限5件(1件3,000円以上)。5件達成で追加100円ボーナス。振込元は複数登録可。カウントは1日1件まで(同日に複数件の振込入金があっても1件扱い)のため、5件そろえるには5つの日に分ける必要あり(公式ページに明記なし・複数の攻略記事が一致する二次情報、確度中、取得日2026-08-13)"}},
         {label:"他行への振込・送金(メルマネ/Facebook送金含む、上限5件)", value:150, unit:"円/月", note:"同プログラムの対象取引②(エントリーは①と共通)。通常振込は1件10円、メルマネ・Facebookでの送金は1件20円。5件達成で追加100円ボーナス(通常振込のみなら最大150円、全てメルマネなら最大200円)。他行振込手数料無料回数を使った振込・振込予約扱いで期間外に出金された振込は対象外", entryRequired:true},
         {label:"ATMでの出金・入金(上限5件)", value:150, unit:"円/月", note:"同プログラムの対象取引③(エントリーは①と共通)。1件10円×5件+達成ボーナス100円=最大150円。ATM手数料無料回数を使った場合、または3万円以上のATM入金は対象外", entryRequired:true},
         {label:"海外の金融機関への送金(上限3件)", value:130, unit:"円/月", note:"同プログラムの対象取引④(エントリーは①と共通)。1件10円×3件+達成ボーナス100円=最大130円", entryRequired:true},
@@ -1229,7 +1247,7 @@
         {label:"毎月おまかせ振込予約の設定(連携記録用、通常振込ポイント区分が適用)", value:1, unit:"pt/件", note:"「毎月おまかせ振込予約」(本体基準で提供)。振込日は1〜31日(指定日が存在しない月は楽天銀行宛なら当月末日、他行宛は当月末の金融機関営業日、公式)。楽天銀行口座宛は休日でもそのまま実行、他行口座宛は休日の場合前営業日/翌営業日を選択可(公式、デフォルトなし)。専用のポイント項目はなく上記「他行口座への振込」区分(ベーシック水準1pt固定)が適用されると推定",
           schedule:{kind:"furikomi", minDay:1, maxDay:31, note:"指定日が存在しない月は楽天銀行宛→当月末日、他行宛→当月末の金融機関営業日(公式)。楽天銀行宛は休日でもそのまま実行、他行宛は休日なら前/翌営業日を選択可(公式、デフォルトなし)"}},
         {label:"他行からの振込入金(1件3,000円以上、5件達成でボーナス)", value:150, unit:"円/月", note:"「国内外の入金・送金・ATM利用で現金プレゼントプログラム」(公式、ハッピープログラムとは別制度)。1件10円×5件+完了ボーナス100円=最大150円。給与・賞与・年金・株式配当金の受取は対象外。JRE支店は対象外だが第一生命支店は対象。他の対象取引(振込出金・ATM入出金・海外送金等)とエントリーは共通(月1回でOK)", reqAmount:3000, entryRequired:true,
-          schedule:{kind:"received", capCount:5, note:"月上限5件(1件3,000円以上)。5件達成で追加100円ボーナス。振込元は複数登録可"}},
+          schedule:{kind:"received", capCount:5, perDayCap:1, note:"月上限5件(1件3,000円以上)。5件達成で追加100円ボーナス。振込元は複数登録可。カウントは1日1件まで(同日に複数件の振込入金があっても1件扱い)のため、5件そろえるには5つの日に分ける必要あり(公式ページに明記なし・複数の攻略記事が一致する二次情報、確度中、取得日2026-08-13)"}},
         {label:"他行への振込・送金(メルマネ/Facebook送金含む、上限5件)", value:150, unit:"円/月", note:"同プログラムの対象取引②(エントリーは①と共通)。通常振込は1件10円、メルマネ・Facebookでの送金は1件20円。5件達成で追加100円ボーナス(通常振込のみなら最大150円、全てメルマネなら最大200円)。他行振込手数料無料回数を使った振込・振込予約扱いで期間外に出金された振込は対象外", entryRequired:true},
         {label:"ATMでの出金・入金(上限5件)", value:150, unit:"円/月", note:"同プログラムの対象取引③(エントリーは①と共通)。1件10円×5件+達成ボーナス100円=最大150円。ATM手数料無料回数を使った場合、または3万円以上のATM入金は対象外", entryRequired:true},
         {label:"海外の金融機関への送金(上限3件)", value:130, unit:"円/月", note:"同プログラムの対象取引④(エントリーは①と共通)。1件10円×3件+達成ボーナス100円=最大130円", entryRequired:true},
@@ -1449,20 +1467,22 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       serviceNotes:{nyukin:"他行本人名義口座から毎月自動入金。毎月15Pontaポイント付与",furikomi:"自行→他行の自動送金サービスは非対応(公式サイトで確認)"},
       freeTransferMax:15, freeTransferNote:"プレミアムステージ",
       rank:{name:"じぶんプラス", stages:[
-        {name:"レギュラー", cond:"スタンプ0〜1個", benefit:"振込月3回・Pontaポイント1倍"},
+        {name:"レギュラー", cond:"スタンプ0〜1個(6カテゴリ:入金/口座振替/キャッシュレス決済/エンタメ/資産運用/残高、各1個ずつ)", benefit:"振込月3回・Pontaポイント1倍"},
         {name:"シルバー", cond:"スタンプ2〜3個", benefit:"振込月5回・Pontaポイント5倍"},
         {name:"ゴールド", cond:"スタンプ4個", benefit:"振込月10回・Pontaポイント10倍"},
         {name:"プレミアム", cond:"スタンプ5個以上(au PAYカード引落は「口座振替」枠で1スタンプに寄与)", benefit:"振込月15回・Pontaポイント15倍"} ]},
       pointItems:[
-        {label:"定額自動入金サービスの利用", value:15, unit:"pt/月", note:"じぶんプラスのプレミアムステージ達成後に有効",
+        {label:"定額自動入金サービスの利用", value:15, unit:"pt/月", note:"「入金」スタンプ獲得条件の一つ。じぶんプラスのプレミアムステージ達成後に有効",
           schedule:{kind:"nyukin", choices:[6,26], arrivalOffsetDays:4, note:"引落日は毎月6日または26日の2択(公式)。入金は引落日から4営業日後(祝日は未考慮の簡易計算)"}},
-        {label:"クレジットカード(au PAYカード等)の引き落とし(月1件以上)", value:15, unit:"pt/月", note:"じぶんプラスのプレミアムステージ達成後に有効"}
+        {label:"給与・賞与受取または年金受取(いずれか1回以上)", value:0, unit:"pt/月", note:"「入金」スタンプ獲得条件の一つ(公式確認済み)。定額自動入金と同枠でスタンプは重複しないが、給与等の受取だけでもスタンプ1個は得られる。固定ポイントの具体的な数値は公式ページに記載なく未確認"},
+        {label:"クレジットカード(au PAYカード等)の引き落とし(月1件以上)", value:15, unit:"pt/月", note:"「口座振替」スタンプ獲得条件の一つ。じぶんプラスのプレミアムステージ達成後に有効"},
+        {label:"じぶん銀行FXの新規取引(1回1万通貨以上、ZAR/JPYは10万通貨以上)", value:0, unit:"pt/取引", note:"「資産運用」スタンプ獲得条件の一つ。公式ページで固定ポイント対象と確認済みだが1回あたりの数値は未記載(要再確認)"}
       ],
-      points:"Pontaポイントがステージ(スタンプ数)に応じて最大15倍貯まる倍率型が中心。",
+      points:"Pontaポイントがステージ(スタンプ数)に応じて最大15倍貯まる倍率型が中心。スタンプは「入金/口座振替/キャッシュレス決済/エンタメ/資産運用/残高」の6カテゴリで各1個ずつ、条件を満たすだけで獲得できる(定額自動入金・クレカ引落以外にも、給与/年金受取・au PAYチャージ・FX・外貨預金・資産残高等、多数の経路がある)。",
       debit:{name:"じぶん銀行スマホデビット", rate:"還元制度なし", note:"最短30秒で発行できるカードレスのスマホデビット。年会費無料だが、利用額に応じたポイント還元・キャッシュバックはなし(Pontaポイントはじぶんプラスのスタンプ経由で得る仕組み)。"},
-      pros:["au経済圏との連携で高金利・高還元","プレミアムなら振込無料回数が業界トップ級","PayPay等複数のキャッシュレス決済もスタンプ対象"],
+      pros:["au経済圏との連携で高金利・高還元","プレミアムなら振込無料回数が業界トップ級","ランクアップの経路が6カテゴリと多く、給与受取・au PAYチャージ・資産残高等どれか一つでもスタンプが貯まる"],
       cons:["ことら送金に非対応","自行から他行への定額自動振込は非対応"],
-      srcRefs:{rate:[3],rank:[1,4],points:[1,2]},
+      srcRefs:{rate:[3],rank:[1,4,8],points:[1,2,8,9]},
       sources:[
         {n:1,label:"じぶんプラス(公式)",url:"https://www.jibunbank.co.jp/customer_stage/"},
         {n:2,label:"定額自動入金サービス(公式)",url:"https://www.jibunbank.co.jp/service/money_order/"},
@@ -1470,7 +1490,9 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:4,label:"口座振替(自動引落とし)|au PAYカード(公式)",url:"https://www.jibunbank.co.jp/service/account_transfer/au_pay_card/"},
         {n:5,label:"商品・サービス一覧(公式)",url:"https://www.jibunbank.co.jp/service/"},
         {n:6,label:"サービス・機能詳細|振込(公式)",url:"https://www.jibunbank.co.jp/service/transfer/detail/"},
-        {n:7,label:"クレジットカード(au PAYカード)|auじぶん銀行(公式)",url:"https://www.jibunbank.co.jp/service/aupay_card/"}
+        {n:7,label:"クレジットカード(au PAYカード)|auじぶん銀行(公式)",url:"https://www.jibunbank.co.jp/service/aupay_card/"},
+        {n:8,label:"Pontaポイントをためるには(公式)",url:"https://www.jibunbank.co.jp/customer_stage/howto_point/"},
+        {n:9,label:"au PAYでキャッシュレス決済をしたのにじぶんプラスのスタンプがつかない(公式FAQ)",url:"https://help.jibunbank.co.jp/faq_detail.html?id=2527"}
       ] },
 
     { code:"0040", name:"イオン銀行", category:"local", rateHeadline:"0.30%", rateNote:"2026年3月以降、全ステージ一律", rateMax:0.30,
@@ -5289,5 +5311,26 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   applyCollectionVisibility();
   touchDiag();   // 起動のたびに「このコードを見た」記録を残す（保存テスト用）
   render();
+})();
+</script>
+<script>
+/* 🐾 足跡（訪問カウント、GoatCounter・クッキー不使用）
+   - 公開ページ（hamutamako.github.io）で開かれたときだけ数える。
+     ローカルやテストサーバー（127.0.0.1・Tailscale経由）ではそもそも読み込まない。
+   - 家族の端末は一度 https://hamutamako.github.io/#notrack を開けば
+     以後その端末はカウントされない（localStorageに除外フラグを保存） */
+(function(){
+  try{
+    if(location.hash.indexOf("notrack") >= 0){
+      localStorage.setItem("noTrack.v1", "1");
+    }
+    if(location.hostname !== "hamutamako.github.io") return;
+    if(localStorage.getItem("noTrack.v1")) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://gc.zgo.at/count.js";
+    s.dataset.goatcounter = "https://hamutamako.goatcounter.com/count";
+    document.head.appendChild(s);
+  }catch(e){}
 })();
 </script>
