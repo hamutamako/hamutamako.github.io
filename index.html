@@ -804,7 +804,7 @@
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
     build:  "2026-08-14-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
-    dataChecked: "2026-08-14", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
+    dataChecked: "2026-08-15", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・15・25日ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
@@ -1756,7 +1756,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:7,label:"金利優遇プログラム(公式)",url:"https://www.tokyostarbank.co.jp/campaign/rate_program/index.html"}
       ] },
 
-    { code:"9900", name:"ゆうちょ銀行", category:"local", rateHeadline:"0.400%", rateNote:"2026年8月10日改定予定", rateMax:0.40,
+    { code:"9900", name:"ゆうちょ銀行", category:"local", rateHeadline:"0.400%", rateNote:"2026年8月10日改定済み", rateMax:0.40,
       pointName:"ゆうちょPayポイント",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"partial",furikomi:"yes"},
       serviceNotes:{nyukin:"ゆうちょ発の同名サービスはないが、他行サービスの入金先としては指定可能",furikomi:"自動振込(出金側)サービス"},
@@ -1784,14 +1784,15 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       debit:{name:"ゆうちょデビット", rate:"0.25%", note:"年会費無料、キャッシュカードと一体型。JP BANKカード(クレジット)との併用は不可(1口座につきカード1枚まで)。"},
       pros:["全国の郵便局網で窓口・現金対応が手厚い","定額貯金は柔軟な金利選択ができる","ことら・PayPay・Airすべてに対応"],
       cons:["普通預金金利はメガバンク並みでネット銀行には劣る","多段階のランク優遇制度はなし"],
-      srcRefs:{rate:[4],points:[1,2,3]},
+      srcRefs:{rate:[4,7],points:[1,2,3]},
       sources:[
         {n:1,label:"ゆうちょPayポイントプログラム(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/yuchopay/kj_sk_yp_point.html"},
         {n:2,label:"ゆうちょPayポイントシミュレーション(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/yuchopay/kj_sk_yp_simulation.html"},
         {n:3,label:"自動払込み(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/jido/kj_sk_jd_haraikomi.html"},
         {n:4,label:"金利一覧(公式)",url:"https://www.jp-bank.japanpost.jp/kinri/kinri.html"},
         {n:5,label:"ことら送金(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/cotra/kj_sk_cotra_index.html"},
-        {n:6,label:"自動振込・出金側サービス(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/jido/kj_sk_jd_jdfurikomi.html"}
+        {n:6,label:"自動振込・出金側サービス(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/jido/kj_sk_jd_jdfurikomi.html"},
+        {n:7,label:"貯金金利改定のお知らせ(公式・2026年8月7日発表)",url:"https://www.jp-bank.japanpost.jp/news/2026/news_id002455.html"}
       ] }
   ];
 
