@@ -804,7 +804,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券・ポイントのカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-09-04-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-09-04-b-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-09-04", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・10・15・20・25日と月末ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -2993,6 +2993,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {label:"JALマイル(間接)", value:"可・3,000枚→1,500マイル(50%)", note:"エムアイポイント経由。myCoin⇔エムアイポイント間は1:1で目減りなし、エムアイポイント→JAL間で50%(公式)"},
         {label:"貯蓄預金口座へのキャッシュバック", value:"可・100枚→100円(1枚=1円)", note:"100枚単位、3営業日程度(公式寄り)"},
         {label:"THEO+(ポイント投資)", value:"可・1枚=1円", note:"最低1枚から。THEO+口座の開設・連携が別途必要、手数料なし"},
+        {label:"JRキューポ(JR九州、福岡銀行myコイン扱い)", value:"可(片方向のみ)・500枚→500pt(1:1、目減りなし)", note:"逆方向〈キューポ→myCoin〉の記載なし。SUGOCAが必要(公式・[[JRキューポ]]で裏取り)"},
         {label:"PayPayポイント", value:"不明", note:"交換先一覧に記載を確認できず"}
       ],
       earnHow:"対象銀行(静岡銀行含む)での取引に応じた付与(静岡銀行分の具体的な還元率は情報不足)、Wallet+内キャンペーン参加(「スタンプチャレンジ」等)、他社ポイントからの交換",
@@ -3035,6 +3036,366 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:3, label:"エムアイポイント｜ポイント交換｜マイルを貯める(公式・ANAマイレージクラブ)", url:"https://www.ana.co.jp/ja/jp/shoppingandlife/point/tameru_mipoint/"},
         {n:4, label:"「myCoin」と「エムアイポイント」との相互交換が可能に(ペイメントナビ、2019年6月17日付)", url:"https://paymentnavi.com/paymentnews/84373.html"},
         {n:5, label:"三越伊勢丹HDがエムアイカードのポイント制度を改定 ゴールドカード会員は還元率10%固定に(fashionsnap、2026年2月5日付)", url:"https://www.fashionsnap.com/article/2026-02-05/mihd-point/"}
+      ] },
+    { code:"PT04", kind:"point", name:"dポイント",
+      rateHeadline:"100円→1pt(1%)", rateMax:1,
+      rateNote:"dカード(一般)決済の基本還元率。2027年1月利用分から200円→1pt(0.5%)に半減・年会費も条件付き有料化予定(2026-09-01公式発表)。d払いは基本200円→1pt(0.5%)、dカード払い設定で1%",
+      operator:"株式会社NTTドコモ",
+      exchanges:[
+        {label:"JALマイル", value:"可(双方向)・d→JAL 1,000pt→500マイル(50%)／JAL→d 10,000マイル→10,000pt(100%等価)", note:"d→JALは月間上限40,000pt。事前にJMB番号とdアカウントの紐づけが必要(公式・生HTML確認)"},
+        {label:"myCoin(静岡銀行Wallet+等)", value:"可(片方向、myCoin→dのみ)・1枚→0.9pt(90%)", note:"100枚単位、約3〜5日(公式・生HTML確認)"},
+        {label:"J-POINT(JCB)", value:"可(片方向、J-POINT→dのみ)・1pt→0.7pt(70%)", note:"1,000pt以上1pt単位(公式・生HTML確認)"},
+        {label:"ANAマイル", value:"不可", note:"交換先一覧・ANA側提携ポイント一覧のいずれにも記載なし(二次情報・中〜高)"},
+        {label:"Pontaポイント", value:"不可(2020年9月30日終了)", note:"終了前は1:1等価だった(公式・生HTML確認)"},
+        {label:"楽天ポイント／Vポイント", value:"対象外の可能性が高い", note:"交換先一覧に記載なし(要確認)"}
+      ],
+      earnHow:"dカード決済(現行1%、2027年1月から0.5%に半減予定)、d払い(基本0.5%、dカード払い設定で1%)、通信料支払い、実店舗・ネット利用、他社ポイントからの交換",
+      useHow:"1pt=1円で加盟店・ネットショッピング・通信料に充当、寄付、JALマイルへの交換",
+      validity:"2025年12月から「最後に貯める・使うした日から12ヶ月後の月末」に緩和(旧ルールは獲得月から48ヶ月後の月末)。期間・用途限定ポイントは個別設定で延長対象外",
+      scope:"コンビニ・飲食店・スーパー等全国、dポイントモール等のネット通販。ドコモ回線契約は不要",
+      pros:["入会金・年会費無料、ドコモ回線契約不要で誰でも使える","2025年12月の期限緩和で使い続ける限り実質失効しにくい","JALマイルへの直接交換ルートがあり、JAL→dは等価(100%)と好条件"],
+      cons:["2027年1月からdカード(一般)の還元率が1%→0.5%に半減・年会費も条件付き有料化予定","ANAマイルへの直接交換ルートがない","楽天ポイント・Vポイント・Pontaポイントという主要な競合共通ポイントとはいずれも直接交換ルートがない(Pontaは2020年9月終了)"],
+      srcRefs:{exchanges:[1,2,3]},
+      sources:[
+        {n:1, label:"dポイントを他のポイントと交換する(公式・dポイントクラブ)", url:"https://dpoint.docomo.ne.jp/store/exchange/index.html"},
+        {n:2, label:"dポイントとJALのマイルはお互い交換可能！(公式・dポイントクラブ)", url:"https://dpoint.docomo.ne.jp/article/2009_07.html"},
+        {n:3, label:"myCoinでdポイントがたまる・つかえる(公式・dポイントクラブ)", url:"https://dpoint.docomo.ne.jp/static/store/116488/"}
+      ] },
+    { code:"PT05", kind:"point", name:"楽天ポイント",
+      rateHeadline:"100円→1pt(1%、SPU込み最大18.5倍)", rateMax:1,
+      rateNote:"楽天カード決済の基本還元率。SPU(スーパーポイントアッププログラム)で対象17サービスの利用状況に応じ最大18.5倍まで上乗せ",
+      operator:"楽天ペイメント株式会社(楽天グループの子会社)",
+      exchanges:[
+        {label:"ANAマイル", value:"可(双方向、非対称)・楽天→ANA 2pt→1マイル(50%)／ANA→楽天 10,000マイル→8,000pt(80%)", note:"楽天→ANAは月間上限20,000pt(公式・JSON生データ確認)"},
+        {label:"JALマイル", value:"可(双方向、非対称)・楽天→JAL 2pt→1マイル(50%)／JAL→楽天 10,000マイル以上→8,000pt(80%)", note:"楽天→JALは月間上限20,000pt(公式・JSON生データ確認)"},
+        {label:"myCoin(静岡銀行Wallet+等)", value:"可(片方向)・100枚→90pt(90%)", note:"約3営業日(公式確認)"},
+        {label:"J-POINT(JCB)", value:"可(片方向)・1pt→0.7pt(70%)", note:"1,000pt以上単位(公式確認)"},
+        {label:"dポイント／Vポイント／Pontaポイント／エムアイポイント", value:"対象外の可能性が高い", note:"公式交換先一覧64件(他社→楽天56件・楽天→他社8件)に記載なし(確度高)"}
+      ],
+      earnHow:"楽天カード決済(基本1%)、楽天市場でのSPU、楽天モバイル・楽天銀行等の楽天経済圏サービス利用、実店舗(楽天ポイントカード・楽天ペイ)、他社ポイントからの交換(56種類)",
+      useHow:"1pt=1円で楽天グループ各サービス・実店舗に充当、楽天証券でのポイント投資(投信・米国株式・国内株式、NISA対応)、ANA・JALマイル等8種類への交換",
+      validity:"最終獲得月を含め1年間(獲得の都度延長)。期間限定ポイントは10日〜6ヶ月程度で個別設定、他社交換不可",
+      scope:"楽天市場・楽天カード・楽天モバイル・楽天銀行等の楽天グループ全般、実店舗約500万店舗以上",
+      pros:["楽天経済圏サービスを組み合わせるほどSPUで還元率が上がる(最大18.5倍)","1pt=1円で楽天証券のポイント投資(NISA対応)にも使える","ANA・JAL両方のマイルに交換できる数少ない共通ポイントの一つ","他社ポイントを楽天に集約する受け皿としての選択肢が非常に豊富(56種類)"],
+      cons:["ANA・JALマイルへの交換レートは50%と目減りが大きい","dポイント・Vポイント・Pontaポイントという3大競合共通ポイントへの直接交換ルートがない","楽天ポイントから他社への出口はごく限定的(ANA・JAL含め8種類のみ)の片流れ構造","SPU倍率をフルに得るには複数の楽天グループサービス加入が実質的に必要"],
+      srcRefs:{exchanges:[1,2,3]},
+      sources:[
+        {n:1, label:"楽天ポイント交換先データ(JSON、公式)", url:"https://point.rakuten.co.jp/_assets/json/exchange/service_list.json"},
+        {n:2, label:"楽天ポイントをANAに交換！(公式・交換ルール詳細)", url:"https://point.rakuten.co.jp/exchange/ana/rule/"},
+        {n:3, label:"楽天ポイントをJALに交換！(公式・交換ルール詳細)", url:"https://point.rakuten.co.jp/exchange/jal/rule/"}
+      ] },
+    { code:"PT06", kind:"point", name:"Vポイント",
+      rateHeadline:"200円→1pt(0.5%、最大20%)", rateMax:0.5,
+      rateNote:"三井住友カード決済の基本還元率。Vポイントアッププログラムでタッチ決済・家族ポイント等を組み合わせ最大20%まで上乗せ可能(景品表示法の上限)",
+      operator:"Vポイントマーケティング株式会社(旧CCCMKホールディングス。2026年3月末に三井住友カードが子会社化)",
+      exchanges:[
+        {label:"ANAマイル", value:"可(双方向、非対称)・V→ANA 500pt→250マイル(50%)／ANA→V 10,000マイル→10,000pt(100%等価、年間20,000マイルまで)", note:"3口目(20,001マイル)以降は50%に低下。ANAカード会員限定で1pt=1〜3マイルの優遇枠あり(公式・生HTML確認)"},
+        {label:"myCoin(静岡銀行Wallet+等)", value:"可(片方向、myCoin→Vのみ)・100枚→90pt(90%)", note:"約3営業日、逆方向は不可(公式確認)"},
+        {label:"JALマイル／dポイント／楽天ポイント／Pontaポイント／J-POINT／エムアイポイント", value:"直接ルートなし／対象外の可能性が高い", note:"公式交換先一覧67件に記載なし(確度高)。JALはJRキューポ等経由の間接ルートのみ"}
+      ],
+      earnHow:"三井住友カード決済(基本0.5%)、Vポイントアッププログラム(タッチ決済・家族ポイント等)、旧Tポイント提携店でのカード提示、他社ポイントからの交換",
+      useHow:"VポイントPayアプリへチャージ(1pt=1円)、クレジットカード支払いへの充当、SBI証券でのポイント投資(投信・国内株式、NISA対応)、ANAマイルへの交換",
+      validity:"最終変動日(付与・還元・交換のいずれか)から1年間、変動があれば自動延長",
+      scope:"全国約16万店舗+世界中のVisa加盟店(旧Tポイント提携店のTSUTAYA・ファミリーマート・ウエルシア等を含む)",
+      pros:["旧Tポイント・旧Vポイント双方の提携網を引き継ぎ加盟店数が非常に多い","ANAマイルへの直接交換ルートがあり、ANAカード会員は最大1pt=3マイルの好レートも選べる","SBI証券での投資(NISA対応)に1pt=1円で直接使える"],
+      cons:["dポイント・楽天ポイント・Pontaポイントという主要な競合共通ポイント3強との直接交換ルートがない可能性が高い","JALマイルへの直接交換ルートがなく間接ルートは手間がかかる","myCoinとの交換は一方向のみでレートも90%(エムアイポイントの1:1より不利)"],
+      srcRefs:{exchanges:[1,2,3]},
+      sources:[
+        {n:1, label:"Vポイント公式「ポイントが交換できるお店・サービス」", url:"https://t-point.tsite.jp/store/exchange/"},
+        {n:2, label:"Vポイント公式「ANAでポイントが交換できる」", url:"https://t-point.tsite.jp/store/list/ana/"},
+        {n:3, label:"Vポイント公式「myCoinからVポイントに交換できる」", url:"https://t-point.tsite.jp/store/list/mycoin/"}
+      ] },
+    { code:"PT07", kind:"point", name:"Pontaポイント",
+      rateHeadline:"100円→1pt(1%)", rateMax:1,
+      rateNote:"au PAYカード決済の基本還元率",
+      operator:"株式会社ロイヤリティ マーケティング(三菱商事・ローソン・KDDI・リクルート・JAL等が出資)",
+      exchanges:[
+        {label:"JALマイル", value:"可(双方向、非対称)・Ponta→JAL 1pt→0.5マイル(50%)／JAL→Ponta 10,000マイル以上→1pt(100%等価)", note:"事前にJMB×Ponta会員登録が必要(公式・生HTML確認)"},
+        {label:"myCoin(静岡銀行Wallet+等)", value:"可(片方向、myCoin→Pontaのみ)・1枚→0.9pt(90%)", note:"100枚単位(公式・生HTML確認)"},
+        {label:"J-POINT(JCB、旧Oki Dokiポイント)", value:"可(片方向、au/UQ mobile/povo1.0契約者限定)・1pt→0.7pt相当(70%)", note:"200pt以上単位。一般契約者は利用不可(公式PDF+二次情報)"},
+        {label:"ANAマイル／dポイント／楽天ポイント／Vポイント／エムアイポイント", value:"対象外の可能性が高い", note:"Ponta公式の交換先一覧(約40件)に記載なし(確度高)"},
+        {label:"三菱UFJポイント／セゾン永久不滅ポイント等(→Pontaの片方向)", value:"可・1pt→4pt(400%)〜4.5pt(450%)", note:"Ponta側が非常に有利なレート(公式確認)"}
+      ],
+      earnHow:"au PAYカード決済(基本1%)、Pontaカード・アプリ提示(ローソン等約2万以上の提携店)、リクルート系サービス(じゃらん・ホットペッパー等)、他社ポイントからの交換(約40種類)",
+      useHow:"1pt=1円で提携店舗・オンラインサービスに充当、au PAY証券でのポイント投資(投信・プチ株、NISA対応)、JALマイルへの交換",
+      validity:"最終ご利用日(加算または利用)から1年間。KDDI定期付与のみでは延長されない",
+      scope:"ローソン・ゲオ・ケンタッキー等約2万以上の提携店舗、au PAYカード・au PAY加盟店、リクルート系サービス",
+      pros:["au経済圏との連携で貯まりやすく、Pontaアップ店では二重取りも可能","他社ポイントからの交換先が豊富(約40種類)で中には400%超の好レートも","JALマイルへ直接交換でき、高残高帯(10,000マイル以上)では等価(100%)","au PAY証券でのポイント投資(NISA対応)に使える"],
+      cons:["ANAマイル・dポイント・楽天ポイント・Vポイント・エムアイポイントへの直接交換ルートがない","出口(他社へ出す)の選択肢がJALマイル等ごく少数に限られる","J-POINTからの交換はau/UQ mobile/povo1.0契約者限定という制約がある","有効期限が最終利用日から1年間と短めで放置すると失効しやすい"],
+      srcRefs:{exchanges:[1,2,3]},
+      sources:[
+        {n:1, label:"ポイント交換 | PontaWeb(公式)", url:"https://point.recruit.co.jp/pontaweb/excpoint/"},
+        {n:2, label:"PontaポイントからJALマイレージバンクへ交換する(公式・PontaWeb)", url:"https://point.recruit.co.jp/pontaweb/excpoint/pontajal/"},
+        {n:3, label:"myCoin(マイコイン)からPontaポイントへ交換する(公式・PontaWeb)", url:"https://point.recruit.co.jp/pontaweb/excpoint/ibankponta/"}
+      ] },
+    { code:"PT08", kind:"point", name:"ANAマイル(ANAマイレージクラブ)",
+      rateHeadline:"100円→1.5マイル(1.5%)", rateMax:1.5,
+      rateNote:"ANAカードのショッピング利用時の目安還元率(カード種別で変動)。フライトマイルは運賃・予約クラス別の積算率で計算",
+      operator:"全日本空輸株式会社(会員規約上の運営主体。実務の企画・運営はANA X株式会社が担う二層構造)",
+      exchanges:[
+        {label:"エムアイポイント", value:"可(片方向)・2,000pt→500マイル(25%)、年度内22,000pt超で12.5%に低下", note:"逆方向(ANA→エムアイ)は10,000マイル→10,000pt(100%等価)と非対称(公式・生HTML確認)"},
+        {label:"楽天ポイント", value:"可(片方向)・2pt→1マイル(50%)", note:"月間上限20,000pt(公式)"},
+        {label:"Vポイント", value:"可(片方向)・500pt→250マイル(50%)", note:"逆方向は10,000マイル→10,000pt(等価、年間20,000マイルまで)。ANAカード会員は最大1pt=3マイルの優遇枠あり(公式)"},
+        {label:"nanacoポイント／JCBポイント(J-POINT)", value:"可(片方向)・nanaco500pt→250マイル(50%)／JCB1pt→0.6マイル(60%)", note:"公式・生HTML確認"},
+        {label:"dポイント／Pontaポイント／JRE POINT／WAON POINT", value:"直接ルートなし", note:"提携ポイント一覧(79件以上)に記載を確認できず(公式・否定的事実の確認)"}
+      ],
+      earnHow:"フライト搭乗(運賃・予約クラス別積算率)、ANAカード決済(100円ごとに最大1.5マイル)、ANA Pay決済、ANAマイレージモール経由の買い物、提携ポイントからの交換(79以上)",
+      useHow:"特典航空券・アップグレード特典、ANA Pay(1マイル1円相当でチャージ、残高は最終利用日から4年有効)、提携ポイントへの交換(Vポイント・nanaco・エムアイポイント等は10,000:10,000の等価交換)",
+      validity:"利用した月から最大36ヶ月後の月末まで(会員規約で確認)。ダイヤモンドサービス在籍中は無期限化との情報あり(確度中)",
+      scope:"ANAグループ運航便・スターアライアンス加盟便、ANAカード加盟店、提携ポイントパートナー79社以上",
+      pros:["フライト以外にもANAカード・ANA Pay・提携ポイント等、貯める手段が非常に多い","ANA Payで1マイル1円相当として日常決済に使え、失効間近のマイルの延命策にもなる","逆方向(ANAマイル→他ポイント)も豊富で、Vポイント・nanaco・エムアイポイント等は等価交換"],
+      cons:["dポイント・Pontaポイント・JRE POINT・WAON POINTなど主要共通ポイントからの直接交換ルートがない","エムアイポイントからの交換は25%(年度内22,000pt超は12.5%)と目減りが大きい","提携ポイントへの移行の多くは自動移行ではなく都度申請が必要"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"ポイント交換 提携パートナー一覧(公式・ANAマイレージクラブ)", url:"https://www.ana.co.jp/ja/jp/shoppingandlife/point/"},
+        {n:2, label:"ANAマイレージクラブ会員規約(公式・ANA)", url:"https://www.ana.co.jp/ja/jp/amc/kiyaku/"}
+      ] },
+    { code:"PT09", kind:"point", name:"JALマイル(JALマイレージバンク)",
+      rateHeadline:"200円→1マイル(0.5%)", rateMax:0.5,
+      rateNote:"JALカード(ショッピングマイル)の基本還元率。有償オプション加入で100円につき1マイル(1%)に上昇",
+      operator:"日本航空株式会社(会員向け実務運営は完全子会社の株式会社JALマイレージバンク)",
+      exchanges:[
+        {label:"Pontaポイント", value:"可(双方向、非対称)・Ponta→JAL 2pt→1マイル(50%)／JAL→Ponta 10,000マイル以上→1pt(100%等価)", note:"3,000〜9,999マイルは1マイル→0.5pt(50%)の階段レート(公式・生HTML確認)"},
+        {label:"dポイント", value:"可(双方向、非対称)・d→JAL 1,000pt→500マイル(50%)／JAL→d 10,000マイル→10,000pt(100%等価)", note:"JAL→dは年2回まで・上限20,000マイル(公式)"},
+        {label:"楽天ポイント", value:"可(片方向)・2pt→1マイル(50%)", note:"月間上限20,000pt(公式)"},
+        {label:"エムアイポイント", value:"可(片方向)・3,000pt→1,500マイル(50%)", note:"ANA・JALはどちらか一方に交換すると他方には交換不可(排他)(公式)"},
+        {label:"JRE POINT", value:"可(片方向、JALカードSuica会員限定)・1,500pt→500マイル(33%)、プレミアム会員は1,500pt→1,000マイル(67%)", note:"限定条件あり(公式)"},
+        {label:"WAON POINT", value:"可(片方向)・1,000pt→500マイル(50%)", note:"申込から1〜2ヶ月(公式)"}
+      ],
+      earnHow:"フライト搭乗(区間マイル×運賃積算率)、JALカード決済(200円で1マイル)、JAL Mall経由の買い物、提携ポイントからの交換(Ponta・楽天・d・エムアイポイント・JRE POINT・WAON POINT等)",
+      useHow:"国内線特典航空券(片道4,500マイルから)、国際線特典航空券・アップグレード、JALお買いものポイントへの交換(1,000マイル→1,000pt)、Ponta・dポイントへの交換",
+      validity:"搭乗・利用した月の翌月起算36ヶ月後の月末まで。JMBダイヤモンド等は無期限の例外あり(確度中)",
+      scope:"JALグループ便・ワンワールド加盟便、JALカード加盟店、JAL Mall・Ponta提携店等",
+      pros:["Pontaポイントとの相互交換で交換量次第では等価(100%、目減りなし)にできる","楽天・d・エムアイポイント・WAON POINT等、主要ポイントからの直接交換ルートが広い","国内線特典航空券が片道4,500マイルからと少ないマイル数で使える"],
+      cons:["楽天ポイント・エムアイポイント・WAON POINTからの交換は原則50%と目減りが大きい","Vポイント・nanacoポイントなど直接交換ルートがない主要ポイントもある","有効期限が36ヶ月と無期限ポイントに比べ短い"],
+      srcRefs:{exchanges:[1,2,3]},
+      sources:[
+        {n:1, label:"JALマイレージバンクからPontaポイントへ交換する(公式・PontaWeb)", url:"https://point.recruit.co.jp/pontaweb/excpoint/jalponta/"},
+        {n:2, label:"ポイントをJALのマイルに交換！(公式・JAL)", url:"https://partner.jal.co.jp/jmb/partner/feature/point_exchange/"},
+        {n:3, label:"dポイントとJALのマイルはお互い交換可能！(公式・dポイントクラブ)", url:"https://dpoint.docomo.ne.jp/article/2009_07.html"}
+      ] },
+    { code:"PT10", kind:"point", name:"はぴeポイント(関西電力)",
+      rateHeadline:"電気1,000円→8pt(0.8%、はぴeプラス)", rateMax:0.8,
+      rateNote:"運営は関西電力株式会社(会員制WEBサービス「はぴeみる電」)。※中国電力ではない。中国電力自身のポイント制度は別名称「エネルギアポイント」であり、はぴeポイントとは無関係(要注意)",
+      operator:"関西電力株式会社",
+      exchanges:[
+        {label:"エムアイポイント", value:"可(片方向)・100pt→100pt(1:1、目減りなし)", note:"中〜高(エムアイカード公式は確認済み、はぴe側公式は未確認)"},
+        {label:"Vポイント", value:"可(片方向)・100pt→100pt(1:1、目減りなし)", note:"逆方向は不可の可能性(公式・生HTML確認)"},
+        {label:"dポイント／WAON POINT／nanacoポイント", value:"可(片方向)・100pt→80pt(80%)", note:"nanacoは1,000pt単位(公式)"},
+        {label:"Pontaポイント", value:"可(片方向のみ)・100pt→80pt(80%)", note:"「Pontaポイントからはぴeポイントへの交換はできません」と公式に明記(公式)"},
+        {label:"ANAマイル／JALマイル", value:"可(片方向)・100pt→50マイル(50%)", note:"ANA側は公式・生HTML確認、JALは二次情報"},
+        {label:"WESTERポイント(JR西日本)", value:"可(双方向)・100pt⇔80pt(80%)", note:"要「はぴeみる電」登録、WESTER側は電気・ガス契約が必要(二次情報)"}
+      ],
+      earnHow:"電気・ガスの使用量に応じて貯まる(対象プラン契約かつ毎月の利用明細確認が条件)。関東エリア「はぴeプラス」は1,000円につき8pt(0.8%)。ログイン・アンケート回答等でもボーナスあり",
+      useHow:"電気・ガス料金への直接充当(1pt=1円)、宿泊・グルメ等の提携アイテム交換(約200〜500種類)、他社ポイント・マイルへの交換",
+      validity:"獲得から3年間。電力会社を切り替えても、それまでに貯めたポイントは保持され利用可能",
+      scope:"関西電力の電力供給エリア(近畿地方中心)、および「はぴeプラス」ブランドで関東エリアの一部にも対応。中国地方(中国電力エリア)は対象外",
+      pros:["Vポイント・エムアイポイントへの交換が1:1で目減りがない","電気・ガス料金への直接充当ができ実質的な光熱費割引として使える","交換先の種類が多い(14種類以上)"],
+      cons:["dポイント・Pontaポイント・WAON POINT・nanacoは80%、楽天ポイントは60%への目減りがある(要確認)","対象は基本的に関西電力(はぴeプラス含む)の契約者に限られる","逆方向(他社→はぴe)はWESTERポイント以外ほぼ確認できず、Pontaは公式に不可と明記"],
+      srcRefs:{exchanges:[1,2,3]},
+      sources:[
+        {n:1, label:"マイルを様々な提携ポイントサービスと交換する(公式・ANAマイレージクラブ)", url:"https://www.ana.co.jp/ja/jp/shoppingandlife/point/"},
+        {n:2, label:"【Vポイント】関西電力からVポイントに交換できる(公式・Vポイント)", url:"https://t-point.tsite.jp/store/list/kanden/"},
+        {n:3, label:"はぴｅポイントからPontaポイントへ交換する(公式・PontaWeb)", url:"https://point.recruit.co.jp/pontaweb/excpoint/mirudenponta/"}
+      ] },
+    { code:"PT11", kind:"point", name:"カテエネポイント(中部電力ミライズ)",
+      rateHeadline:"電気料金100円→1pt(1%)", rateMax:1,
+      rateNote:"対象プラン(ポイントプラン・おとくプラン等)契約者が電気料金支払いで貯める。ガス料金分の還元率は未確認",
+      operator:"中部電力ミライズ株式会社(中部電力の完全子会社)",
+      exchanges:[
+        {label:"Pontaポイント", value:"可(双方向)・1pt→1pt(1:1、目減りなし)", note:"双方向とも事前にPonta会員ID登録が必要。逆方向は電気料金へ自動充当される仕組み(公式・生HTML確認)"},
+        {label:"Vポイント", value:"可(片方向+電気料金充当)・100pt→100pt(1:1)", note:"Vポイント側から中部電力ミライズの電気料金へ直接充当も可能(公式)"},
+        {label:"dポイント／nanacoポイント／WAON POINT／楽天ポイント", value:"可(片方向)・100pt→100pt(1:1、目減りなし)", note:"dポイントは反映まで6〜8週間(公式)"},
+        {label:"エムアイポイント", value:"可(双方向、エムアイ側情報)・100pt⇔100pt(1:1)", note:"カテエネ側公式では出金方向のみ確認(公式)"},
+        {label:"JALマイル", value:"可(片方向)・100pt→50マイル(50%)", note:"交換申込の10日前までにJMB番号登録が必要(公式)"},
+        {label:"ANAマイル", value:"直接ルートなしの可能性が高い", note:"ANA公式の提携ポイント一覧に掲載なし(他の電力系ポイントは掲載されているのに対照的)"}
+      ],
+      earnHow:"電気料金支払い(対象プラン、100円につき1pt)、新規入会特典、家族ポイント割、サイト内コンテンツ利用、カテエネBANK(旧住信SBIネット銀行=現ドコモSMTBネット銀行の中電カテエネ支店)経由の口座振替・デビット利用で最大5%相当が別途還元",
+      useHow:"中部電力ミライズの電気料金への直接充当、Ponta・Vポイント・dポイント・nanaco・WAON POINT・楽天ポイント・エムアイポイント等への交換、Amazonギフト券交換(約78%相当)",
+      validity:"獲得した日の年度の翌々年度末(3月31日)まで(最短約1年〜最長約3年)",
+      scope:"中部電力ミライズの電力供給エリア(愛知・岐阜・三重・長野・静岡の一部=中部地方中心)。関東向けの別会社「CDエナジーダイレクト」運営の同名「カテエネ」とは運営会社が異なる",
+      pros:["電気料金支払いだけで自然にポイントが貯まる","Ponta・Vポイント・dポイント・nanaco・WAON POINT・楽天ポイント等、交換先が豊富かつ多くが1:1で目減りなし","Ponta・Vポイントは双方向交換に対応","カテエネBANKと組み合わせると口座振替設定等で追加還元も"],
+      cons:["ANAマイルへの直接交換ルートがない(他の電力系ポイントと対照的)","JALマイルへの交換は50%と目減りが大きい","交換先によって処理期間が翌月中旬〜最大2か月とまちまちで時間がかかる","逆方向(他社→カテエネ)に対応する提携先は限られる"],
+      srcRefs:{exchanges:[1,2,3]},
+      sources:[
+        {n:1, label:"ポイントの相互交換でどんどんおトクに！(公式・カテエネ)", url:"https://katene.chuden.jp/clubkatene/p/lp/point/"},
+        {n:2, label:"中部電力ミライズのカテエネポイントからPontaポイントへ交換する(公式・PontaWeb)", url:"https://point.recruit.co.jp/pontaweb/excpoint/kateneponta/"},
+        {n:3, label:"【Vポイント】カテエネポイントからVポイントに交換できる(公式・Vポイント)", url:"https://t-point.tsite.jp/store/list/chuden/"}
+      ] },
+    { code:"PT12", kind:"point", name:"グローバルポイント(三菱UFJカード)",
+      rateHeadline:"1,000円→1pt(0.5%)", rateMax:0.5,
+      rateNote:"三菱UFJカード・MUFGカード決済の基本還元率。カード種別によっては別建ての「VIASOポイントプログラム」等が適用される場合あり",
+      operator:"三菱UFJニコス株式会社(MUFGの完全子会社)",
+      exchanges:[
+        {label:"ベルメゾン・ポイント／ビックポイント／ヨドバシゴールドポイント", value:"可(片方向)・500pt→2,500pt(実質100%、目減りなし)", note:"各会員限定、100pt単位(公式・生HTML確認)"},
+        {label:"Pontaポイント／dポイント／Pontaポイント(au)", value:"可(片方向)・200pt→800pt(実質80%)", note:"各会員限定(公式・生HTML確認)"},
+        {label:"楽天ポイント／nanacoポイント／WAON POINT", value:"可(片方向)・200pt→600pt(実質60%)", note:"2021年4月レート改定済み(公式)"},
+        {label:"JALマイル", value:"可(片方向)・200pt→400マイル(通常)、有料の「マイレージプログラム」参加で1pt=8マイル", note:"通常ルートはANA非対応。優遇ルートは年会費3,300円+移行手数料6,600円/回(公式)"},
+        {label:"ANAマイル", value:"不可", note:"通常・優遇いずれのルートにも記載なし(公式・非掲載確認)"},
+        {label:"Vポイント", value:"不可の可能性が高い", note:"公式「ポイント移行」ページ(全10先)に記載なし(要確認)"}
+      ],
+      earnHow:"三菱UFJカード・MUFGカード決済(1,000円ごとに1pt)、対象店舗優遇(最大20%相当)、POINT名人.com経由の買い物、グローバルポイントでんき加入等",
+      useHow:"三菱UFJニコス商品カタログとの交換、グローバルポイントWalletへのチャージ(1pt=5円)、提携ポイント・マイルへの移行、キャッシュバック(1pt=4円換算)",
+      validity:"通常会員は獲得月から2年間、プラチナ会員は3年間",
+      scope:"三菱UFJカード・MUFGカード(Mastercard/Visa/JCB/Amex)の国際ブランド加盟店全般",
+      pros:["ベルメゾン・ビックカメラ・ヨドバシカメラは実質100%の等価交換で効率が高い","JALマイルへの移行が可能、有料オプションで1pt=8マイルの優遇ルートも選べる","Ponta・dポイント・楽天ポイント等主要な共通ポイントへの交換先が揃っている"],
+      cons:["交換先によって還元率の差が大きい(60%〜100%)","ANAマイルへの交換ルートがない","基本還元率自体は1,000円で1pt(0.5%)と標準的で高還元ではない"],
+      srcRefs:{exchanges:[1]},
+      sources:[
+        {n:1, label:"ポイント移行(公式・三菱UFJニコス)", url:"https://www.cr.mufg.jp/mufgcard/point/shift/index.html"},
+        {n:2, label:"グローバルポイント(公式・三菱UFJニコス)", url:"https://www.cr.mufg.jp/mufgcard/point/global/index.html"}
+      ] },
+    { code:"PT13", kind:"point", name:"永久不滅ポイント(セゾンカード)",
+      rateHeadline:"1,000円→1pt(0.4〜0.5%)", rateMax:0.5,
+      rateNote:"セゾンカード・UCカード決済の基本還元率。最大の特徴は有効期限が無期限であること",
+      operator:"株式会社クレディセゾン",
+      exchanges:[
+        {label:"dポイント／Pontaポイント", value:"可(片方向)・100pt→450pt(90%)", note:"2口以上から受付。2024年2月14日レート改定済み(公式・生HTML確認)"},
+        {label:"JALマイル", value:"可(片方向)・200pt→500マイル(50%)", note:"約3〜4週間、JMB登録要(公式)"},
+        {label:"ANAマイル", value:"可(片方向)・200pt→600マイル(60%)", note:"ANAマイレージクラブ登録要(公式)"},
+        {label:"Amazonギフトカード", value:"可(片方向)・5,000pt以上で1pt=5円相当(実質100%)まで上昇", note:"少量だと80%程度(公式)"},
+        {label:"Vポイント／楽天ポイント／WAON POINT／エムアイポイント", value:"不明", note:"STOREE SAISON公式「他社ポイント」全12件に記載なし(要確認)"}
+      ],
+      earnHow:"セゾンカード・UCカード決済(1,000円ごとに1pt)、ゴールドカード等の提携店ポイント2倍、セゾンポイントモール経由の買い物",
+      useHow:"STOREE SAISON(専用ショッピングサイト)での商品交換、請求金額への充当(200pt→900円)、ふるさと納税、他社ポイント・マイル・ギフトカード・暗号資産への交換",
+      validity:"無期限(失効の心配がない)",
+      scope:"セゾンカード・UCカードが使えるVisa・Mastercard・JCB等の国内外加盟店全般",
+      pros:["有効期限が無期限で失効の心配がない","交換先の種類が幅広い(商品・他社ポイント・マイル・ギフトカード・暗号資産・寄付)","JAL・ANA両方のマイルに交換できる数少ないカード系ポイントの一つ"],
+      cons:["基本還元率自体は0.4〜0.5%程度と高くない","他社ポイントへの交換は90%(d・Ponta)、マイルは50〜60%と目減りする","Vポイント・楽天ポイント・WAON POINT・エムアイポイントへの直接交換ルートが確認できない"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"他社ポイント｜STOREE SAISON(公式・クレディセゾン)", url:"https://storee.saisoncard.co.jp/shop/c/c5101/"},
+        {n:2, label:"永久不滅ポイントは航空会社のマイルと交換できる？(公式・クレディセゾン)", url:"https://www.saisoncard.co.jp/credictionary/dictionary/article121.html"}
+      ] },
+    { code:"PT14", kind:"point", name:"リクルートポイント",
+      rateHeadline:"還元率制度なし(リクルートカード決済1.2%)", rateMax:1.2,
+      rateNote:"2015年11月にじゃらんnet等主要サービスの共通ポイントとしてはPontaポイントへ統合済み。現在「リクルートポイント」の名称で発生するのは主にリクルートカードの決済還元分",
+      operator:"株式会社リクルート",
+      exchanges:[
+        {label:"Pontaポイント", value:"可(片方向のみ、逆方向不可)・1pt→1pt(1:1)", note:"PontaWeb会員登録要、即時(公式)"},
+        {label:"dポイント", value:"可(片方向のみ、逆方向不可)・1pt→1pt(1:1)", note:"dアカウント連携要、即時(公式)"},
+        {label:"Amazon.co.jp", value:"可(交換ではなく直接利用)・1pt=1円", note:"リクルートIDとAmazonアカウントの連携要(公式)"},
+        {label:"JALマイル／ANAマイル", value:"間接ルートのみ(Ponta経由)", note:"JAL経由は概ね50%減、ANA経由はレートにばらつきあり(二次情報)"},
+        {label:"Vポイント／エムアイポイント", value:"直接ルートなし", note:"公式サイト内に記載なし"}
+      ],
+      earnHow:"リクルートカード決済(還元率1.2%)、じゃらんnet宿泊予約(合算還元率3.2%程度)、ホットペッパーグルメ来店、Gポイント等ポイ活サイトからの交換",
+      useHow:"じゃらんnet・ホットペッパー等リクルート系サービスでの支払いに1pt=1円充当、Amazon.co.jpでの利用、Pontaポイント・dポイントへの交換(片方向)",
+      validity:"最終加算日から12ヶ月後の月末まで(加算のたびに延長)",
+      scope:"じゃらんnet・ホットペッパーグルメ・SUUMO・カーセンサー等リクルートグループサービス、リクルートカード加盟店",
+      pros:["リクルートカードの還元率が1.2%と高水準","Pontaポイント・dポイントどちらにも交換できる柔軟性がある(片方向)","Amazon.co.jpで1pt=1円として直接使える"],
+      cons:["Pontaポイント・dポイントへの交換は片方向のみで戻せない","現在「リクルートポイント」自体が発生する場面は限定的(主要サービスの通常利用分はPonta/dポイント直接付与が基本)","Vポイント・エムアイポイントへの直接交換ルートがない"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"交換できる提携ポイント・交換レート(公式・リクルートID・ポイント)", url:"https://point.recruit.co.jp/recruitid/doc/point_partners/"},
+        {n:2, label:"リクルートIDでたまる・つかえるポイントの種類・違いについて(公式)", url:"https://point.recruit.co.jp/recruitid/doc/about_point/"}
+      ] },
+    { code:"PT15", kind:"point", name:"Sポイント(阪急阪神グループ)",
+      rateHeadline:"200円→1pt(0.5%)", rateMax:0.5,
+      rateNote:"全国のクレジット加盟店利用時の基本還元率。S STACIAカードは200円→2pt(1.0%)。阪急阪神グループの優待店利用時は1〜3.5%相当",
+      operator:"阪急阪神ポイント株式会社(阪急阪神グループ)",
+      exchanges:[
+        {label:"Pontaポイント", value:"可(双方向、2024年3月26日開始)・100pt⇔100pt(1:1、目減りなし)", note:"Ponta会員IDと同一名義が必須、約3日(公式・生HTML確認)"},
+        {label:"ANAマイル", value:"可(双方向、非対称)・S→ANA 1,000pt→250マイル(25%)／ANA→S 10,000マイル→10,000pt(1:1、3口目以降は5,000ptに低下)", note:"公式確認"},
+        {label:"はぴeポイント(関西電力)", value:"可(片方向)・レート未確認", note:"1,000pt以上100pt単位(公式、要追記)"},
+        {label:"dポイント／Vポイント／エムアイポイント／楽天ポイント", value:"不明", note:"公式サイトの一般公開ページでは記載を確認できず(要確認)"}
+      ],
+      earnHow:"Sポイント対象カード(STACIAカード等)で阪急阪神グループ優待店利用(1〜3.5%)、全国のクレジット加盟店利用(200円で1pt)、ホテル・レストラン利用(3%相当)、Pontaポイントからの交換",
+      useHow:"阪急阪神グループ優待店での支払いに1pt=1円充当、景品交換(名産品・グッズ・宿泊券)、チャリティ、Pontaポイント・はぴeポイント・ANAマイルへの交換",
+      validity:"蓄積期間(毎年1〜12月)の翌々年3月末まで(最長約2年3ヶ月)",
+      scope:"阪急阪神グループの優待店3,000以上(阪急百貨店・阪急オアシス・阪急阪神第一ホテルグループ等、関西エリア中心)",
+      pros:["関西エリアの生活導線(交通・百貨店・スーパー・ホテル)に強く貯まりやすい","Pontaポイントとの交換が双方向かつ1:1で目減りがない","阪急阪神グループホテルの宿泊券など独自性の高い景品交換コースがある"],
+      cons:["関西エリア中心のサービスで対象外地域では貯める・使う機会が少ない","ANAマイルへの交換はSポイント→ANA方向が25%と目減りが大きい","dポイント・Vポイント・エムアイポイント・楽天ポイントとの直接交換ルートが確認できない"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"SポイントからPontaポイントへ交換する(公式・PontaWeb)", url:"https://point.recruit.co.jp/pontaweb/excpoint/spointponta/"},
+        {n:2, label:"Sポイント｜提携ポイントへの交換｜マイルを使う(公式・ANAマイレージクラブ)", url:"https://www.ana.co.jp/ja/jp/shoppingandlife/point/tukau_spoint/"}
+      ] },
+    { code:"PT16", kind:"point", name:"JRキューポ(JR九州)",
+      rateHeadline:"200円→1pt(0.5%)", rateMax:0.5,
+      rateNote:"JQ CARD決済・SUGOCA・JRキューポアプリ加盟店利用の基本還元率。JR九州インターネット列車予約は100〜200円で1pt",
+      operator:"九州旅客鉄道株式会社(JR九州)",
+      exchanges:[
+        {label:"福岡銀行myコイン(myCoin、Wallet+)", value:"可(片方向のみ)・500枚→500pt(1:1、目減りなし)", note:"逆方向の記載なし。SUGOCAが必要(公式・生HTML確認)"},
+        {label:"Vポイント", value:"可(双方向)・500pt⇔500pt(1:1)", note:"JR九州Web会員登録のみで利用可(公式)"},
+        {label:"Gポイント", value:"可(双方向)・他社→キューポ100pt→100pt(1:1)／キューポ→他社1,000pt→1,000pt(1:1)", note:"JQ CARDまたはSUGOCAが必要(公式)"},
+        {label:"永久不滅ポイント(セゾン)", value:"可(双方向)・200pt⇔1,000pt(1pt=5pt、実質等価)", note:"JQ CARDセゾンが必要(公式)"},
+        {label:"ANA・JALマイル", value:"可(双方向、非対称)・受取(マイル→キューポ)10,000マイル→10,000pt(1:1)／出す(キューポ→マイル)1,000pt→500マイル(50%)", note:"各専用SUGOCA/カードが必要(公式)"},
+        {label:"WAON POINT", value:"可(片方向のみ)・1,000pt→1,000pt(1:1)", note:"イオンSUGOCAカードが必要(公式)"},
+        {label:"JRE POINT／WESTERポイント", value:"直接ルートなし", note:"公式の交換先一覧に記載なし(公式・非掲載確認)"}
+      ],
+      earnHow:"JQ CARD決済(200円で1pt)、JR九州インターネット列車予約(100〜200円で1pt)、SUGOCA・JRキューポアプリ加盟店利用(200円で1pt)、提携ポイントからの交換(12種類)",
+      useHow:"JRキューポ特典きっぷ(新幹線・特急列車、1ptあたり2〜3円台の価値になる区間あり)、SUGOCAへのチャージ(100pt=100円)、特典商品への交換、提携ポイントへの交換",
+      validity:"付与から2年後の月末まで",
+      scope:"JQ CARD・SUGOCA加盟店、JRキューポアプリ加盟店、JRキューポポイントモール、インターネット列車予約・EXサービス",
+      pros:["交換先の種類が豊富(提携ポイント・マイルで12種類)、ANA・JAL両方のマイルに交換できる","特典きっぷへの交換で1ptの実質価値が2〜3円台になる区間があり効率が良い","福岡銀行myコイン(Wallet+のmyCoin)との交換が1:1で目減りがない"],
+      cons:["JRE POINT・WESTERポイントという他の交通系ポイントとの直接交換ルートがない","dポイント・Pontaポイントへの直接交換も公式には存在しない","myCoinとの交換は片方向(myCoin→キューポ)のみの可能性が高い"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"提携ポイントとの交換について(公式・JR九州JRキューポ)", url:"https://www.jrkyushu.co.jp/point/exchange/"},
+        {n:2, label:"福岡銀行myコイン交換先ページ(公式・福岡銀行)", url:"https://www.fukuokabank.co.jp/personal/service/mybank_plus/mycoin/"}
+      ] },
+    { code:"PT17", kind:"point", name:"JRE POINT(JR東日本)",
+      rateHeadline:"モバイルSuica運賃50円→1pt(2%)", rateMax:2,
+      rateNote:"モバイルSuicaでの鉄道乗車の還元率。カード型Suicaは200円で1pt(0.5%)とモバイルの1/4。駅ビル・エキナカ対象ビューカードは最大3.5%(2026年9月改定)",
+      operator:"東日本旅客鉄道株式会社(JR東日本本体が直接運営)",
+      exchanges:[
+        {label:"JMBマイル(JAL)", value:"可(片方向のみ)・ゴールド等1,500pt→1,000マイル(67%)／普通カード1,500pt→500マイル(33%)", note:"JALカードSuica保有者限定(公式・生HTML確認)"},
+        {label:"ビックポイント(ビックカメラ)", value:"可(片方向のみ)・1,000pt→1,000pt(1:1)", note:"ビックカメラSuicaカード保有者限定(公式)"},
+        {label:"JRホテルメンバーズポイント", value:"可(片方向、JRHM→JREのみ)・1,000pt→960pt(96%)", note:"Suica登録必須(公式)"},
+        {label:"ANAマイル／dポイント／Pontaポイント／JRキューポ／WESTERポイント", value:"直接ルートなし", note:"公式の提携ポイント一覧に記載なし(公式・非掲載確認)"}
+      ],
+      earnHow:"モバイルSuica乗車(運賃50円で1pt)、カード型Suica乗車(200円で1pt)、駅ビル・エキナカでのビューカード決済(最大3.5%)、JRE POINTカード提示、えきねっと予約(最大5%)",
+      useHow:"Suicaへのチャージ(1pt=1円)、駅ビル・エキナカでの支払い、商品交換、えきねっと予約、JMBマイル・ビックポイントへの交換(対象カード限定)",
+      validity:"最後に獲得・利用した日から2年後の月末まで(変動のたびに自動延長)",
+      scope:"JR東日本エリアの駅ビル・エキナカ(アトレ・ルミネ等)、JRE POINT加盟店、JRE MALL、えきねっと",
+      pros:["モバイルSuica乗車は還元率2.0%と高水準","Suicaへ1pt=1円で直接チャージでき、駅ビル・エキナカでも1pt=1円で使える","2026年9月改定で駅ビル・エキナカの高還元(最大3.5%)対象カードが6券種に拡大"],
+      cons:["他社ポイント・マイルへの直接交換先がJMBマイルとビックポイントの2つのみで、いずれも対象カード保有者限定","ANAマイル・dポイント・Pontaポイントへの直接交換は不可","JRキューポ・WESTERポイントという他の交通系ポイントとの直接相互交換も不可"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"JRE POINTを、マイルや他のポイントに交換できますか(公式FAQ)", url:"https://faq.jrepoint.jp/faq/show/34?site_domain=default"},
+        {n:2, label:"JRE POINTに交換できる提携ポイントを教えてください(公式FAQ)", url:"https://faq.jrepoint.jp/faq/show/35?category_id=114&site_domain=default"}
+      ] },
+    { code:"PT18", kind:"point", name:"WESTERポイント(JR西日本)",
+      rateHeadline:"J-WESTカード1,000円→5pt(0.5%)", rateMax:0.5,
+      rateNote:"J-WESTカード決済の基本還元率。ゴールドカードは1,000円で10pt(1%)。e5489・エクスプレス予約は最大5〜5.5%(2026年時点)",
+      operator:"西日本旅客鉄道株式会社(JR西日本)",
+      exchanges:[
+        {label:"関西電力「はぴeポイント」", value:"可(双方向、数少ない双方向交換先)・100pt⇔80pt(80%)", note:"はぴeポイントクラブ会員かつWESTER会員が対象。2025年1月28日開始(公式)"},
+        {label:"JRホテルメンバーズポイント", value:"可(片方向のみ)・1,000pt→1,000pt(1:1)", note:"公式確認"},
+        {label:"ビックポイント(ビックカメラ)", value:"可(片方向のみ)・1,500pt→1,000pt(67%)", note:"ビックカメラJ-WESTカード会員限定(二次情報)"},
+        {label:"JRキューポ／JRE POINT／dポイント／Pontaポイント／ANA・JALマイル", value:"直接ルートなし", note:"公式の交換メニューに記載なし(公式・非掲載確認)"}
+      ],
+      earnHow:"J-WESTカード決済(1,000円で5pt、ゴールド10pt)、e5489・エクスプレス予約(最大5〜5.5%)、WESTERアプリ提示での店舗・施設利用(110円で1pt)、他社ポイントからの交換(10種類前後)",
+      useHow:"店舗・WEBサービスでの支払いに1pt=1円、ICOCA/モバイルICOCAへのチャージ、山陽新幹線特別割引きっぷ等「WESTERポイント利用商品」への交換、他社ポイントへの交換ははぴeポイントのみ",
+      validity:"基本ポイントは獲得年度の翌年度末(3月末)まで。チャージ専用ポイントは無期限",
+      scope:"JR西日本エリアの鉄道乗車券・特急券、駅ビル・ショッピングセンター(ルクア大阪等)、JR西日本グループホテル、ICOCA関連",
+      pros:["鉄道のネット予約還元率が最大5〜5.5%と高水準","山陽新幹線の特典きっぷ等は所定運賃の約50%相当と交換効率が高い","はぴeポイントとの交換が数少ない双方向ルートで電気・ガス料金充当や他社ポイントへの波及起点になり得る"],
+      cons:["他社ポイントへ出す手段がはぴeポイント1つに限定され、レートも80%と目減りがある","JRキューポ・JRE POINTという同じ交通系ポイント同士でも直接交換ルートがない","dポイント・Pontaポイント・ANA/JALマイルへの直接交換は不可"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"ポイント交換メニュー(公式・WESTERポイント)", url:"https://wester.jr-odekake.net/point/store-use/store-other/"},
+        {n:2, label:"WESTERポイント 新たに関西電力「はぴｅポイント」との相互交換開始(PR TIMES・JR西日本)", url:"https://prtimes.jp/main/html/rd/p/000001343.000095753.html"}
+      ] },
+    { code:"PT19", kind:"point", name:"WAON POINT(イオングループ)",
+      rateHeadline:"200円→1pt(0.5%)", rateMax:0.5,
+      rateNote:"WAON POINT加盟店での支払い(現金・AEON Pay・電子マネーWAON・イオンカード決済いずれも対象)の基本還元率。電子マネーWAON会員登録済みなら基本ポイント2倍(1%相当)の特典も",
+      operator:"イオンマーケティング株式会社(イオン85.1%・イオンフィナンシャルサービス14.9%出資)",
+      exchanges:[
+        {label:"エムアイポイント", value:"可(双方向)・1,000pt⇔1,000pt(1:1、目減りなし)", note:"1日の交換回数上限なし、約3日で反映(公式・双方向で裏取り確認)"},
+        {label:"Vポイント", value:"可(双方向)・1pt⇔1pt(1:1、目減りなし)", note:"月間最大30,000pt、即時完了(公式)"},
+        {label:"dポイント", value:"可(片方向のみ)・1pt→1pt(1:1)", note:"1,000pt以上500pt単位、反映まで約1〜2ヶ月(公式)"},
+        {label:"Pontaポイント／楽天ポイント", value:"直接ルートなし", note:"公式サイトに交換メニューの記載なし(要確認)"}
+      ],
+      earnHow:"WAON POINT加盟店での支払い(200円で1pt)、電子マネーWAON会員登録でポイント2倍特典、イオンカードセレクトのチャージ、イオン銀行利用、公共料金支払い、提携ポイントからの交換",
+      useHow:"WAON POINT加盟店での支払いに1pt=1円充当、WAON電子マネーへのチャージ(1pt=1円、不可逆)、商品券・ギフト券への交換(250pt手数料)、他社ポイントへの交換",
+      validity:"1年間のポイント加算期間を含む最大2年間(初回進呈月起点)",
+      scope:"イオン・マックスバリュ等のイオングループに加え、コンビニ・ドラッグストア・ホームセンター等幅広いWAON POINT加盟店",
+      pros:["現金払いでも貯まる・使える数少ない共通ポイントの一つ","エムアイポイント・Vポイントとは双方向かつ1:1の等価交換で目減りがない","WAON POINT加盟店のカテゴリが幅広くイオングループ以外でも貯める・使える機会がある"],
+      cons:["dポイントとの交換は片方向のみで、逆方向の直接交換ルートはない","Pontaポイント・楽天ポイントとは直接交換できず間接ルートに頼る必要がある","WAON電子マネーへのチャージは不可逆(元のポイントに戻せない)"],
+      srcRefs:{exchanges:[1,2]},
+      sources:[
+        {n:1, label:"エムアイポイント・WAON POINT ポイント相互交換(公式・smart WAON)", url:"https://www.smartwaon.com/ext/001/exchange/mipoint/index.html"},
+        {n:2, label:"Vポイント・WAON POINT ポイント相互交換(公式・smart WAON)", url:"https://www.smartwaon.com/ext/001/exchange/tpoint/index.html"}
       ] }
   ];
 
@@ -3100,6 +3461,22 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     "PT01":{label:"J-POINT", color:"#00A650"},
     "PT02":{label:"myCoin", color:"#FF8C00"},
     "PT03":{label:"MIポイント", color:"#B8860B"},
+    "PT04":{label:"dポイント", color:"#E5004F"},
+    "PT05":{label:"楽天ポイント", color:"#BF0000"},
+    "PT06":{label:"Vポイント", color:"#0F5AA6"},
+    "PT07":{label:"Pontaポイント", color:"#E4002B"},
+    "PT08":{label:"ANAマイル", color:"#13448F"},
+    "PT09":{label:"JALマイル", color:"#C00019"},
+    "PT10":{label:"はぴeポイント", color:"#009EE3"},
+    "PT11":{label:"カテエネ", color:"#00A040"},
+    "PT12":{label:"グローバル", color:"#E60012"},
+    "PT13":{label:"永久不滅", color:"#1A1A1A"},
+    "PT14":{label:"リクルート", color:"#E4002B"},
+    "PT15":{label:"Sポイント", color:"#EE7B00"},
+    "PT16":{label:"JRキューポ", color:"#EE1C25"},
+    "PT17":{label:"JRE POINT", color:"#00913A"},
+    "PT18":{label:"WESTER", color:"#0072BC"},
+    "PT19":{label:"WAON POINT", color:"#D6488A"},
   };
 
   var CATEGORY_LABEL = { mega:"メガバンク", net:"ネット銀行", local:"地銀・特色行" };
