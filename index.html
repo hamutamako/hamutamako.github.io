@@ -687,6 +687,7 @@
       <div class="settings-row">
         <button class="icon-btn" id="simToggle" type="button">🎮 資金シミュレーション</button>
         <button class="icon-btn" id="themeToggle" type="button">🌗 ライト/ダーク</button>
+        <button class="icon-btn" id="reloadBtn" type="button">🔄 最新版を取得</button>
         <button class="icon-btn" id="exportBtn" type="button">📤 記録をエクスポート</button>
         <button class="icon-btn" id="importBtn" type="button">📥 記録をインポート</button>
         <input type="file" id="importFile" accept="application/json,.json" style="display:none">
@@ -802,9 +803,9 @@
     name2:  "工房",        // アプリ名の後半（飾りの後ろ）
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
-    desc:   "銀行・カード・証券のカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-08-21-b-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
-    dataChecked: "2026-08-21", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
+    desc:   "銀行・カード・証券・ポイントのカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
+    build:  "2026-09-04-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    dataChecked: "2026-09-04", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・10・15・20・25日と月末ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
@@ -855,6 +856,30 @@
      書き方：changes は1変更点ごとに1行（before=変更前、after=変更後、from=適用の起点）。
      targets には対象カードの code（DATAのcodeと同じ書き方）を入れる。 */
   var NEWS = [
+    { id:"20260826-aeonbank-rate",
+      announced:"2026-08-26",
+      effective:"2026-09-01",
+      targets:["0040"],
+      title:"イオン銀行 円預金金利を引き上げ",
+      changes:[
+        { item:"円普通預金",
+          before:"年0.300%",
+          after:"年0.400%",
+          from:"2026年9月1日から" },
+        { item:"円積立式定期預金",
+          before:"年0.550%",
+          after:"年0.600%",
+          from:"2026年9月1日から" },
+        { item:"円定期預金（スーパー定期・スーパー定期300・大口定期）",
+          before:"期間ごとに設定",
+          after:"期間ごとに引き上げ（例：5年もの年0.700%→1.610〜1.670%等、詳細は公式PDF参照）",
+          from:"2026年9月1日から" }
+      ],
+      impact:"普通預金金利は現行DATAのrateHeadline「0.30%」から「0.40%」への改定。適用日（9/1）到来まではDATA本体の数値はそのまま。あわせて住宅ローン店頭表示金利・無担保ローン基準金利も2026年11月1日に改定予定だが数値は現時点未公表。",
+      sources:[
+        { label:"円預金金利改定のお知らせ（公式PDF・2026年8月26日発表）",
+          url:"https://www.aeonbank.co.jp/news/2026/pdf/0826_02.pdf" }
+      ] },
     { id:"20260812-suruga-ana-mile",
       announced:"2026-08-12",
       effective:"2026-12-01",
@@ -1119,6 +1144,7 @@
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"1回10万円以下の個人宛送金は他行宛含め手数料無料",nyukin:"Oliveアカウント限定。1万〜100万円(1,000円単位)、最大3件",furikomi:"「きちんと振込」。Oliveアカウントなら手数料無料"},
       freeTransferMax:3, freeTransferNote:"Oliveアカウント契約時",
+      nyukinMax:3, nyukinMaxNote:"Oliveアカウント限定、最大3件(公式)",
       rank:null, singleNote:"Oliveアカウント(単一条件型)",
       balanceJudges:[
         {label:"三井住友カードつみたて投資 Olive限定上乗せプラン", day:8, dayNote:"銀行休業日の場合は前営業日", target:"Oliveアカウント契約口座(円普通預金)残高",
@@ -1159,6 +1185,7 @@
       serviceNotes:{paypay:"銀行そのものがPayPayグループ(本体連携)"},
       freeTransferMax:5, freeTransferNote:"預金平均残高3,000万円以上で月5回。給与受取(給与扱いの被振込)がある月の翌月は月3回(併用不可)",
       freeTransferUnlock:{count:3, incomingMin:30000, note:"給与受取での3回で計算。維持には給与扱い(給与名義)の被振込3万円以上が毎月1回必要(残高3,000万円以上なら5回)"},
+      nyukinMax:5, nyukinMaxNote:"定額自動入金サービス利用規定第2条第5項「5契約まで」(公式、2026-08-22確認)",
       rank:null, singleNote:"ステップアップ円預金(単一条件型)",
       pointItems:[
         {label:"定額自動入金の設定(連携記録用、ポイント付与なし)", value:0, unit:"pt/月", note:"引落日は毎月5日または27日の2択(公式)。入金は引落日から4営業日後(土日祝日・12/31〜1/3を除く、公式FAQ記載)。設定・利用自体へのPayPayポイント付与は公式に記載なし",
@@ -1187,6 +1214,7 @@
       services:{kotra:"no",paypay:"yes",air:"no",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{nyukin:"おまかせ入金サービス",furikomi:"おまかせ振込サービス。月1回無料、WALLET保有で2回目まで無料"},
       freeTransferMax:11, freeTransferNote:"プラチナ・Sony Bank WALLET保有時",
+      nyukinMax:5, nyukinMaxNote:"おまかせ入金サービスの登録件数上限：5件(公式、2026-08-22確認)",
       rank:{name:"Club S", stages:[
         {name:"シルバー", cond:"月末総残高300万円 等", benefit:"振込月3〜4回・ATM月7回・デビット還元1.0%"},
         {name:"ゴールド", cond:"資産合計500万〜1,000万円未満", benefit:"振込月5〜6回・ATM月15回・デビット還元1.5%"},
@@ -1351,6 +1379,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
       freeTransferMax:20, freeTransferNote:"プラチナVIP(残高1,000万円以上)",
+      nyukinMax:5, nyukinMaxNote:"定額自動入金は支店ごとに5契約まで(実運用ベース2026-08-22確認。公式商品概要説明書の「各お客さまにつき5契約まで」という文言は支店をまたいだ合算とも読めるが、実際は支店ごとに別枠)",
       rank:{name:"スマートプログラム", stages:[
         {name:"ベーシック", cond:"条件未達", benefit:"ATM月2回・振込月1回・デビット還元1.25%"},
         {name:"シルバー", cond:"残高50万円以上+条件1つ", benefit:"ATM月5回・振込月5回・デビット還元1.50%"},
@@ -1397,6 +1426,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
       freeTransferMax:5, freeTransferNote:"支店独自の優遇(スマートプログラム対象外)",
+      nyukinMax:5, nyukinMaxNote:"定額自動入金は支店ごとに5契約まで(実運用ベース2026-08-22確認。公式商品概要説明書の「各お客さまにつき5契約まで」という文言は支店をまたいだ合算とも読めるが、実際は支店ごとに別枠)",
       rank:null, singleNote:"スマートプログラム対象外のNEOBANK支店。中部電力の会員サービス「カテエネ」向け",
       balanceJudges:[
         {label:"デビットカード還元率アップ", day:"前月末", dayNote:"前月末時点", target:"円普通預金等の合算残高",
@@ -1426,6 +1456,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
       freeTransferMax:5, freeTransferNote:"支店独自の優遇(スマートプログラム対象外)",
+      nyukinMax:5, nyukinMaxNote:"定額自動入金は支店ごとに5契約まで(実運用ベース2026-08-22確認。公式商品概要説明書の「各お客さまにつき5契約まで」という文言は支店をまたいだ合算とも読めるが、実際は支店ごとに別枠)",
       rank:null, singleNote:"スマートプログラム対象外のNEOBANK支店",
       pointItems:[
         {label:"他行からの被振込(1万円以上、1件)", value:20, unit:"pt/件", note:"月間上限25回(500pt)。定額自動入金・Money Tap・ことら送金からの入金は対象外", reqAmount:10000,
@@ -1452,6 +1483,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
       freeTransferMax:5, freeTransferNote:"ATM手数料月5回まで無料(スマートプログラム対象外)",
+      nyukinMax:5, nyukinMaxNote:"定額自動入金は支店ごとに5契約まで(実運用ベース2026-08-22確認。公式商品概要説明書の「各お客さまにつき5契約まで」という文言は支店をまたいだ合算とも読めるが、実際は支店ごとに別枠)",
       rank:null, singleNote:"スマートプログラム対象外のNEOBANK支店。第一生命の保険契約者向け特典が中心",
       pointItems:[
         {label:"給与・年金受取", value:200, unit:"pt/月"},
@@ -1482,6 +1514,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
       freeTransferMax:5, freeTransferNote:"支店独自の優遇(スマートプログラム対象外)",
+      nyukinMax:5, nyukinMaxNote:"定額自動入金は支店ごとに5契約まで(実運用ベース2026-08-22確認。公式商品概要説明書の「各お客さまにつき5契約まで」という文言は支店をまたいだ合算とも読めるが、実際は支店ごとに別枠)",
       rank:null, singleNote:"スマートプログラム対象外。松井証券の証券残高に応じた3段階の金利ランク(レギュラー/ゴールド/プラチナ)",
       pointItems:[
         {label:"定額自動入金の設定(連携記録用、ポイント付与なし)", value:0, unit:"pt/月", note:"住信SBIネット銀行共通基盤のサービスのため、d NEOBANK等と同じ毎月5日/27日・4営業日後着金を援用(支店固有の公式記載は未確認、確度中)。MATSUI Bankでは利用自体にポイント付与なし(公式)",
@@ -1507,6 +1540,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料",nyukin:"マイル加算対象"},
       freeTransferMax:5, freeTransferNote:"本体基準(スマートプログラム対象外)",
+      nyukinMax:5, nyukinMaxNote:"定額自動入金は支店ごとに5契約まで(実運用ベース2026-08-22確認。公式商品概要説明書の「各お客さまにつき5契約まで」という文言は支店をまたいだ合算とも読めるが、実際は支店ごとに別枠)",
       rank:null, singleNote:"スマートプログラム対象外。住宅ローン中心のNEOBANK支店",
       pointItems:[
         {label:"給与受取・年金受取・定額自動入金のいずれか", value:20, unit:"マイル/月", note:"3条件は同一の月20マイル枠(確度中、複数満たしても加算されない見込み)",
@@ -1532,6 +1566,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       services:{kotra:"no",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"no"},
       serviceNotes:{nyukin:"他行本人名義口座から毎月自動入金。毎月15Pontaポイント付与",furikomi:"自行→他行の自動送金サービスは非対応(公式サイトで確認)"},
       freeTransferMax:15, freeTransferNote:"プレミアムステージ",
+      nyukinMax:5, nyukinMaxNote:"引落口座・金額は最大5件まで登録可能(公式、2026-08-22確認)",
       rank:{name:"じぶんプラス", stages:[
         {name:"レギュラー", cond:"スタンプ0〜1個(6カテゴリ:入金/口座振替/キャッシュレス決済/エンタメ/資産運用/残高、各1個ずつ)", benefit:"振込月3回・Pontaポイント1倍"},
         {name:"シルバー", cond:"スタンプ2〜3個", benefit:"振込月5回・Pontaポイント5倍"},
@@ -1580,6 +1615,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       pointName:"WAON POINT",
       services:{kotra:"no",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"BankPayは利用可能",nyukin:"自動入金サービス(2017年開始)。1万円以上1,000円単位、最大5契約、手数料無料"},
+      nyukinMax:5, nyukinMaxNote:"自動入金サービス、最大5契約(公式)",
       freeTransferMax:5, freeTransferNote:"プラチナステージ",
       rank:{name:"イオン銀行Myステージ", stages:[
         {name:"ブロンズ", cond:"イオン銀行スコア20点以上", benefit:"他行ATM月1回・振込0回"},
@@ -1865,6 +1901,29 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:5,label:"ことら送金(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/cotra/kj_sk_cotra_index.html"},
         {n:6,label:"自動振込・出金側サービス(公式)",url:"https://www.jp-bank.japanpost.jp/kojin/sokin/jido/kj_sk_jd_jdfurikomi.html"},
         {n:7,label:"貯金金利改定のお知らせ(公式・2026年8月7日発表)",url:"https://www.jp-bank.japanpost.jp/news/2026/news_id002455.html"}
+      ] },
+
+    { code:"0149", name:"静岡銀行", category:"local", rateHeadline:"0.400%", rateNote:"2026年8月3日に0.300%から0.400%へ改定(税引前、変動金利)。2026年6月17日付の公式発表による", rateMax:0.40,
+      pointName:"常設ポイント制度なし(joyca J保有時はJCB共通のJ-POINTが貯まる)",
+      services:{kotra:"yes",paypay:"yes",air:"no",nyukin:"no",furikomi:"yes"},
+      serviceNotes:{kotra:"「Bank Pay」アプリ経由。1回・1日とも上限10万円まで手数料無料(個人の普通預金口座が対象、個人事業主口座は対象外)",air:"公式の対応金融機関一覧に記載を確認できず、非対応の可能性が高い(要確認)",nyukin:"他行口座から静岡銀行口座への「定額自動入金」サービスは公式サイトで確認できず、提供していない可能性が高い(要確認)",furikomi:"「毎月おまかせ振込」(しずぎんダイレクト=インターネットバンキング契約者向け)。静岡銀行本支店宛は無料、他行宛は1回165円+取扱手数料110円(税込)"},
+      freeTransferMax:3, freeTransferNote:"S-mileプラチナ、インターネットバンキング他行宛振込(月3回まで無料)",
+      rank:{name:"S-mile", stages:[
+        {name:"ベーシック", cond:"しずぎんアプリ登録+預り資産10万円以上+月1回以上の入出金", benefit:"アプリ登録などの基本条件のみ(振込・ATM優遇の詳細は公式ページから確認しきれず、要確認)"},
+        {name:"ゴールド", cond:"アプリ登録(必須)+以下から3項目以上:joyca/joyca J保有、預り資産1,000万円以上、ECO口座利用、公的年金受取指定、給与受取指定(月5万円以上)、カード年間利用10万円以上、積立投信契約、住宅ローン等の借入", benefit:"セブン銀行ATM月3回無料/IB他行宛振込月1回無料/静岡銀行ATM休日手数料無料"},
+        {name:"プラチナ", cond:"次のいずれか1つ以上:joycaゴールド保有、静銀セゾンプラチナ・アメックス保有、しずぎんVisaデビットゴールド保有、預り資産3,000万円以上、静岡FG株配当を当行口座で受取", benefit:"セブン銀行ATM無制限無料/IB他行宛振込月3回無料/静岡銀行ATM休日手数料無料"} ]},
+      points:"本体(普通預金口座単体)の共通ポイント制度は確認できず。クレジットカード「しずぎんjoyca J」(JCBブランド、2025年6月3日募集開始)を保有すると、JCB共通のポイント制度「J-POINT」(2026年1月にOki Dokiポイントからリニューアル)が月間カード利用200円ごとに1pt(還元率0.5%)貯まる。J-POINTは全国170万か所以上で1pt=1円として使えるほか、ANA/JALマイル(1pt=0.6マイル)・dポイント/楽天ポイント/Pontaポイント(1pt=0.7pt相当)等へ交換可能。",
+      debit:{name:"しずぎんVisaデビットカード", rate:"不明(要追記)", note:"S-mileプラチナの到達条件の1つとして「ゴールドカード」保有が挙げられているが、還元率等の詳細は今回未調査"},
+      pros:["地方銀行としては積極的な金利改定姿勢(2026年8月時点で普通預金0.400%、メガバンク・多くの地銀の水準を上回る)","ことら送金・PayPayの両方に対応し、少額の個人間送金・チャージがしやすい","S-mileプラチナならセブン銀行ATM手数料が回数無制限で無料になる","静岡県内中心の実店舗網と、店舗を持たないインターネット支店(WebWallet、通帳なし・スマホ完結・15歳以上なら来店不要で開設可)を使い分けられる"],
+      cons:["Airウォレットは未対応の可能性が高い(要確認)","他行からの「定額自動入金」サービスが見当たらず、ネット銀行と比べ資金移動の自動化手段がやや限られる可能性","他行宛振込手数料はインターネットバンキング利用でも165円で、ネット専業銀行(数十円台が多い)と比べ割高","S-mile上位ステージ(ゴールド・プラチナ)の優遇にはアプリ登録に加えカード保有・資産残高・給与年金受取指定など複数条件が必要"],
+      srcRefs:{rate:[1,2],rank:[3,4],points:[5]},
+      sources:[
+        {n:1,label:"「円預金金利」の改定を実施(公式PDF、2026年6月17日付)",url:"https://www.shizuokabank.co.jp/news/20260617_EPc/260617_NR1.pdf"},
+        {n:2,label:"円預金金利|個人のお客さま(公式)",url:"https://www.shizuokabank.co.jp/interest/enka.html"},
+        {n:3,label:"S-mile(スマイル)|個人のお客さま(公式)",url:"https://www.shizuokabank.co.jp/personal/smile/index.html"},
+        {n:4,label:"お客さま優遇プログラム「S-mile」第2弾優遇特典追加等について(公式)",url:"https://www.shizuokabank.co.jp/notice/detail/6426/index.html"},
+        {n:5,label:"しずぎんjoyca J(公式)",url:"https://www.shizuokabank.co.jp/personal/credit/joyca_j/index.html"},
+        {n:6,label:"Bank Pay|個人のお客さま(公式)",url:"https://www.shizuokabank.co.jp/personal/useful/bank_pay/index.html"}
       ] }
   ];
 
@@ -2636,6 +2695,47 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:4,label:"【アプリ限定】毎週金曜日はVポイント利用でVポイントが最大10%戻ってくる!!(セブン-イレブン公式)",url:"https://www.sej.co.jp/products/app/vpoint_pay.html"},
         {n:5,label:"VポイントPayの使い方完全ガイド｜セブン-イレブンで最大10%〜11%還元を受ける方法",url:"https://www.warau.jp/style/article/v-point-pay-guide/"}
       ] },
+
+    { code:"P09", kind:"prepaid",
+      name:"Wallet+(ウォレットプラス、静岡銀行)",
+      intlBrand:null,
+      fee:"無料",
+      feeNote:"口座開設・アプリ利用は無料(通信料は自己負担)",
+      rateHeadline:"還元率制度なし",
+      rateMax:0,
+      rateNote:"PayPay等のような「チャージして店舗で払う」電子マネーではなく、銀行口座と連携する家計管理・貯蓄・送金・ポイント(myCoin)アプリ。購入額に対する一般的な決済還元率という制度は確認できていない。運営はiBankマーケティング(ふくおかフィナンシャルグループ子会社)で、静岡銀行は2026年8月31日にこのアプリの提供に参画した1行",
+      pointName:"myCoin(マイコイン)",
+      special:[
+        {label:"myCoin→他社ポイント交換", value:"100枚→90pt(90%)", note:"Ponta・Vポイント・楽天ポイント・nanacoへ。いずれも100枚単位、交換申請から3営業日程度で加算(公式確認)"},
+        {label:"貯蓄預金口座へのキャッシュバック", value:"100枚→100円(1枚=1円)", note:"100枚単位、3営業日程度"},
+        {label:"THEO+(テオプラス)へのポイント投資", value:"1枚=1円", note:"最低1枚から投資可能。THEO+口座の開設・連携が別途必要、手数料なし"}
+      ],
+      tsumitate:null,
+      charge:{
+        from:[
+          {label:"対象銀行(静岡銀行含む)での取引", note:"具体的な付与条件・還元率は静岡銀行分の情報が不足(要追記)"},
+          {label:"Wallet+内キャンペーン参加", note:"「スタンプチャレンジ」等"},
+          {label:"他社ポイントからの交換", note:"交換元となる他社ポイントの詳細は未確認"}
+        ],
+        to:[
+          {label:"店舗・ネットショッピングでの支払い「myCoin払い」", note:"iD/Visaのタッチ決済加盟店で利用可。対象は現時点で熊本銀行・十八親和銀行・福岡銀行の口座保有者のみとの情報があり、静岡銀行が対象に含まれるかは不明(要確認)"},
+          {label:"バーチャルデビットカード", note:"口座残高から即時引落。2025年2月時点の対象は福岡銀行・熊本銀行・十八親和銀行・佐賀銀行のみ。静岡銀行が対象かは不明(要確認)"},
+          {label:"家族・友人へのmyCoin送付", note:"―"},
+          {label:"地域特産品・ギフト商品への交換", note:"―"}
+        ]
+      },
+      limits:"myCoin払い(対象行限定)のチャージ上限は保有残高最大10万円・1日10万円・1か月10万円。myCoin自体の有効期限は取得日から2年後の年度末(3月末)まで(確度中)",
+      family:"家族・友人へのmyCoin送付が可能",
+      pros:["静岡銀行の口座取引やWallet+内キャンペーンで自然にポイント(myCoin)が貯まる仕組み(アプリ内で完結)","Ponta・Vポイント・楽天ポイント・nanacoへ90%という比較的高いレートで交換できる柔軟性","貯蓄預金口座へのキャッシュバックやTHEO+へのポイント投資など、現金・資産運用に近い使い道もある"],
+      cons:["PayPay等と異なりチャージ式の店舗決済アプリではなく、決済時の一般的な還元率制度もない","静岡銀行向けサービス開始(2026年8月31日)から日が浅く、「myCoin払い」やバーチャルデビットカードなど決済に直結する機能が静岡銀行で使えるかは不明(他行では一部行限定の実績があり使えない可能性も相応にある)","「しずぎんアプリ」「Wallet+」「Bank Pay」と静岡銀行関連アプリが複数併存し、どこで何ができるか分かりにくい","ANA・JALマイルへの交換はエムアイポイント経由の間接ルートのみでレートが悪い(特にANAは25%)"],
+      srcRefs:{rate:[1], special:[2,3,4], charge:[1,5]},
+      sources:[
+        {n:1,label:"『Wallet+』静岡銀行向けサービス開始のお知らせ(公式・ふくおかフィナンシャルグループ プレスリリース)",url:"https://prtimes.jp/main/html/rd/p/000000423.000029076.html"},
+        {n:2,label:"myCoin(マイコイン)からPontaポイントへ交換する(公式・PontaWeb)",url:"https://point.recruit.co.jp/pontaweb/excpoint/ibankponta/"},
+        {n:3,label:"【Vポイント】myCoinからVポイントに交換できる(公式・Vポイント)",url:"https://t-point.tsite.jp/store/list/mycoin/"},
+        {n:4,label:"myCoin(マイコイン)｜電子マネー nanaco(公式・nanaco)",url:"https://www.nanaco-net.jp/how-to/exchange_point/mycoin.html"},
+        {n:5,label:"myCoin | Wallet+(ウォレットプラス)(公式・iBankマーケティング)",url:"https://www.ibank.co.jp/mycoin/"}
+      ] },
   ];
 
   /* 証券📈タブのデータ。一次情報源は アプリ/メモ/証券口座比較/ の個別メモ（2026-08-01調査）。
@@ -2699,24 +2799,25 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       mileageShort:"0.03〜0.26%",
       tsumitate:{cards:"マネックスカード／dカード（無印・GOLD・GOLD U・PLATINUM）", rate:"1.1〜3.1%", cap:"月1,000円〜10万円",
         note:"dカードは無印がマネックスカード現行水準とほぼ同じ、GOLD／GOLD Uはさらに優遇、PLATINUMは初年度一律3.1%と上位カードほど優遇。2026年10月からのマネックスカード側の新制度（当月ショッピング利用額1万円未満で還元率0%）はdカードには適用されないとする二次情報あり（確度中、公式ページ未確認）。dカードとは別枠の「d払い残高積立」（還元率0.5%・月間上限5万円）と併用でき、合計最大月15万円分が還元対象になりうる"},
-      bankLink:{bank:"現時点（2026-08-01）で証券残高連動の銀行預金金利優遇制度なし。住信SBIネット銀行と2025年12月に業務提携契約を締結し、2026年2月2日から同行サイト経由の口座開設（金融商品仲介）を開始済み",
-        benefit:"—（金利優遇の制度自体が現状なし）",
-        sweep:"—（2026年8月に資金スイープサービスの提供開始予定だが2026-08-01時点で未提供）",
-        note:"2026年8月（予定）に住信SBIネット銀行との「銀行口座と証券口座の同時開設」「資金スイープサービス」「3社連携による優遇特典」の提供開始が予定されているが、金利優遇の有無・具体的内容は本調査時点のプレスリリースに明記されておらず不明（確度中、要フォロー）。2026-08-04再確認、続報なし"},
+      bankLink:{bank:"証券残高連動の銀行預金金利優遇制度は現時点で無し。ドコモSMTBネット銀行（旧住信SBIネット銀行）と2025年12月に業務提携契約を締結し、2026年2月2日から同行サイト経由の口座開設（金融商品仲介）を開始済み",
+        benefit:"—（金利優遇の制度自体は未公表）",
+        sweep:"提供開始(2026年8月28日〜)。買付余力(信用取引は保証金)不足時にドコモSMTB銀行口座から自動入金、手数料無料・24時間365日対応(メンテナンス時間除く)",
+        note:"2026年8月28日にドコモSMTBネット銀行との「銀行口座と証券口座の同時開設」「資金スイープサービス」の提供を正式開始(3社業務提携の一環)。ただし金利優遇の有無・具体的内容は今回の発表にも含まれておらず引き続き未公表(要フォロー)"},
       mileage:{name:"投信保有ポイントプログラム", rate:"年率0.03〜0.08%（基本水準）／0.16〜0.26%（対象銘柄）",
         note:"銘柄ごとに異なる段階制。2026年3月27日付で付与率アップ対象ファンドを全11銘柄に見直し。対象ポイントはマネックスポイント、またはdアカウント連携時はdポイントに切り替わる"},
       pointInvest:"マネックスポイントは投資信託の買付（スポット・積立）に利用可能。dアカウント連携時はdポイントに切り替わり、1ポイント単位から投信のスポット・積立買付に利用可能",
       kakeibo:"マネーフォワードME○／Zaim○（いずれもスクレイピングでなくAPI〈OAuth2.0〉方式。ID・パスワードを預けずに残高情報を連携でき、証券会社としては同社が家計簿アプリとの公式API連携で先行）",
       basics:"口座開設・維持費 無料／投信は毎日100円〜（購入時手数料は全銘柄無料）・ワン株1株〜／NISA○（ワン株は2026年3月17日約定分から売却手数料も完全無料化、課税口座は買付無料・売却は約定金額の0.5%税込0.55%）",
       pros:["投信保有ポイントは最大年率0.26%を業界最大水準として標榜", "クレカ積立がマネックスカードに加えdカード（GOLD・PLATINUM含む）・d払い残高積立にも対応し、合計最大月15万円分まで還元対象にできる", "マネーフォワードME・ZaimともにAPI（OAuth2.0）連携でパスワードを預けずに資産残高を反映できる"],
-      cons:["SBI証券や楽天証券のような証券残高連動の銀行預金金利優遇制度が現時点では無い（住信SBIネット銀行との提携は2026年8月予定だが金利優遇の有無は未確定・要フォロー）", "即時出金サービスは原則330円かかり、無料になるのは出金先がSBI新生銀行またはイオン銀行の場合のみ", "投信保有ポイントの基本付与率（0.03〜0.08%）は優遇対象銘柄（0.16〜0.26%）に比べ見劣りする"],
-      srcRefs:{bank:[4], mileage:[2,3]},
+      cons:["SBI証券や楽天証券のような証券残高連動の銀行預金金利優遇制度が現時点では無い（ドコモSMTBネット銀行との資金スイープサービスは2026年8月28日開始済みだが金利優遇の有無は未確定・要フォロー）", "即時出金サービスは原則330円かかり、無料になるのは出金先がSBI新生銀行またはイオン銀行の場合のみ", "投信保有ポイントの基本付与率（0.03〜0.08%）は優遇対象銘柄（0.16〜0.26%）に比べ見劣りする"],
+      srcRefs:{bank:[4,6], mileage:[2,3]},
       sources:[
         {n:1, label:"口座の開設や管理に費用はかかりますか？｜マネックス証券公式FAQ", url:"https://faq.monex.co.jp/faq/show/106?site_domain=default"},
         {n:2, label:"投信保有ポイント｜マネックス証券", url:"https://info.monex.co.jp/service/point/fund.html"},
         {n:3, label:"投信保有ポイントが主要ネット証券最高付与率の「最大0.26%」に", url:"https://prtimes.jp/main/html/rd/p/000000506.000005159.html"},
         {n:4, label:"住信SBIネット銀行とマネックス証券、金融商品仲介に関する業務提携を開始", url:"https://www.netbk.co.jp/contents/company/press/2026/0202_004969.html"},
-        {n:5, label:"マネックス証券API公開。マネーフォワード MEと連携開始｜Impress Watch", url:"https://www.watch.impress.co.jp/docs/news/1168063.html"}
+        {n:5, label:"マネックス証券API公開。マネーフォワード MEと連携開始｜Impress Watch", url:"https://www.watch.impress.co.jp/docs/news/1168063.html"},
+        {n:6, label:"マネックス証券とドコモSMTBネット銀行、資金スイープサービス等の提供開始(公式・2026年8月28日発表)", url:"https://prtimes.jp/main/html/rd/p/000000018.000186631.html"}
       ] },
     { code:"S04", kind:"stock", name:"三菱UFJ eスマート証券",
       rateHeadline:"0.5〜7.0%", rateMax:7.0,
@@ -2845,6 +2946,98 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       ] },
   ];
 
+  /* 🎁ポイント📚タブのデータ。一次情報源は アプリ/メモ/ポイント比較/ の個別メモ（2026-09-04新設）。
+     主役数字（rateHeadline）は基本還元率。exchangesは他ポイント・マイルへの交換可否とレート
+     （ポイント交換ルート選定の最重要判断材料のため、renderPointPageでカード最上部に表示する）。 */
+  var POINT_DATA = [
+    // ==== POINT_DATA_ENTRIES ====
+    { code:"PT01", kind:"point", name:"J-POINT(Jポイント、JCB)",
+      rateHeadline:"200円→1pt(0.5%)", rateMax:0.5,
+      rateNote:"2026年1月、JCBが従来の「Oki Dokiポイント」を「J-POINT」にリニューアル。静岡銀行が発行するJCBブランドカード「しずぎんjoyca J」利用で貯まる",
+      operator:"株式会社ジェーシービー(JCB)",
+      exchanges:[
+        {label:"My JCB Pay(支払い充当)", value:"可・1pt=1円", note:"2026年2月開始予定(公式・確度高)"},
+        {label:"ANAマイル", value:"可・1pt=0.6マイル", note:"2,500pt以上、1pt単位(複数ソース一致・確度中〜高)"},
+        {label:"JALマイル", value:"可・1pt=0.6マイル", note:"2,500pt以上、1pt単位(複数ソース一致・確度中〜高)"},
+        {label:"dポイント／楽天ポイント／Pontaポイント／nanacoポイント", value:"可・1pt=0.7pt相当", note:"詳細条件は未確認(確度中)"},
+        {label:"Amazon.co.jp", value:"可・1pt=0.7円", note:"詳細未確認(確度中)"},
+        {label:"JCBギフトカード", value:"可・レートに情報相違あり", note:"「1pt=1円」とする記事と「1,500pt→1,000円分(実質0.67円/pt)」とする記事の両方あり。要MyJCB公式確認"},
+        {label:"Vポイント／Tポイント／PayPayポイント", value:"不明", note:"交換先一覧に記載を確認できず(TポイントはVポイントへ統合済みのため対象外の可能性)"}
+      ],
+      earnHow:"月間のカード利用合計金額200円(税込)ごとに1pt付与(基本還元率0.5%相当)。旧Oki Dokiポイントは1,000円ごとに1ptだったため実質的な還元単位が細かくなった。パートナー店(J-POINTモール経由のネットショッピング等)では最大20倍。年間利用額が一定額(一般50万円/プレミアム以上100万円)を超えるとボーナスポイントも",
+      useHow:"コンビニ・スーパー・ドラッグストアなど全国170万か所以上で1pt=1円として支払いに利用可能。JCBギフトカード・各種テーマパークチケット・スターバックスカードチャージ・ビックカメラポイント(1pt=0.7円相当)・JCBトラベル(1pt=0.8円相当)にも交換可",
+      validity:"カード種別による:プラチナ・ザ・クラス5年間／ゴールド3年間／一般2年間",
+      scope:"JCBカード会員全般(一部の法人カード・金属製ビジネスカード等は対象外の場合あり)。静岡銀行では「しずぎんjoyca J」(JCBブランド)がJ-POINT対象で、無印(Visaブランド)の「しずぎんjoyca」は別体系(未調査)",
+      pros:["従来のOki Dokiポイントより貯まる単位が細かくなった(1,000円→200円ごと)ため少額利用でも無駄になりにくい","コンビニ・スーパー等170万か所以上で1pt=1円と使いやすく汎用性が高い","ANA・JALマイルへの交換レートが0.6マイル(60%)と共通ポイントからのマイル交換としては比較的高水準","静岡銀行のJCBブランドカードを持っていれば自動的にこの制度に乗る(別途登録不要)"],
+      cons:["Vポイント・Tポイント・PayPayポイントへの直接交換ルートが見当たらず、これらを使っている家計には使い勝手が悪い可能性","有効期限がカード種別に依存し、一般カードは2年間とやや短め","静岡銀行独自の優待ではなくJCB共通の仕組みのため、本ポイント制度自体に地域性はない","2026年1月のリニューアル直後のため、交換先・条件が今後変更される可能性がある"],
+      srcRefs:{rate:[1,2], exchanges:[3,4,5]},
+      sources:[
+        {n:1, label:"J-POINTの仕組み(公式・JCB)", url:"https://www.jcb.co.jp/point/about/index.html"},
+        {n:2, label:"2026年1月、Oki DokiポイントはJ-POINTに生まれ変わります(公式・JCB)", url:"https://www.jcb.co.jp/release/point-renewal_2506.html"},
+        {n:3, label:"しずぎんjoyca J(公式・静岡銀行)", url:"https://www.shizuokabank.co.jp/personal/credit/joyca_j/index.html"},
+        {n:4, label:"ANAマイレージクラブ｜JCBカードのポイント交換(公式・ANA)", url:"https://www.ana.co.jp/ja/us/amc/exchange-point/jcb/"},
+        {n:5, label:"J-POINTの使い道・交換先おすすめ｜JCBポイントの交換レートを比較(二次情報、確度中)", url:"https://dp-invest.hateblo.jp/entry/2025/12/17/100555"}
+      ] },
+    { code:"PT02", kind:"point", name:"myCoin(マイコイン、Wallet+)",
+      rateHeadline:"還元率制度なし", rateMax:0,
+      rateNote:"静岡銀行が2026年8月31日に参画した銀行公式アプリ「Wallet+(ウォレットプラス、運営：iBankマーケティング)」内のポイント。購入額に対する一般的な決済還元率という制度ではなく、取引・キャンペーン・他社ポイント交換で貯まる型",
+      operator:"iBankマーケティング株式会社(ふくおかフィナンシャルグループ子会社)",
+      exchanges:[
+        {label:"★エムアイポイント(三越伊勢丹)", value:"可(双方向)・100枚⇔100pt(1:1、目減りなし)", note:"100pt単位、約4営業日。交換用ID(10桁)が必要。myCoinの交換先の中で唯一の等価交換で、ここを経由すると先の28種類以上の提携ポイント・マイル・商品券にもつながる(公式・生HTML確認)"},
+        {label:"Pontaポイント", value:"可・100枚→90pt(90%)", note:"100枚単位、交換申請から3営業日程度(公式確認)"},
+        {label:"Vポイント", value:"可・100枚→90pt(90%)", note:"100枚単位、3営業日程度。myCoin→Vポイントの一方向のみ(公式寄り)"},
+        {label:"楽天ポイント", value:"可・100枚→90pt(90%)", note:"100枚単位、3営業日程度(公式寄り)"},
+        {label:"nanacoポイント", value:"可・100枚→90pt(90%)", note:"100枚単位(公式)"},
+        {label:"dポイント", value:"可・レート未確認", note:"他が軒並み90%のため同水準の可能性(確度中)"},
+        {label:"ANAマイル(間接)", value:"可・2,000枚→500マイル(25%)", note:"エムアイポイント経由。myCoin⇔エムアイポイント間は1:1で目減りなし、エムアイポイント→ANA間で25%(年度内累計22,000pt超で12.5%にさらに低下)。ボトルネックはエムアイポイントから先(公式)"},
+        {label:"JALマイル(間接)", value:"可・3,000枚→1,500マイル(50%)", note:"エムアイポイント経由。myCoin⇔エムアイポイント間は1:1で目減りなし、エムアイポイント→JAL間で50%(公式)"},
+        {label:"貯蓄預金口座へのキャッシュバック", value:"可・100枚→100円(1枚=1円)", note:"100枚単位、3営業日程度(公式寄り)"},
+        {label:"THEO+(ポイント投資)", value:"可・1枚=1円", note:"最低1枚から。THEO+口座の開設・連携が別途必要、手数料なし"},
+        {label:"PayPayポイント", value:"不明", note:"交換先一覧に記載を確認できず"}
+      ],
+      earnHow:"対象銀行(静岡銀行含む)での取引に応じた付与(静岡銀行分の具体的な還元率は情報不足)、Wallet+内キャンペーン参加(「スタンプチャレンジ」等)、他社ポイントからの交換",
+      useHow:"貯蓄預金口座へのキャッシュバック、店舗・ネットショッピングでの支払い「myCoin払い」(iD/Visaタッチ決済対応、対象は現時点で熊本銀行・十八親和銀行・福岡銀行のみとの情報あり、静岡銀行が対象かは不明)、バーチャルデビットカード発行(同じく対象行限定)、家族・友人への送付、地域特産品・ギフト商品への交換、エムアイポイントへの等価交換を経由した多段交換(先は[[エムアイポイント]]のカード参照)",
+      validity:"取得日から2年後の年度末(3月末)まで(二次情報中心、確度中)",
+      scope:"静岡銀行を含むWallet+対応行(阿波・沖縄・北日本・熊本・佐賀・静岡・十八親和・八十二長野・広島・福岡・山梨中央の各銀行)の個人普通預金口座保有者。ただし決済に直結する一部機能(myCoin払い・バーチャルデビットカード)は従来からの参画行に限定されてきた実績があり、静岡銀行が同様に使えるかは不明",
+      pros:["静岡銀行の口座取引やWallet+内キャンペーンで自然にポイントが貯まる仕組み(アプリ内で完結)","エムアイポイントへ1:1の等価交換ができ、そこから28種類以上の提携ポイント・マイル・商品券へさらに交換できる(myCoin単体の交換先より選択肢が大幅に広がる)","Ponta・Vポイント・楽天ポイント・nanacoへ90%という比較的高いレートで交換できる柔軟性","貯蓄預金口座へのキャッシュバックやTHEO+へのポイント投資など現金・資産運用に近い使い道もある"],
+      cons:["静岡銀行向けサービス開始(2026年8月31日)から日が浅く、静岡銀行口座保有者がmyCoinの全機能をどこまで使えるか情報が乏しい","「myCoin払い」等の決済系機能は他行実績を見る限り一部行限定の可能性が高く、静岡銀行では使えない可能性がある","有効期限が比較的短め(取得から最長2年程度)","ANA・JALマイルを直接目指す場合、エムアイポイントから先の交換レートが悪い(特にANAは25%)。myCoin⇔エムアイポイント間自体には目減りはない"],
+      srcRefs:{rate:[1], exchanges:[2,3,4,5]},
+      sources:[
+        {n:1, label:"『Wallet+』静岡銀行向けサービス開始のお知らせ(公式・ふくおかフィナンシャルグループ プレスリリース)", url:"https://prtimes.jp/main/html/rd/p/000000423.000029076.html"},
+        {n:2, label:"myCoin(マイコイン)からPontaポイントへ交換する(公式・PontaWeb)", url:"https://point.recruit.co.jp/pontaweb/excpoint/ibankponta/"},
+        {n:3, label:"【Vポイント】myCoinからVポイントに交換できる(公式・Vポイント)", url:"https://t-point.tsite.jp/store/list/mycoin/"},
+        {n:4, label:"myCoin(マイコイン)｜電子マネー nanaco(公式・nanaco)", url:"https://www.nanaco-net.jp/how-to/exchange_point/mycoin.html"},
+        {n:5, label:"エムアイポイントを交換する(公式・エムアイカード、myCoin⇔100:100を生HTML確認)", url:"https://www2.micard.co.jp/service/mipoint/exchange.html"}
+      ] },
+    { code:"PT03", kind:"point", name:"エムアイポイント(MIポイント、三越伊勢丹)",
+      rateHeadline:"5〜10%(百貨店)", rateMax:10,
+      rateNote:"エムアイカードでの三越伊勢丹グループ百貨店利用時、前年年間利用額に応じ還元率5%(30万円未満)/8%(30万円以上)/10%(100万円以上)。ゴールドカードは8%または10%固定。一般加盟店(百貨店以外)は0.5〜1%と大きく下がる。2027年2月に制度改定予定(ゴールドカードは常時10%に統一)",
+      operator:"株式会社エムアイカード(三越伊勢丹ホールディングス子会社)",
+      exchanges:[
+        {label:"★myCoin(静岡銀行Wallet+等)", value:"可(双方向)・100pt⇔100枚(1:1、目減りなし)", note:"100pt単位、約4営業日。交換用ID(10桁)が必要。myCoinの交換先の中で唯一の等価交換(公式・生HTML確認)"},
+        {label:"ANAマイル", value:"可(片方向のみ)・2,000pt→500マイル(25%)", note:"同一年度内(4/1〜翌3/31)累計22,000pt(11口)超で以降2,000pt→250マイル(12.5%)に低下。事前にANA番号登録が必要、約3日間。JALマイルとは排他(どちらか一方のみ)"},
+        {label:"JALマイル", value:"可(片方向のみ)・3,000pt→1,500マイル(50%)", note:"3,000pt以上、1,000マイル単位。事前の紐づけ登録が必要、約3日間。ANAマイルとは排他(どちらか一方のみ)"},
+        {label:"WAON POINT", value:"可(双方向)・1,000pt⇔1,000pt(1:1)", note:"1,000pt単位、1回最大99口、約3日間"},
+        {label:"JTBトラベルポイント", value:"可(双方向)・1,000pt⇔1,000pt(1:1)", note:"1,000pt単位、同一年度内3回・最大15,000ptまで、約3日間"},
+        {label:"ビックポイント(ビックカメラ)", value:"可(双方向、レート非対称)", note:"エムアイ→ビック:1,000pt→1,000pt(1:1)／ビック→エムアイ:1,500pt→1,000pt(約67%)。7〜13日間"},
+        {label:"その他提携ポイント(電力・ガス系、商品券等)", value:"可・多くは1:1", note:"はぴeポイント/カテエネ/WAON POINT等、28種類以上の交換先あり(片方向のみのものも一部含む)"}
+      ],
+      earnHow:"エムアイカードでの三越伊勢丹グループ百貨店(三越・伊勢丹・岩田屋・丸井今井等)での買い物(還元率5〜10%)、一般加盟店での利用(0.5〜1%)、提携カード(VIOROカード・nimoca MICARD等)利用、提携ポイント(myCoin・WAON POINT等)からの交換",
+      useHow:"三越伊勢丹グループ百貨店・オンラインストアでの買い物に1pt=1円として直接充当。28種類以上の提携ポイント・マイル・商品券・クーポンへ交換可能。ANA・JAL両方のマイルに交換できる数少ないカード系ポイントの一つ(ただしどちらか一方に交換すると他方は交換不可)",
+      validity:"獲得した年の翌々年1月31日まで(最短13ヶ月・最長25ヶ月)。2022年2月1日以降の獲得分から全会員共通のこのルールに統一",
+      scope:"エムアイカード会員(三越伊勢丹グループ百貨店・オンラインストア中心)、一般加盟店(エムアイカード プラス/プラス ゴールドのみ対象)。ポイント交換メニューの利用には三越伊勢丹WEB会員への別途登録が必要",
+      pros:["交換先の種類が非常に豊富(28種類以上)。ANA・JAL両方のマイルに交換できる貴重なポイント","myCoinとは1:1の等価交換(目減りなし)。他の多くの交換先が90%前後(myCoin側)や25〜50%(マイル)であるのに比べて有利","三越伊勢丹百貨店での還元率が高い(最大10%)、1pt=1円で直接値引き利用も可能"],
+      cons:["ANA・JALマイルへの交換は目減りが大きい(ANA25%、JALでも50%)。ANAは年間累計22,000pt超でさらに12.5%へ低下","ANA・JALはどちらか一方に交換すると他方には交換不可(排他的、家族カード含む)","一般加盟店での還元率は低い(0.5〜1%)","有効期限が比較的短め(獲得翌々年1月31日、最短13ヶ月・最長25ヶ月)"],
+      srcRefs:{rate:[1,2], exchanges:[1,3,4]},
+      sources:[
+        {n:1, label:"エムアイポイントを交換する(公式・エムアイカード)", url:"https://www2.micard.co.jp/service/mipoint/exchange.html"},
+        {n:2, label:"ポイントを貯める・使う(公式・エムアイカード)", url:"https://www2.micard.co.jp/service/mipoint.html"},
+        {n:3, label:"エムアイポイント｜ポイント交換｜マイルを貯める(公式・ANAマイレージクラブ)", url:"https://www.ana.co.jp/ja/jp/shoppingandlife/point/tameru_mipoint/"},
+        {n:4, label:"「myCoin」と「エムアイポイント」との相互交換が可能に(ペイメントナビ、2019年6月17日付)", url:"https://paymentnavi.com/paymentnews/84373.html"},
+        {n:5, label:"三越伊勢丹HDがエムアイカードのポイント制度を改定 ゴールドカード会員は還元率10%固定に(fashionsnap、2026年2月5日付)", url:"https://www.fashionsnap.com/article/2026-02-05/mihd-point/"}
+      ] }
+  ];
+
   // ブランドを想起しやすい色+頭文字の「モノグラムバッジ」。公式ロゴ画像ではなく独自デザイン。
   var LOGO = {
     "0001":{label:"みずほ", color:"#0A3F91"},
@@ -2856,6 +3049,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     "0039":{label:"au", color:"#E08600"},
     "0040":{label:"AEON", color:"#D6488A"},
     "0133":{label:"武蔵野", color:"#00693E"},
+    "0149":{label:"静岡銀行", color:"#0056A8"},
     "0310":{label:"GMO", color:"#5CA023"},
     "0397":{label:"新生", color:"#002D72"},
     "0398":{label:"BANK", color:"#1E8FC4"},
@@ -2892,6 +3086,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     "P06":{label:"Kyash", color:"#FF3366"},
     "P07":{label:"IDARE", color:"#00A98F"},
     "P08":{label:"VポイントPay", color:"#0F5AA6"},
+    "P09":{label:"Wallet+", color:"#FF8C00"},
     // ==== STOCK_LOGO_ENTRIES ====（📈タブの証券用バッジ）
     "S01":{label:"SBI証券", color:"#0068B7"},
     "S02":{label:"楽天証券", color:"#BF0000"},
@@ -2901,10 +3096,14 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     "S06":{label:"tsumiki", color:"#D7000F"},
     "S07":{label:"コネクト", color:"#0097A7"},
     "S08":{label:"日興", color:"#009944"},
+    // ==== POINT_LOGO_ENTRIES ====（🎁タブのポイント用バッジ）
+    "PT01":{label:"J-POINT", color:"#00A650"},
+    "PT02":{label:"myCoin", color:"#FF8C00"},
+    "PT03":{label:"MIポイント", color:"#B8860B"},
   };
 
   var CATEGORY_LABEL = { mega:"メガバンク", net:"ネット銀行", local:"地銀・特色行" };
-  var CARD_KIND_LABEL = { credit:"クレジットカード", prepaid:"プリペイドカード", stock:"証券口座" };
+  var CARD_KIND_LABEL = { credit:"クレジットカード", prepaid:"プリペイドカード", stock:"証券口座", point:"ポイント制度" };
 
   // 各行のブランドカラー(LOGO[code].color)を起点に、ヒーローカードの
   // グラデーション終点色を自動生成する。24行分を手で決め打ちせず、
@@ -3436,6 +3635,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     ownedCount: document.getElementById("ownedCount"),
     totalCount: document.getElementById("totalCount"),
     themeToggle: document.getElementById("themeToggle"),
+    reloadBtn: document.getElementById("reloadBtn"),
     exportBtn: document.getElementById("exportBtn"),
     importBtn: document.getElementById("importBtn"),
     importFile: document.getElementById("importFile"),
@@ -3504,6 +3704,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     for(var i=0;i<DATA.length;i++) if(DATA[i].code===code) return DATA[i].name;
     for(var j=0;j<CARD_DATA.length;j++) if(CARD_DATA[j].code===code) return CARD_DATA[j].name;
     for(var k=0;k<STOCK_DATA.length;k++) if(STOCK_DATA[k].code===code) return STOCK_DATA[k].name;
+    for(var m=0;m<POINT_DATA.length;m++) if(POINT_DATA[m].code===code) return POINT_DATA[m].name;
     return code;
   }
   function newsForCard(code){
@@ -3621,7 +3822,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
   function applyCollectionVisibility(){
     // 🏦銀行と💳カードは同じカタログUI（上部タブ＋1画面1カード）を共用する。
     // どちらのデータを出すかはrender()がactiveCollectionを見て切り替える。
-    var isCatalog = activeCollection === "bank" || activeCollection === "card" || activeCollection === "stock";
+    var isCatalog = activeCollection === "bank" || activeCollection === "card" || activeCollection === "stock" || activeCollection === "point";
     var isPlan = activeCollection === "plan";   // 📋プランはアプリ内のビュー（別ページに移動しない）
     var isRush = activeCollection === "rush";   // 🪙シミュも同じくアプリ内のビュー
     var isHome = activeCollection === "home";   // 🏠ホームも同じくアプリ内のビュー
@@ -3682,9 +3883,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     activeCollection = btn.dataset.explore;
     renderCollectionSwitch();
     applyCollectionVisibility();
-    // 銀行⇄カード⇄証券の切り替え時は一覧を作り直す（currentListの中身が変わるため）
+    // 銀行⇄カード⇄証券⇄ポイントの切り替え時は一覧を作り直す（currentListの中身が変わるため）
     if(activeCollection !== prev &&
-       (activeCollection === "bank" || activeCollection === "card" || activeCollection === "stock")){
+       (activeCollection === "bank" || activeCollection === "card" || activeCollection === "stock" || activeCollection === "point")){
       currentIndex = 0;
       render();
     }
@@ -4234,6 +4435,14 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     var effectiveDark = cur ? cur === "dark" : prefersDark;
     root.setAttribute("data-theme", effectiveDark ? "light" : "dark");
+  });
+
+  // 🔄最新版を取得：タブを閉じ直さなくても最新のファイルを取りに行けるように。
+  // location.reload()だけだとキャッシュが効いて古いまま、ということがあったため、
+  // URLにキャッシュ避け用のクエリを付けて確実にサーバーへ新規リクエストさせる（ユーザー要望2026-08-23）
+  els.reloadBtn.addEventListener("click", function(){
+    var base = location.href.split("?")[0].split("#")[0];
+    location.href = base + "?_r=" + Date.now();
   });
 
   els.exportBtn.addEventListener("click", function(){
@@ -4889,6 +5098,62 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     '</section>';
   }
 
+  /* ---------- 🎁ポイントタブ（POINT_DATA）の描画 ----------
+     カタログUI・お気に入り♡・spec-row系のCSSは💳カード・📈証券と共用する。
+     「ポイント交換(交換可否・交換比率)」は交換ルート選定の最重要判断材料のため、
+     タグライン(pros[0])の直後・他のどのセクションよりも先に表示する(2026-09-04ユーザー要望)。 */
+  function renderPointPage(pt){
+    var entry = getEntry(pt.code);
+    var logo = LOGO[pt.code] || {label:pt.name.slice(0,4), color:"#8A93A0"};
+    var grad = heroGradient(logo.color);
+    var tokens = brandTokens(logo.color);
+    var cardVars = '--brand:' + grad.from + '; --brand-light:' + grad.to + ';' +
+      ' --brand-ink-light:' + tokens.inkLight + '; --brand-ink-dark:' + tokens.inkDark + ';' +
+      ' --brand-soft-light:' + tokens.softLight + '; --brand-soft-dark:' + tokens.softDark + ';';
+    var exchangeSect = (pt.exchanges && pt.exchanges.length)
+      ? '<div class="sect"><h3>🔄 ポイント交換(交換可否・交換比率)' + srcMark(pt,'exchanges') + '</h3>' +
+        renderStockRows(pt.exchanges) + '</div>'
+      : '';
+    return '' +
+    '<section class="bankpage">' +
+      '<div class="page-card" style="' + cardVars + '">' +
+        '<div class="hero">' +
+          '<div class="hero-top">' +
+            '<div class="hero-badge">' + logo.label + '</div>' +
+            '<div class="hero-head-main">' +
+              '<span class="hero-cat">' + CARD_KIND_LABEL[pt.kind] + '</span>' +
+              '<span class="hero-code">No.' + pt.code + '</span>' +
+              '<div class="hero-bank">' + pt.name + '</div>' +
+            '</div>' +
+            '<button class="owned-btn ' + (entry.owned?'on':'') + '" data-owned-btn data-code="' + pt.code + '" aria-label="お気に入りに登録/解除">' + (entry.owned?'♥':'♡') + '</button>' +
+          '</div>' +
+          '<div class="hero-num">' + pt.rateHeadline + srcMark(pt,'rate') + '</div>' +
+          '<div class="hero-label">基本還元率</div>' +
+          '<div class="hero-sub">' +
+            '<div>運営<b>' + (pt.operator || "—") + '</b></div>' +
+            '<div>有効期限<b>' + (pt.validity || "—") + '</b></div>' +
+          '</div>' +
+          renderHeroNews(pt) +
+        '</div>' +
+        '<div class="page-body">' +
+        '<p class="tagline">' + pt.pros[0] + '</p>' +
+        (pt.rateNote ? '<p class="stat-note">' + pt.rateNote + '</p>' : '') +
+        exchangeSect +
+        (pt.earnHow ? '<div class="sect"><h3>貯め方</h3><p class="card-plain">' + pt.earnHow + '</p></div>' : '') +
+        (pt.useHow ? '<div class="sect"><h3>使い方・交換先</h3><p class="card-plain">' + pt.useHow + '</p></div>' : '') +
+        (pt.scope ? '<div class="sect"><h3>対象範囲</h3><p class="card-plain">' + pt.scope + '</p></div>' : '') +
+        renderCardNews(pt) +
+        '<div class="sect"><h3>メリット・デメリット</h3><div class="pc-grid">' +
+          '<ul class="pc-list pros">' + pt.pros.map(function(p){return '<li>'+p+'</li>';}).join("") + '</ul>' +
+          '<ul class="pc-list cons">' + pt.cons.map(function(c){return '<li>'+c+'</li>';}).join("") + '</ul>' +
+        '</div></div>' +
+        renderSources(pt) +
+        '<p class="src-note">2026年9月4日時点の調査メモに基づく個人用の記録です。交換レート・制度は変更されるため、最新情報は各社公式サイトでご確認ください。ロゴはブランドカラーを用いた独自デザインで、各社の公式ロゴではありません。</p>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function renderPage(bank){
     var entry = getEntry(bank.code);
     var logo = LOGO[bank.code];
@@ -4967,7 +5232,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
 
   function renderCurrentPage(direction, isNav){
     if(currentList.length === 0){
-      var kindWord = activeCollection === "card" ? "カード" : activeCollection === "stock" ? "証券口座" : "銀行";
+      var kindWord = activeCollection === "card" ? "カード" : activeCollection === "stock" ? "証券口座" : activeCollection === "point" ? "ポイント" : "銀行";
       els.pages.innerHTML = '<p class="empty">条件に一致する' + kindWord + 'がありません。検索語やフィルターを見直してみてください。</p>';
       updatePager();
       return;
@@ -4979,8 +5244,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var prevBody = els.pages.querySelector(".page-body");
     var prevScrollTop = (!isNav && prevBody) ? prevBody.scrollTop : 0;
     var item = currentList[currentIndex];
-    // kindを持つのは💳カード（CARD_DATA）と📈証券（STOCK_DATA）。銀行エントリにkindは無い。
+    // kindを持つのは💳カード（CARD_DATA）・📈証券（STOCK_DATA）・🎁ポイント（POINT_DATA）。銀行エントリにkindは無い。
     els.pages.innerHTML = item.kind === "stock" ? renderStockPage(item)
+                        : item.kind === "point" ? renderPointPage(item)
                         : item.kind ? renderCardPage(item)
                         : renderPage(item);
     updatePager();
@@ -5160,12 +5426,13 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
 
     var isCardColl = activeCollection === "card";
     var isStockColl = activeCollection === "stock";
-    var source = isCardColl ? CARD_DATA : isStockColl ? STOCK_DATA : DATA;
+    var isPointColl = activeCollection === "point";
+    var source = isCardColl ? CARD_DATA : isStockColl ? STOCK_DATA : isPointColl ? POINT_DATA : DATA;
     var list = source.filter(function(b){
-      return matchesSearch(b,q) && ((isCardColl || isStockColl) ? passesCardFilters(b) : passesFilters(b));
+      return matchesSearch(b,q) && ((isCardColl || isStockColl || isPointColl) ? passesCardFilters(b) : passesFilters(b));
     });
-    if((isCardColl || isStockColl) && currentSort && currentSort !== "rate" && currentSort !== "code"){
-      // カード・証券のデータには銀行用のソート項目（デビット・振込回数・獲得pt）が無い。
+    if((isCardColl || isStockColl || isPointColl) && currentSort && currentSort !== "rate" && currentSort !== "code"){
+      // カード・証券・ポイントのデータには銀行用のソート項目（デビット・振込回数・獲得pt）が無い。
       // それらが選ばれていても並べ替えず元の順のままにする。
     } else if(currentSort === "rate"){
       list = list.slice().sort(function(a,b){ return b.rateMax - a.rateMax; });
