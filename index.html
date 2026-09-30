@@ -849,8 +849,8 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券・ポイントのカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-09-30-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
-    dataChecked: "2026-09-30", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
+    build:  "2026-10-01-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    dataChecked: "2026-10-01", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・10・15・20・25日と月末ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
       state:  "bankCardState.v1",
@@ -901,6 +901,20 @@
      書き方：changes は1変更点ごとに1行（before=変更前、after=変更後、from=適用の起点）。
      targets には対象カードの code（DATAのcodeと同じ書き方）を入れる。 */
   var NEWS = [
+    { id:"20260928-rakutensec-black-card",
+      announced:"2026-09-28",
+      effective:"2027-01-01",            // 2027年1月の積立買付分から（2026年11月13日以降の積立設定分）
+      targets:["S02"],                   // 楽天証券
+      title:"楽天証券 クレカ積立「楽天ブラックカード」のポイント進呈率が最大3.2%に",
+      changes:[
+        { item:"投信積立「楽天ブラックカード」クレジット決済のポイント進呈率",
+          before:"一律2.0%",
+          after:"前年1〜12月の楽天カード年間ショッピング利用額400万円以上：3.2%／400万円未満：2.0%",
+          from:"2027年1月買付分から（2026年11月13日以降の積立設定分）" }
+      ],
+      impact:"楽天ブラックカードを持ち、楽天カード全体（家族カード・複数枚の合算、クレカ積立分は除く）で年400万円以上使う人だけが対象。3.2%のうち1.2%分は積立注文月の翌月末頃に別途進呈。それ以外の人・他の券種は変更なし。DATA(S02)の最大2%は適用日まで現行のまま。",
+      source:{ label:"投信積立「楽天ブラックカード」クレジット決済のポイント進呈率が最大3.2%になります！（楽天証券・2026年9月28日）",
+               url:"https://www.rakuten-sec.co.jp/web/info/info20260928-01.html" } },
     { id:"20260930-vneobank-service-end",
       announced:"2026-09-30",
       effective:"2027-03-29",            // 新サービス移行日（V NEOBANKの提供終了は2027-03-28、Vポイントの付与・利用終了は2027-02-28）
@@ -976,7 +990,7 @@
           after:"年0.51%",
           from:"2026年10月1日(木)から" }
       ],
-      impact:"今後は原則として日銀の政策金利変更の翌月初に金利を見直す方針も同時に発表。DATA(0038-d)は適用日まで0.40%のまま。Vポイント支店・第一生命支店・JAL支店・カテエネ支店など各NEOBANK支店の金利がこの改定に連動するかは未確認。",
+      impact:"今後は原則として日銀の政策金利変更の翌月初に金利を見直す方針も同時に発表。DATA(0038-d)は適用日まで0.40%のまま。Vポイント支店・第一生命支店・JAL支店・カテエネ支店など各NEOBANK支店の金利がこの改定に連動するかは未確認。DATA(0038-d)は2026-10-01の巡回で0.50%(ハイブリッド0.51%)に更新済み。",
       source:{ label:"円預金金利および短期プライムレートの改定について | プレスリリース | ドコモSMTBネット銀行（旧 住信SBIネット銀行）（公式・2026年9月18日）",
                url:"https://www.netbk.co.jp/contents/company/press/2026/0918_006377.html" } },
     { id:"20260924-sony-rate",
@@ -1056,7 +1070,7 @@
           after:"0.510%",
           from:"2026年11月1日(日)から" }
       ],
-      impact:"DATA(0310)のrateHeadline「0.70%」(ハビト支店100万円以下)は10月1日に0.80%へ更新する。100万円超・証券コネクト口座は11月1日。",
+      impact:"ハビト支店100万円以下の0.80%は2026-10-01の巡回で公式金利ページの表示を確認し、DATA(0310)に反映済み。100万円超・証券コネクト口座は11月1日。",
       sources:[
         { label:"2026/09/24 円普通預金（ハビト支店）の金利引き上げのお知らせ | お知らせ・プレスリリース | GMOあおぞらネット銀行",
           url:"https://gmo-aozora.com/news/2026/20260924-01.html" },
@@ -1160,7 +1174,7 @@
           after:"入金の有無にかかわらず、その月の平均残高とIDAREランクに応じてボーナスを付与（上限撤廃）。年率ボーナスの算出方法・ランク区分自体は変更なし",
           from:"2026年10月1日から" }
       ],
-      impact:"従来は毎月一定額の入金を続けないとボーナスが伸びなかったが、10月以降は残高を維持するだけでランクに応じたボーナスを満額受け取れるようになる（改善）。現行DATAのrateNote「当月入金額の20%が上限、入金がない月は付与なし」は適用日到来まではそのまま。",
+      impact:"従来は毎月一定額の入金を続けないとボーナスが伸びなかったが、10月以降は残高を維持するだけでランクに応じたボーナスを満額受け取れるようになる（改善）。2026-10-01の巡回でDATA(P07)の説明を新条件に更新済み。",
       source:{ label:"ボーナスの付与条件（入金条件）撤廃のお知らせ（公式・2026年9月11日発表）",
                url:"https://idare.jp/news/1682/" } },
     { id:"20260826-aeonbank-rate",
@@ -1509,9 +1523,13 @@
           after:"年0.75%",
           from:"2026年10月1日から" }
       ],
-      impact:"無条件型のまま業界最高水準を維持する形の改定。DATA本体は適用日到来まで現行数値(1.00%/0.65%)のまま。あおぞら銀行公式サイト側の正式URLは次回巡回で特定すること(今回はPR TIMES掲載記事で内容確認)。",
-      source:{ label:"あおぞら銀行、円普通預金(BANK)の金利を引き上げ（PR TIMES・2026年9月18日発表）",
-               url:"https://prtimes.jp/main/html/rd/p/000000004.000184744.html" } },
+      impact:"無条件型のまま業界最高水準を維持する形の改定。2026-10-01の巡回で公式サイト側の告知ページを特定し、DATA(0398)を1.20%/0.75%に更新済み（同日0時台の時点では公式の金利一覧ページはまだ「2026年9月1日現在」の旧表示だった）。",
+      sources:[
+        { label:"出し入れ自由な普通預金（100万円まで）が業界最高水準※の年1.20％ ～円普通預金（BANK）等の金利改定について～（あおぞら銀行 公式）",
+          url:"https://www.aozorabank.co.jp/info_article/kojin/100120-bank.html" },
+        { label:"あおぞら銀行、円普通預金(BANK)の金利を引き上げ（PR TIMES・2026年9月18日発表）",
+          url:"https://prtimes.jp/main/html/rd/p/000000004.000184744.html" }
+      ] },
     { id:"20260918-yucho-rate",
       announced:"2026-09-18",
       effective:"2026-11-09",
@@ -1865,7 +1883,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:4,label:"ハッピープログラム(公式)",url:"https://www.rakuten-bank.co.jp/happyprogram/"}
       ] },
 
-    { code:"0038-d", name:"ドコモSMTBネット銀行 d NEOBANK(フルーツ支店等)", category:"net", rateHeadline:"0.40%", rateNote:"税引前。旧：住信SBIネット銀行（2026年8月3日に商号変更、コード・口座番号は不変）。2026年1月9日に0.20%→0.30%、2026年8月3日に0.30%→0.40%へ引き上げ(2026-09-25の巡回で反映漏れを訂正)。SBI証券口座と連携するSBIハイブリッド預金は0.41%。2026年10月1日から0.50%(ハイブリッド0.51%)に再引き上げ予定", rateMax:0.41,
+    { code:"0038-d", name:"ドコモSMTBネット銀行 d NEOBANK(フルーツ支店等)", category:"net", rateHeadline:"0.50%", rateNote:"税引前。旧：住信SBIネット銀行（2026年8月3日に商号変更、コード・口座番号は不変）。2026年1月9日に0.20%→0.30%、2026年8月3日に0.30%→0.40%、2026年10月1日に0.40%→0.50%へ引き上げ。SBI証券口座と連携するSBIハイブリッド預金は0.51%(同日0.41%から改定)", rateMax:0.51,
       pointName:"dポイント(2026年8月20日連携開始予定)",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
@@ -1897,7 +1915,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       debit:{name:"住信SBIネット銀行デビットカード(Point+/プラチナ/ノーマル)", rate:"1.25%(ベーシック)〜2.50%(プラチナVIP)", note:"スマートプログラムのランクに連動(Point+基本1.25%〜最大2.0%、プラチナ基本0.3%〜最大2.5%、ノーマル0.3〜0.8%)。海外事務手数料は一律2.5%加算。ミライノカード契約+引落口座指定で残高条件未達でもゴールド/VIPランクに到達可能。"},
       pros:["振込手数料77円と業界最安水準","スマプロポイント(定額自動入金30pt/月等)が明確","ことら・PayPay・Air対応に加え「アプリでATM」で出金手数料無料"],
       cons:["支店固有の提携ポイント(Vポイント・JALマイル等)は選べない","高ランクには証券並みの残高が必要","2026年8月20日のdアカウント連携開始までdポイント付与は始まらない"],
-      srcRefs:{rate:[6],rank:[7,8,9],points:[3,4,5],debit:[1,2]},
+      srcRefs:{rate:[12,6],rank:[7,8,9],points:[3,4,5],debit:[1,2]},
       sources:[
         {n:1,label:"デビットカード|商品・サービス(公式)",url:"https://www.netbk.co.jp/contents/lineup/debitcard/"},
         {n:2,label:"デビットカードポイント還元率アッププログラム(公式)",url:"https://www.netbk.co.jp/contents/cmp/20250701_003983/"},
@@ -1909,7 +1927,8 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:8,label:"クレジットカード|商品・サービス(公式)",url:"https://www.netbk.co.jp/contents/lineup/creditcard/"},
         {n:9,label:"ミライノカード新規受付終了のお知らせ(公式)",url:"https://www.netbk.co.jp/contents/company/info/2026/0703_005688.html"},
         {n:10,label:"定額自動振込サービス(公式)",url:"https://www.netbk.co.jp/contents/lineup/jido-furikomi/"},
-        {n:11,label:"d NEOBANKのご紹介(公式)",url:"https://www.netbk.co.jp/contents/lp/docomo_dneobank/"}
+        {n:11,label:"d NEOBANKのご紹介(公式)",url:"https://www.netbk.co.jp/contents/lp/docomo_dneobank/"},
+        {n:12,label:"円預金金利および短期プライムレートの改定について(公式プレスリリース・2026年9月18日)",url:"https://www.netbk.co.jp/contents/company/press/2026/0918_006377.html"}
       ] },
 
     { code:"0038-502", name:"ドコモSMTBネット銀行 中電カテエネ支店", category:"net", rateHeadline:"0.30%(推定)", rateNote:"住信SBI・中部電力ミライズ連名の公式資料で金利数値への言及が一切ないことを確認(確度高)。標準支店の金利に準じるとみられる", rateMax:0.30,
@@ -2236,7 +2255,7 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:7,label:"定額自動入金サービス 一部手数料有料化のお知らせ(住信SBIネット銀行・公式、2024-02-15発表、確認日2026-08-13)",url:"https://www.netbk.co.jp/contents/company/info/2024/0215_002342.html"}
       ] },
 
-    { code:"0310", name:"GMOあおぞらネット銀行", category:"net", rateHeadline:"0.70%", rateNote:"ハビト支店、100万円以下の部分(条件なし型、変更なし)。100万円超の部分は2026年8月1日に0.300%→0.400%へ改定。証券コネクト口座は標準0.300%→0.400%、常設プログラム0.310%→0.410%(同日改定)", rateMax:0.70,
+    { code:"0310", name:"GMOあおぞらネット銀行", category:"net", rateHeadline:"0.80%", rateNote:"ハビト支店、100万円以下の部分(条件なし型)。2026年10月1日に0.70%→0.80%へ改定。100万円超の部分は2026年8月1日に0.300%→0.400%へ改定(11月1日に0.50%へ改定予定)。証券コネクト口座は標準0.300%→0.400%、常設プログラム0.310%→0.410%(同日改定)", rateMax:0.80,
       pointName:"GMOポイント/Pontaポイント(選択制)",
       services:{kotra:"no",paypay:"partial",air:"no",nyukin:"no",furikomi:"yes"},
       serviceNotes:{paypay:"デビット付キャッシュカードでの支払いのみ。口座からの直接チャージは不可",nyukin:"公式サービス一覧に記載がなく、提供していない可能性が高い",furikomi:"最大1,000件まで登録可能"},
@@ -2257,16 +2276,17 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
       ],
       points:"GMOポイントまたはPontaポイントのどちらか一方を選んで連携(銀行独自ポイントではない)。毎月15日に前月分をまとめて付与。",
       debit:{name:"GMOあおぞらネット銀行デビットカード(Mastercard)", rate:"0.6%(1テックま君)〜1.2%(4テックま君)", note:"カスタマーステージに連動。4テックま君の到達条件の一つがMastercardプラチナデビットカード契約(年会費3,300円)。"},
-      pros:["条件なしで100万円まで年0.70%","証券コネクト口座なら100万円超でも年0.41%(2026年8月1日改定)","プラチナデビットで手数料が月20回無料に"],
+      pros:["条件なしで100万円まで年0.80%(2026年10月改定)","証券コネクト口座なら100万円超でも年0.41%(2026年8月1日改定)","プラチナデビットで手数料が月20回無料に"],
       cons:["ことら送金・Airウォレットともに非対応","PayPayは直接チャージ不可(デビット払いのみ)"],
-      srcRefs:{rate:[4],rank:[5],points:[2,3],debit:[1]},
+      srcRefs:{rate:[7,6,4],rank:[5],points:[2,3],debit:[1]},
       sources:[
         {n:1,label:"Mastercardプラチナデビットカード(公式)",url:"https://gmo-aozora.com/priv/card/master.html"},
         {n:2,label:"ポイントサービス(公式)",url:"https://gmo-aozora.com/priv/service/point.html"},
         {n:3,label:"定額自動振込(公式)",url:"https://gmo-aozora.com/priv/service/auto-received.html"},
         {n:4,label:"GMOあおぞらネット銀行のメリット・デメリット(二次情報)",url:"https://diamond.jp/zai/articles/-/179515"},
         {n:5,label:"カスタマーステージ(公式)",url:"https://gmo-aozora.com/priv/contents/customer-stage.html"},
-        {n:6,label:"円普通預金金利引き上げのお知らせ(公式・2026年7月29日発表)",url:"https://gmo-aozora.com/news/2026/20260729-01.html"}
+        {n:6,label:"円普通預金金利引き上げのお知らせ(公式・2026年7月29日発表)",url:"https://gmo-aozora.com/news/2026/20260729-01.html"},
+        {n:7,label:"2026/09/24 円普通預金（ハビト支店）の金利引き上げのお知らせ | お知らせ・プレスリリース | GMOあおぞらネット銀行",url:"https://gmo-aozora.com/news/2026/20260924-01.html"}
       ] },
 
     { code:"0397", name:"SBI新生銀行", category:"net", rateHeadline:"0.40→0.45%", rateNote:"ダイヤモンドステージ到達時、2026年7月10日改定", rateMax:0.45,
@@ -2306,7 +2326,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:11,label:"定額自動振込・振込予約機能追加のお知らせ(公式、2026年8月9日開始)",url:"https://www.sbishinseibank.co.jp/info/news2607_transfer.html"}
       ] },
 
-    { code:"0398", name:"あおぞら銀行(BANK支店)", category:"net", rateHeadline:"1.00% / 0.65%", rateNote:"100万円までの部分1.00%・超過分0.65%、2026年7月1日改定(無条件型)", rateMax:1.00,
+    { code:"0398", name:"あおぞら銀行(BANK支店)", category:"net", rateHeadline:"1.20% / 0.75%", rateNote:"100万円までの部分1.20%・超過分0.75%、2026年10月1日改定(1.00%/0.65%から引き上げ、無条件型)", rateMax:1.20,
       pointName:"ポイント制度なし",
       services:{kotra:"no",paypay:"yes",air:"no",nyukin:"no",furikomi:"no"},
       serviceNotes:{paypay:"2026年7月23日からPayPay口座登録に対応",nyukin:"公式FAQで非対応と明記(「毎月定額積立」は自行内の別サービス)",furikomi:"公式FAQで非対応と明記"},
@@ -2318,16 +2338,17 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       ],
       points:"「ポイント」名称の制度はなし。給与・年金受取や友人紹介で固定額の現金がもらえる常設プログラムがある(下記参照)。",
       debit:{name:"BANK The Debit(あおぞらキャッシュカード・プラス)", rate:"0.25%/1%(実績値)", note:"利用額15万円未満0.25%・15万円以上1%を半年ごとに自動キャッシュバック(2026年2〜7月期の実績)。公式に「将来の還元率を保証しない」と明記されており、恒久固定ではなく変動しうる。"},
-      pros:["条件なしで100万円まで年1.00%の高金利(2026年7月改定)","他行宛振込が月9回無料と手厚い","ゆうちょ銀行ATMが無制限で無料"],
+      pros:["条件なしで100万円まで年1.20%の高金利(2026年10月改定)","他行宛振込が月9回無料と手厚い","ゆうちょ銀行ATMが無制限で無料"],
       cons:["ことら・Air・定額自動入出金いずれも非対応","取扱商品が少ない(外貨預金・保険なし)"],
-      srcRefs:{rate:[4,5],rank:[6],points:[3],debit:[1,2]},
+      srcRefs:{rate:[7,5],rank:[6],points:[3],debit:[1,2]},
       sources:[
         {n:1,label:"Visaデビット機能付きキャッシュカード キャッシュバックの仕組み(公式)",url:"https://www.aozorabank.co.jp/bank/products/cashcard_plus/cashback/"},
         {n:2,label:"Visaデビット キャッシュバックプログラム 現行期間の還元率(公式)",url:"https://www.aozorabank.co.jp/bank/products/lp/cashcard_plus/visadebit-cashback_pg/"},
         {n:3,label:"給与・年金受取ウェルカムプラン(公式)",url:"https://www.aozorabank.co.jp/bank/products/lp/salary-pension-reward/index.html"},
         {n:4,label:"2026年2月2日より円普通預金(BANK)の適用金利を改定(公式)",url:"https://www.aozorabank.co.jp/info_article/kojin/202615bank.html"},
         {n:5,label:"普通預金 年1.0%|誰でも好金利(公式)",url:"https://www.aozorabank.co.jp/bank/products/lp/special/index_mr.html"},
-        {n:6,label:"BANK口座のおトクな優遇特典(公式)",url:"https://www.aozorabank.co.jp/bank/products/lp/yugu/index.html"}
+        {n:6,label:"BANK口座のおトクな優遇特典(公式)",url:"https://www.aozorabank.co.jp/bank/products/lp/yugu/index.html"},
+        {n:7,label:"出し入れ自由な普通預金（100万円まで）が業界最高水準※の年1.20％ ～円普通預金（BANK）等の金利改定について～(公式)",url:"https://www.aozorabank.co.jp/info_article/kojin/100120-bank.html"}
       ] },
 
     { code:"0526", name:"東京スター銀行", category:"local", rateHeadline:"最大1.050%", rateNote:"通常0.30%。給与年金受取のみ0.900%(2026年8月1日に0.800%から改定)、資産300万円以上のみ0.450%(同日0.350%から改定)、NISA+投信購入のみ0.450%(同)、これらのうち2つ以上達成で1.050%(変更なし)。別枠でエムアイカード支払い口座指定(月1回以上引き落とし)でも単独0.800%(2026年7月開始、初回適用は2026年9月、他条件との併用可否は未確認)。金利改定は公式金利ページで直接確認(確度中、プレスリリース原文との文言突合は未了)", rateMax:1.05,
@@ -3172,7 +3193,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       rateNote:"決済ごとのポイント還元ではなく、口座残高そのものに前月平均残高に応じた年率ボーナスが付く貯蓄特化型の仕組み(IDAREランク制)",
       pointName:"IDAREボーナス(残高連動)",
       special:[
-        {label:"IDAREランク(2026年7月1日導入)", value:"プラチナ年率2.2%/ゴールド2.0%/シルバー1.5%/ブロンズ1.0%", note:"前月平均残高で判定(プラチナ70万円以上、ゴールド30万円以上70万円未満、シルバー5万円以上30万円未満、ブロンズ5万円未満)。ボーナスは当月入金額の20%が上限、入金がない月は付与なし"},
+        {label:"IDAREランク(2026年7月1日導入)", value:"プラチナ年率2.2%/ゴールド2.0%/シルバー1.5%/ブロンズ1.0%", note:"前月平均残高で判定(プラチナ70万円以上、ゴールド30万円以上70万円未満、シルバー5万円以上30万円未満、ブロンズ5万円未満)。2026年10月1日から入金条件(当月入金額の20%が上限・入金がない月は付与なし)が撤廃され、入金がなくても平均残高とランクに応じて満額付与"},
         {label:"銀行振込チャージ", value:"即時1%相当キャッシュバック", note:null}
       ],
       tsumitate:null,
@@ -3189,7 +3210,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       limits:null,
       family:null,
       pros:["決済のたびの還元ではなく残高を置いておくだけで年率ボーナスが得られ貯蓄用途と相性が良い","自動積立・目的別BOX管理など貯蓄サポート機能が充実","銀行振込チャージの即時1%キャッシュバックなどチャージ自体にもメリットがある"],
-      cons:["2026年7月のランク制度導入により残高が少ないと還元率が下がり海外事務手数料も発生するようになった","ボーナス付与に当月入金額の20%上限があり大きな残高を維持していても入金がなければ伸びない","実店舗での利用にはリアルカード発行(900円)が必要でバーチャルカードのみだとオンライン限定"],
+      cons:["2026年7月のランク制度導入により残高が少ないと還元率が下がり海外事務手数料も発生するようになった","実店舗での利用にはリアルカード発行(900円)が必要でバーチャルカードのみだとオンライン限定"],
       srcRefs:{rate:[3,4], special:[3,4], charge:[1]},
       sources:[
         {n:1,label:"IDARE(イデア)| 貯まるキャッシュレス(公式サイト)",url:"https://idare.jp/"},
