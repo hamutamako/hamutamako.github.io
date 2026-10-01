@@ -849,7 +849,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券・ポイントのカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-10-01c-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-10-01d-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-10-01", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・10・15・20・25日と月末ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -1919,52 +1919,48 @@ points:"JRE POINTが貯まり、Suica・ビューカードとの連携特典あ�
         {n:4,label:"ハッピープログラム(公式)",url:"https://www.rakuten-bank.co.jp/happyprogram/"}
       ] },
 
-    { code:"0038-d", name:"ドコモSMTBネット銀行 d NEOBANK(フルーツ支店等)", category:"net", rateHeadline:"0.50%", rateNote:"税引前。旧：住信SBIネット銀行（2026年8月3日に商号変更、コード・口座番号は不変）。2026年1月9日に0.20%→0.30%、2026年8月3日に0.30%→0.40%、2026年10月1日に0.40%→0.50%へ引き上げ。SBI証券口座と連携するSBIハイブリッド預金は0.51%(同日0.41%から改定)", rateMax:0.51,
-      pointName:"dポイント(2026年8月20日連携開始予定)",
+    { code:"0038-d", name:"ドコモの銀行(フルーツ支店等)", category:"net", rateHeadline:"0.50%", rateNote:"税引前。旧：住信SBIネット銀行（2026年8月3日に商号をドコモSMTBネット銀行に変更、サービスの呼び名は「ドコモの銀行」〈旧 d NEOBANK〉。コード・口座番号は不変）。2026年1月9日に0.20%→0.30%、2026年8月3日に0.30%→0.40%、2026年10月1日に0.40%→0.50%へ引き上げ。SBI証券口座と連携するSBIハイブリッド預金は0.51%(同日0.41%から改定)", rateMax:0.51,
+      pointName:"dポイント(dアカウント連携時。未連携はスマプロポイント)",
       services:{kotra:"yes",paypay:"yes",air:"yes",nyukin:"yes",furikomi:"yes"},
       serviceNotes:{kotra:"提携NEOBANKを含む個人向け支店で何度でも手数料無料"},
       freeTransferMax:20, freeTransferNote:"プラチナVIP(残高1,000万円以上)",
       nyukinMax:5, nyukinMaxNote:"定額自動入金は支店ごとに5契約まで(実運用ベース2026-08-22確認。公式商品概要説明書の「各お客さまにつき5契約まで」という文言は支店をまたいだ合算とも読めるが、実際は支店ごとに別枠)",
       rank:{name:"スマートプログラム", stages:[
-        {name:"ベーシック", cond:"条件未達", benefit:"ATM月2回・振込月1回・デビット還元1.25%"},
-        {name:"シルバー", cond:"残高50万円以上+条件1つ", benefit:"ATM月5回・振込月5回・デビット還元1.50%"},
-        {name:"ゴールド", cond:"残高100万円以上+条件2つ、またはミライノカード Travelers Gold契約+引落口座指定のみでも到達可(2026年8月3日新規受付終了予定)", benefit:"ATM月10回・振込月10回・デビット還元1.75%"},
-        {name:"VIP", cond:"残高500万円以上、またはミライノカードJCB版PLATINUM/GOLD契約+引落口座指定でも到達可(JCB版は新規受付終了済み、既存会員のみ)", benefit:"ATM月15回・振込月15回・デビット還元2.00%"},
-        {name:"プラチナVIP", cond:"残高1,000万円以上", benefit:"ATM月20回・振込月20回・デビット還元2.50%"} ]},
+        {name:"ベーシック", cond:"条件未達", benefit:"ATM月2回・振込月1回・デビット還元1.25%(Point+)"},
+        {name:"シルバー", cond:"残高50万円以上、または給与・賞与・年金の受取／口座振替1件以上のどちらか1つ(新規口座はシルバーから開始)", benefit:"ATM月5回・振込月5回・デビット還元1.25%(Point+。プラチナデビットは1.50%)"},
+        {name:"ゴールド", cond:"残高100万円以上、または給与・賞与・年金の受取と口座振替1件以上の両方、またはミライノカード Travelers gold契約+引落口座指定(新規受付は終了)", benefit:"ATM月10回・振込月10回・デビット還元1.50%(Point+。プラチナデビットは1.75%)"},
+        {name:"VIP", cond:"残高500万円以上、またはミライノカードJCB版PLATINUM/GOLD契約+引落口座指定でも到達可(JCB版は新規受付終了済み、既存会員のみ)", benefit:"ATM月15回・振込月15回・デビット還元1.75%(Point+。プラチナデビットは2.00%)"},
+        {name:"プラチナVIP", cond:"残高1,000万円以上", benefit:"ATM月20回・振込月20回・デビット還元2.00%(Point+。プラチナデビットは2.50%)"} ]},
       balanceJudges:[
         {label:"スマートプログラム ランク判定", day:"月末", dayNote:"23時59分59秒時点", target:"円普通預金(目的別口座含む)+SBIハイブリッド預金の合算",
-          thresholdText:"50万円→シルバー／100万円→ゴールド／500万円→VIP／1,000万円→プラチナVIP(いずれか、ミライノカード契約等の代替ルートもあり)", threshold:500000,
+          thresholdText:"50万円→シルバー／100万円→ゴールド／500万円→VIP／1,000万円→プラチナVIP(シルバー・ゴールドは給与受取・口座振替でも到達可)", threshold:500000,
           note:"投信・外貨預金は対象外。判定対象月の翌々月にランクが適用される(即時反映ではない)"}
       ],
       pointItems:[
-        {label:"給与受取", value:30, unit:"pt/月"},
-        {label:"年金受取", value:30, unit:"pt/月"},
-        {label:"定額自動入金サービスの利用", value:30, unit:"pt/月", note:"給与・年金受取と別枠ではなく、月1件でも利用があれば加算(頭打ち)",
+        {label:"給与受取", value:100, unit:"pt/月", note:"全ランク共通の特典(公式表記「給与受取・年金受取 100pt/月」、2026-10-01確認)。dアカウント連携時はdポイント(期間・用途限定)"},
+        {label:"年金受取", value:100, unit:"pt/月", note:"給与受取と同じ枠(公式表記「給与受取・年金受取 100pt/月」)。両方あっても合計100ptとみられる"},
+        {label:"定額自動入金サービスの利用(ポイント付与なし)", value:0, unit:"pt/月", note:"ポイントは付かない(2026-10-01公式確認)。入金日の管理用",
           schedule:{kind:"nyukin", choices:[5,27], arrivalOffsetDays:4, note:"引落日は毎月5日または27日の2択(公式)。入金は引落日から4営業日後(公式の年間スケジュール表と突き合わせ確認済み、2026-08-16)"}},
-        {label:"口座振替(月1件以上)", value:5, unit:"pt/月"},
-        {label:"外貨積立(月1万円以上)", value:10, unit:"pt/月", reqAmount:10000},
-        {label:"外貨預金残高300万円以上(月末)", value:100, unit:"pt/月", reqAmount:3000000},
+        {label:"口座振替", value:3, unit:"pt/件", note:"1件ごとに3pt(全ランク共通の特典、2026-10-01確認)"},
+        {label:"外貨積立(ポイント付与なし)", value:0, unit:"pt/月", reqAmount:10000, note:"2026-10-01時点の公式ページに記載なし"},
+        {label:"外貨預金残高300万円以上(ポイント付与なし)", value:0, unit:"pt/月", reqAmount:3000000, note:"2026-10-01時点の公式ページに記載なし"},
         {label:"定額自動振込サービスの設定(連携記録用、ポイント付与なし)", value:0, unit:"pt/月", note:"「定額自動振込サービス」。振込日は1〜31日(毎週の曜日指定も可、公式)。休日の場合は前営業日/翌営業日を届出時に選択する方式(公式、デフォルトなし)。振込先は10件まで登録可能(公式)。スマプロポイントは「定額自動入金」のみが対象で、定額自動振込への付与は確認できず",
           schedule:{kind:"furikomi", minDay:1, maxDay:31, note:"1〜31日から自由選択(毎週の曜日指定も可、公式)。休日の場合は前営業日/翌営業日を届出時に選択(公式、デフォルトなし)。振込先は10件まで登録可能"}}
       ],
-      points:"2025年10月開始の現行ブランド「d NEOBANK」。専用のバーチャル支店ではなく、口座開設時にイチゴ支店等のフルーツ支店(イチゴ・ブドウ・ミカン等8支店)やイルカ支店等の動物支店(イルカ・クジラ・アシカ・マンボウの4支店)、計12支店のいずれかが既存支店番号のまま割り当てられる(2026年8月3日の商号変更・8月20日のdアカウント連携開始にあわせ、新規開設者向けにドーナツ支店等スイーツ名の支店も追加予定)。この12支店は「NEOBANKスマートプログラム」対象でもあり、スマプロポイント(定額自動入金30pt/月等)が中心。dカードの引落口座に設定すると還元率アップ予定だが、dアカウント連携は2026年8月20日開始予定でそれまでdポイント付与は始まらない。",
-      debit:{name:"住信SBIネット銀行デビットカード(Point+/プラチナ/ノーマル)", rate:"1.25%(ベーシック)〜2.50%(プラチナVIP)", note:"スマートプログラムのランクに連動(Point+基本1.25%〜最大2.0%、プラチナ基本0.3%〜最大2.5%、ノーマル0.3〜0.8%)。海外事務手数料は一律2.5%加算。ミライノカード契約+引落口座指定で残高条件未達でもゴールド/VIPランクに到達可能。"},
-      pros:["振込手数料77円と業界最安水準","スマプロポイント(定額自動入金30pt/月等)が明確","ことら・PayPay・Air対応に加え「アプリでATM」で出金手数料無料"],
-      cons:["支店固有の提携ポイント(Vポイント・JALマイル等)は選べない","高ランクには証券並みの残高が必要","2026年8月20日のdアカウント連携開始までdポイント付与は始まらない"],
-      srcRefs:{rate:[12,6],rank:[7,8,9],points:[3,4,5],debit:[1,2]},
+      points:"サービスの呼び名は「ドコモの銀行」(2026年8月3日〜、旧 d NEOBANK)。専用支店ではなく、口座開設時にイチゴ支店等のフルーツ支店やイルカ支店等の動物支店などが割り当てられる。全ランク共通の特典は給与・年金受取100pt/月と口座振替3pt/件。dアカウントとつなぐと(2026年8月20日〜)、ランク特典・デビットのポイントがdポイントでたまる(ランク分はdポイント(期間・用途限定))。dカードの引落口座にすると、初年度はタッチ決済・d払いの還元率が最大+2.0%(PLATINUM。GOLDは+1.0%、年会費無料のdカードは+0.25%、上乗せ上限3,000pt/月)。",
+      debit:{name:"デビットカード Point+(Mastercard)", rate:"1.25%(ベーシック・シルバー)〜2.00%(プラチナVIP)", note:"スマートプログラムのランクに連動(Point+：ベーシック・シルバー1.25%／ゴールド1.50%／VIP1.75%／プラチナVIP2.00%)。年会費11,000円のプラチナデビットは1.25〜2.50%。上乗せ分は月10,000ptまで。鉄道・公共料金・税金・病院などは0.3%。海外事務手数料は2.5%。"},
+      pros:["円普通預金0.50%(2026年10月〜)とネット銀行で高め","給与受取で毎月100pt、給与受取＋口座振替だけでゴールド(ATM・振込月10回無料)","ことら・PayPay・エアウォレットに対応。dポイント・dカードとつながる"],
+      cons:["定額自動入金にはポイントが付かない","高ランク(VIP以上)には500万円以上の残高が必要","dポイントをためるにはdアカウント連携が必要(未連携だと使えない)"],
+      srcRefs:{rate:[1],rank:[2],points:[2,3,6,7],debit:[4,2]},
       sources:[
-        {n:1,label:"デビットカード|商品・サービス(公式)",url:"https://www.netbk.co.jp/contents/lineup/debitcard/"},
-        {n:2,label:"デビットカードポイント還元率アッププログラム(公式)",url:"https://www.netbk.co.jp/contents/cmp/20250701_003983/"},
-        {n:3,label:"スマプロポイントについて|NEOBANKスマートプログラム(公式)",url:"https://www.netbk.co.jp/contents/lineup/smartprogram-neobank/point/"},
-        {n:4,label:"定額自動入金ポイント付与不具合のお詫び(公式)",url:"https://www.netbk.co.jp/contents/company/info/2026/0318_005264.html"},
-        {n:5,label:"定額自動入金サービス(公式)",url:"https://www.netbk.co.jp/contents/lineup/jido-nyukin/"},
-        {n:6,label:"住信SBIネット銀行の金利は今いくら?(二次情報)",url:"https://www.habitto.com/blogs/sumishin-sbi-net-ginko-kinri-2026/"},
-        {n:7,label:"スマプロランクについて(公式)",url:"https://www.netbk.co.jp/contents/lineup/smartprogram/rank/"},
-        {n:8,label:"クレジットカード|商品・サービス(公式)",url:"https://www.netbk.co.jp/contents/lineup/creditcard/"},
-        {n:9,label:"ミライノカード新規受付終了のお知らせ(公式)",url:"https://www.netbk.co.jp/contents/company/info/2026/0703_005688.html"},
-        {n:10,label:"定額自動振込サービス(公式)",url:"https://www.netbk.co.jp/contents/lineup/jido-furikomi/"},
-        {n:11,label:"d NEOBANKのご紹介(公式)",url:"https://www.netbk.co.jp/contents/lp/docomo_dneobank/"},
-        {n:12,label:"円預金金利および短期プライムレートの改定について(公式プレスリリース・2026年9月18日)",url:"https://www.netbk.co.jp/contents/company/press/2026/0918_006377.html"}
+        {n:1,label:"円預金金利および短期プライムレートの改定について | プレスリリース | ドコモSMTBネット銀行(2026年9月18日)",url:"https://www.netbk.co.jp/contents/company/press/2026/0918_006377.html"},
+        {n:2,label:"スマートプログラム | 商品・サービス | ドコモの銀行 ドコモSMTBネット銀行",url:"https://www.netbk.co.jp/contents/lineup/smartprogram/"},
+        {n:3,label:"ポイントについて | スマートプログラム | ドコモの銀行 ドコモSMTBネット銀行",url:"https://www.netbk.co.jp/contents/lineup/smartprogram/point/"},
+        {n:4,label:"デビットカード Point+(Mastercard) | 商品・サービス | ドコモの銀行 ドコモSMTBネット銀行",url:"https://www.netbk.co.jp/contents/lineup/debitcard/mastercard-pointplus/"},
+        {n:5,label:"定額自動入金サービス | 振込・振替・支払 | ドコモの銀行 ドコモSMTBネット銀行",url:"https://www.netbk.co.jp/contents/lineup/jido-nyukin/"},
+        {n:6,label:"ドコモSMTBネット銀行、dアカウント連携開始！ | プレスリリース(2026年8月20日)",url:"https://www.netbk.co.jp/contents/company/press/2026/0820_006233.html"},
+        {n:7,label:"ドコモの銀行ならおトクが盛りだくさん！｜ドコモの銀行 ドコモSMTBネット銀行",url:"https://www.netbk.co.jp/contents/lp/docomo-benefits/"},
+        {n:8,label:"定額自動振込サービス | 振込・振替・支払 | ドコモの銀行 ドコモSMTBネット銀行",url:"https://www.netbk.co.jp/contents/lineup/jido-furikomi/"}
       ] },
 
     { code:"0038-502", name:"ドコモSMTBネット銀行 中電カテエネ支店", category:"net", rateHeadline:"0.30%(推定)", rateNote:"住信SBI・中部電力ミライズ連名の公式資料で金利数値への言及が一切ないことを確認(確度高)。標準支店の金利に準じるとみられる", rateMax:0.30,
@@ -3798,7 +3794,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     "0038-502":"カテエネBANKデビット",
     "0038-203":"V NEOBANKデビット(Vポイント支店)",
     "0038-303":"第一生命NEOBANKデビット",
-    "0038-d":"住信SBIデビット(Point+/プラチナ)",
+    "0038-d":"ドコモの銀行デビット(Point+/プラチナ)",
     "0036":"楽天銀行デビット",
     "0040":"イオン銀行キャッシュ+デビット"
   };
@@ -4992,7 +4988,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     "0038-303":{label:"SBI生命", color:"#0066CC"},
     "0038-309":{label:"SBI松井", color:"#0066CC"},
     "0038-201":{label:"SBI JAL", color:"#0066CC"},
-    "0038-d":{label:"SBI d", color:"#0066CC"},
+    "0038-d":{label:"ドコモ", color:"#CC0033"},
     "0150-ana":{label:"スルガANA", color:"#003DA5"},
     "0150-gpoint":{label:"スルガG", color:"#003DA5"},
     "0036-321":{label:"楽天生命", color:"#BF0000"},
