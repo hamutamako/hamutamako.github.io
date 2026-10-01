@@ -849,7 +849,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券・ポイントのカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-10-01-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-10-01b-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-10-01", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・10・15・20・25日と月末ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -901,6 +901,42 @@
      書き方：changes は1変更点ごとに1行（before=変更前、after=変更後、from=適用の起点）。
      targets には対象カードの code（DATAのcodeと同じ書き方）を入れる。 */
   var NEWS = [
+    { id:"20260925-jqbank-sbi",
+      announced:"2026-09-25",
+      effective:"2027-04-01",            // 目安（「2027年度中」の開始目標で日付は未定。表示はeffectiveLabel）
+      effectiveLabel:"2027年度中（予定）",
+      effectiveShort:"2027年度",
+      targets:["PT16","C10","S01","0397"], // JRキューポ・JQ CARD エポスゴールド・SBI証券・SBI新生銀行
+      title:"JR九州×SBIグループ 金融アプリ「JQ BANK」（仮称）を準備中。JQ CARDでクレカ積立も",
+      changes:[
+        { item:"JQ CARDでの投信積立（SBI証券）",
+          before:"なし",
+          after:"「JQ CARD積立」（JQ CARDで投資信託を積み立て）、積立額に応じたJRキューポ加算、JRキューポで国内株式・投資信託を買えるサービスを準備中",
+          from:"2027年度中のサービス開始を目指す" },
+        { item:"銀行（SBI新生銀行のBaaS）",
+          before:"なし",
+          after:"SBI証券の買付余力に自動反映される円預金「SBIハイパー預金」、預金残高に応じたJRキューポ付与、ATM出金・他行宛振込の無料回数などを検討中",
+          from:"2027年度中のサービス開始を目指す" }
+      ],
+      impact:"JR九州が自前で銀行を作るのではなく、SBI新生銀行を所属銀行とする銀行代理業の許可を前提にした、JR九州Web会員専用アプリ。2026年9月25日時点は「基本合意」で、内容は検討・準備中。JQ CARDの還元率などデータは変更なし。",
+      source:{ label:"JR九州とSBIグループ、戦略的事業提携に向けた基本合意（2026年9月25日）p.2-3",
+               url:"https://www.jrkyushu.co.jp/common/inc/news/newtopics/__icsFiles/afieldfile/2026/09/24/20260925_Basic_agreement_for_a_strategic_business_partnership.pdf" } },
+    { id:"2027-saisonbank-suruga",
+      announced:"2026-09-10",            // 公式ページの「2026年9月10日時点」の記載日（発表日そのものは未確認）
+      effective:"2027-01-01",            // 目安（「2027年初頭」で日付は未定。表示はeffectiveLabel）
+      effectiveLabel:"2027年初頭（予定）",
+      effectiveShort:"2027年初頭",
+      targets:["PT13"],                  // 永久不滅ポイント(セゾンカード)
+      title:"セゾンカード×スルガ銀行「セゾンバンク」（仮称）が2027年初頭に開始予定",
+      changes:[
+        { item:"銀行サービス",
+          before:"なし",
+          after:"スルガ銀行のインターネット支店「セゾン支店」の預金・振込と、セゾンカードなどクレディセゾンのサービスをつなぐデジタルバンキング。特典・金利などの詳細は未発表",
+          from:"2027年初頭（具体的な日程は今後公式サイトで案内）" }
+      ],
+      impact:"クレディセゾンが銀行代理業者として、スルガ銀行の口座開設などを取り次ぐ形。永久不滅ポイントやセゾンカードとの連携特典は今後発表。今のデータは変更なし。",
+      source:{ label:"セゾンバンク（仮称）｜2027年初頭サービス開始予定（セゾンカード公式・2026年9月10日時点の記載）",
+               url:"https://www.saisoncard.co.jp/services/saison-bank/apply/" } },
     { id:"20260928-rakutensec-black-card",
       announced:"2026-09-28",
       effective:"2027-01-01",            // 2027年1月の積立買付分から（2026年11月13日以降の積立設定分）
@@ -5650,6 +5686,10 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var p = iso.split("-");
     return (+p[1]) + "/" + (+p[2]);
   }
+  // 適用日が「2027年度中」など未確定のものは effectiveLabel／effectiveShort で表示を差し替える
+  //（effective は並べ替え・判定用の目安日として入れておく）
+  function newsEffJP(n){ return n.effectiveLabel || newsDateJP(n.effective); }
+  function newsEffShort(n){ return n.effectiveShort || newsShortDate(n.effective); }
   function newsBankName(code){
     for(var i=0;i<DATA.length;i++) if(DATA[i].code===code) return DATA[i].name;
     for(var j=0;j<CARD_DATA.length;j++) if(CARD_DATA[j].code===code) return CARD_DATA[j].name;
@@ -5685,7 +5725,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     function block(n, applied){
       return '<div class="news-head">' + (applied ? '✅ ' : '🔔 ') + n.title + '</div>' +
         '<div class="news-dates">対象：' + n.targets.map(newsBankName).join("、") +
-        ' ｜ 発表：' + newsDateJP(n.announced) + ' ｜ 適用：' + newsDateJP(n.effective) + (applied ? '（適用ずみ）' : '') + '</div>' +
+        ' ｜ 発表：' + newsDateJP(n.announced) + ' ｜ 適用：' + newsEffJP(n) + (applied ? '（適用ずみ）' : '') + '</div>' +
         (applied ? '<div class="news-applied-note">※適用日を過ぎています。カードの数値が新制度に更新ずみか確認してください。</div>' : '') +
         renderNewsItems(n) +
         (n.impact ? '<div class="news-impact">💡 ' + n.impact + '</div>' : '') +
@@ -5703,7 +5743,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     var list = newsForCard(bank.code).filter(newsIsUpcoming);
     if(list.length === 0) return "";
     var n = list.sort(function(a,b){ return a.effective < b.effective ? -1 : 1; })[0];
-    return '<button class="news-badge" type="button" data-open-news="' + n.id + '">📢 ' + newsShortDate(n.effective) + ' 制度変更あり ▶</button>';
+    return '<button class="news-badge" type="button" data-open-news="' + n.id + '">📢 ' + newsEffShort(n) + ' 制度変更あり ▶</button>';
   }
   // カード本文に出す「制度の変更予定」欄（適用ずみになっても確認用に残る）
   function renderCardNews(bank){
@@ -5713,7 +5753,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     list.forEach(function(n){
       var applied = !newsIsUpcoming(n);
       h += '<div class="news-dates">' + (applied ? '✅ 適用ずみ：' : '🔔 ') + n.title +
-        ' ｜ 適用：' + newsDateJP(n.effective) + '</div>' +
+        ' ｜ 適用：' + newsEffJP(n) + '</div>' +
         renderNewsItems(n) +
         newsSrcHtml(n);
     });
@@ -6038,15 +6078,15 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         return '<div class="hv-card' + (days <= 7 ? ' urgent' : '') + '" data-open-news="' + n.id + '"><div class="hv-row">' +
           '<span class="hv-ico">📢</span>' +
           '<div class="hv-body"><p class="hv-ttl">' + n.title + '</p>' +
-          '<p class="hv-sub">' + newsDateJP(n.effective) + 'から ｜ ' + tgTxt + '</p></div>' +
-          '<span class="hv-tag ' + tagClass + '">' + (days <= 0 ? "きょう" : "あと" + days + "日") + '</span>' +
+          '<p class="hv-sub">' + newsEffJP(n) + (n.effectiveLabel ? '' : 'から') + ' ｜ ' + tgTxt + '</p></div>' +
+          '<span class="hv-tag ' + (n.effectiveLabel ? 'gray' : tagClass) + '">' + (n.effectiveLabel ? "予定" : days <= 0 ? "きょう" : "あと" + days + "日") + '</span>' +
           '</div></div>';
       }).join("");
       h += nDone.map(function(n){
         return '<div class="hv-card" data-open-news="' + n.id + '"><div class="hv-row">' +
           '<span class="hv-ico">✅</span>' +
           '<div class="hv-body"><p class="hv-ttl">' + n.title + '</p>' +
-          '<p class="hv-sub">' + newsDateJP(n.effective) + ' 適用ずみ</p></div>' +
+          '<p class="hv-sub">' + newsEffJP(n) + ' 適用ずみ</p></div>' +
           '<span class="hv-tag gray">反映確認</span>' +
           '</div></div>';
       }).join("");
