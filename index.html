@@ -849,7 +849,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券・ポイントのカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-10-08b-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-10-08c-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-10-05", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・10・15・20・25日と月末ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -4427,12 +4427,16 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       basics:"口座開設・維持費 無料／投信100円〜・S株1株〜／NISA○（つみたて120万円＋成長240万円併用、国内株式売買手数料無料・投信はノーロード基本）",
       pros:["ゼロ革命で国内株式売買手数料が条件達成で無料", "投信マイレージの選べるポイントが5種類と業界内でも多い", "SBIハイブリッド預金で買付余力を自動管理しつつ普通預金より高い金利も得られる"],
       cons:["投信マイレージで貯まるポイント（5種類）と投資に使えるポイント（Vポイント・Pontaポイントのみ）が一致しない", "単元未満株（S株）はリアルタイム取引に非対応でバッチ処理のみ", "投信マイレージの付与率が情報源により数値差あり（要確認）"],
-      srcRefs:{bank:[1], mileage:[2,3]},
+      sokuuri:{pick:"三菱UFJ 日本短期債券オープン(円債ファースト)", alt:"", note:"ネコ山(YouTube)の推奨。SBI証券は銘柄に関係なくカードで還元率が決まるので、一番値動きが小さい国内短期債券を選ぶ。当日の基準価額で約定、売却代金は4営業日目から、信託財産留保額なし。設定日(2026-02-13)以降、2営業日での最大下落は−0.14%(運用会社公表の基準価額から計算)"},
+      srcRefs:{sokuuri:[5,6,7], bank:[1], mileage:[2,3]},
       sources:[
         {n:1, label:"SBIハイブリッド預金｜NEOBANK 住信SBIネット銀行（公式）", url:"https://www.netbk.co.jp/contents/lineup/yen/hybrid/"},
         {n:2, label:"投信マイレージサービス｜SBI証券公式", url:"https://www.sbisec.co.jp/ETGate/WPLETmgR001Control?OutSide=on&getFlg=on&burl=search_home&cat1=home&cat2=service&dir=service&file=home_point_fund_mileage.html"},
         {n:3, label:"SBIのポイント活用方法を徹底解説｜SBI証券公式LP", url:"https://go.sbisec.co.jp/lp/lp_sbi_pointservice.html"},
-        {n:4, label:"SBI証券のポイント投資に利用できるポイントと商品｜SBI証券公式FAQ", url:"https://faq.sbisec.co.jp/answer/6424ca5500994e3de0b651ea/"}
+        {n:4, label:"SBI証券のポイント投資に利用できるポイントと商品｜SBI証券公式FAQ", url:"https://faq.sbisec.co.jp/answer/6424ca5500994e3de0b651ea/"},
+        {n:5, label:"ネコ山 ポイ活と投資「【入金力】楽天証券xみずほ楽天カード 11月はポイ活ルーティン最大収益を狙う」(YouTube、2026-09-28。2:54〜6:36で各社の即売り銘柄)", url:"https://www.youtube.com/watch?v=pwWtseGKxmo"},
+        {n:6, label:"投資信託説明書（交付目論見書）使用開始日2026.２.13　三菱ＵＦＪ 日本短期債券オープン〈愛称：円債ファースト〉(三菱UFJアセットマネジメント、p.7お申込みメモ・p.8費用)", url:"https://www.am.mufg.jp/pdf/koumokuromi/254924/254924_20260213.pdf"},
+        {n:7, label:"SBI証券(「金利のある世界」で短期債券という選択肢 三菱UFJ 日本短期債券オープン【愛称：円債ファースト】)", url:"https://www.sbisec.co.jp/ETGate/?_ControlID=WPLETmgR001Control&_PageID=WPLETmgR001Mdtl30&_ActionID=DefaultAID&_DataStoreID=DSWPLETmgR001Control&OutSide=on&getFlg=on&burl=search_fund&cat1=fund&cat2=none&dir=info&file=comment%2Ffund_comment260213_am_mufg.html"}
       ] },
     { code:"S02", kind:"stock", name:"楽天証券",
       rateHeadline:"0.5〜2%", rateMax:2,
@@ -4451,13 +4455,18 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       basics:"口座開設・維持費 無料／投信100円〜・かぶミニ1株〜／NISA○（単元未満株かぶミニは買付・売却とも手数料無料、購入時手数料は銘柄ごとにノーロード〜最大税込4.40%）",
       pros:["マネーブリッジ登録で楽天銀行の普通預金金利が年0.38%まで優遇され、証券口座への資金移動も自動化（スイープ）される", "楽天カード積立＋楽天キャッシュ積立を併用すれば月最大15万円までポイント還元付きでキャッシュレス積立できる", "単元未満株「かぶミニ」は売買手数料無料で1株から国内株式投資ができる"],
       cons:["投信残高ポイントプログラムの対象が「楽天・プラスシリーズ」6ファンドのみと限定的", "ハッピープログラムとの併用可否・優先順位がわかりにくく制度全体の見通しが悪い（要確認）", "家計簿アプリ連携が公式オープンAPIかID・パスワード方式中心かが未確認で、連携が不安定になるリスクがある（要確認）"],
-      srcRefs:{rate:[2], tsumitate:[2], bank:[4,5], mileage:[3]},
+      sokuuri:{pick:"楽天カード：スマートスター(三菱UFJ 米国バンクローンファンド 通貨選択シリーズ＜円コース＞(毎月分配型))／楽天キャッシュ：円債ファースト", alt:"楽天カード：円奏会(東京海上・円資産バランスファンド(年1回決算型))", note:"楽天カードは代行手数料0.4%以上の銘柄なら一般カードでも1%。スマートスター・円奏会は2026年10月注文分の1%対象(対象は毎月入れ替わる。11月分は未公表)で、円債ファーストは0.5%側。スマートスターはネコ山(YouTube)の推奨で、翌営業日の基準価額で約定・NYの休日は申込不可・過去1年の2営業日での最大下落−0.73%。円奏会は当日の基準価額で約定するが、値動きはスマートスターより大きい(同−1.55%)。楽天キャッシュは銘柄に関係なく0.5%なので一番値動きが小さい円債ファースト。「年金積立 日本短期債券オープン」は信託財産留保額0.1%なので避ける"},
+      srcRefs:{sokuuri:[6,7,8,9], rate:[2], tsumitate:[2], bank:[4,5], mileage:[3]},
       sources:[
         {n:1, label:"手数料｜かぶミニ®（単元未満株取引）｜国内株式｜楽天証券", url:"https://www.rakuten-sec.co.jp/web/domestic/ols/commission/"},
         {n:2, label:"楽天ペイ残高（電子マネー）で投信積立｜取引ガイド｜投資信託｜楽天証券", url:"https://www.rakuten-sec.co.jp/web/rfund/guide/rcash.html"},
         {n:3, label:"投信残高ポイントプログラム｜取引ガイド｜投資信託 楽天証券", url:"https://www.rakuten-sec.co.jp/web/rfund/guide/zandaka_program/"},
         {n:4, label:"マネーブリッジ - 楽天銀行連携による優遇金利などのサービス提供｜銀行連携｜楽天証券", url:"https://www.rakuten-sec.co.jp/web/bank/"},
-        {n:5, label:"「マネーブリッジ」普通預金の最大優遇金利の適用残高引上げ＆優遇金利改定のお知らせ｜楽天銀行", url:"https://www.rakuten-bank.co.jp/info/2025/251225.html"}
+        {n:5, label:"「マネーブリッジ」普通預金の最大優遇金利の適用残高引上げ＆優遇金利改定のお知らせ｜楽天銀行", url:"https://www.rakuten-bank.co.jp/info/2025/251225.html"},
+        {n:6, label:"ネコ山 ポイ活と投資「【入金力】楽天証券xみずほ楽天カード 11月はポイ活ルーティン最大収益を狙う」(YouTube、2026-09-28。2:54〜6:36で各社の即売り銘柄)", url:"https://www.youtube.com/watch?v=pwWtseGKxmo"},
+        {n:7, label:"楽天カードクレジット決済1%～2%ポイント還元対象ファンド一覧（2026年9月12日時点）(スマートスターはPDF13枚目、円奏会は15枚目)", url:"https://www.rakuten-sec.co.jp/web/rfund/guide/creditcard/pdf/fund_list_1point_202610.pdf"},
+        {n:8, label:"楽天カードクレジット決済0.5%～2％ポイント還元対象ファンド一覧（2026年9月12日時点）(円債ファーストはPDF6枚目)", url:"https://www.rakuten-sec.co.jp/web/rfund/guide/creditcard/pdf/fund_list_05point_202610.pdf"},
+        {n:9, label:"投資信託説明書（交付目論見書）使用開始日2026.７.11　三菱ＵＦＪ 米国バンクローンファンド 通貨選択シリーズ(p.22お申込みメモ・p.24費用)", url:"https://www.am.mufg.jp/pdf/koumokuromi/251702/251702_20260711.pdf"}
       ] },
     { code:"S03", kind:"stock", name:"マネックス証券",
       rateHeadline:"1.1〜3.1%", rateMax:3.1,
@@ -4477,15 +4486,20 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       kakeibo:"マネーフォワードME○／Zaim○（いずれもスクレイピングでなくAPI〈OAuth2.0〉方式。ID・パスワードを預けずに残高情報を連携でき、証券会社としては同社が家計簿アプリとの公式API連携で先行）",
       basics:"口座開設・維持費 無料／投信は毎日100円〜（購入時手数料は全銘柄無料）・ワン株1株〜／NISA○（ワン株は2026年3月17日約定分から売却手数料も完全無料化、課税口座は買付無料・売却は約定金額の0.5%税込0.55%）",
       pros:["投信保有ポイントは最大年率0.26%を業界最大水準として標榜", "クレカ積立がマネックスカードに加えdカード（GOLD・PLATINUM含む）・d払い残高積立にも対応し、合計最大月15万円分まで還元対象にできる", "マネーフォワードME・ZaimともにAPI（OAuth2.0）連携でパスワードを預けずに資産残高を反映できる"],
-      cons:["SBI証券や楽天証券のような証券残高連動の銀行預金金利優遇制度が現時点では無い（ドコモSMTBネット銀行との資金スイープサービスは2026年8月28日開始済みだが金利優遇の有無は未確定・要フォロー）", "即時出金サービスは原則330円かかり、無料になるのは出金先がSBI新生銀行またはイオン銀行の場合のみ", "投信保有ポイントの基本付与率（0.03〜0.08%）は優遇対象銘柄（0.16〜0.26%）に比べ見劣りする"],
-      srcRefs:{bank:[4,6], mileage:[2,3]},
+      cons:["円債ファースト(日本短期債券)はクレカ積立の対象外で、即売りは値動きのやや大きい外貨建て(円ヘッジ)債券ファンドになる","SBI証券や楽天証券のような証券残高連動の銀行預金金利優遇制度が現時点では無い（ドコモSMTBネット銀行との資金スイープサービスは2026年8月28日開始済みだが金利優遇の有無は未確定・要フォロー）", "即時出金サービスは原則330円かかり、無料になるのは出金先がSBI新生銀行またはイオン銀行の場合のみ", "投信保有ポイントの基本付与率（0.03〜0.08%）は優遇対象銘柄（0.16〜0.26%）に比べ見劣りする"],
+      sokuuri:{pick:"グローバル変動金利債券ファンド 円ヘッジありコース(愛称：ヘンリー)", alt:"eMAXIS Slim 先進国債券インデックス(除く日本)。為替の影響で値動きは大きい", note:"ネコ山(YouTube)の推奨。円債ファーストはマネックス証券ではクレカ積立の対象外(ファンド詳細に「当ファンドはクレカ積立の対象外です」)。ヘンリーは翌営業日の基準価額で約定・NYまたはロンドンの銀行休業日は申込不可・売却代金は6営業日目から・信託財産留保額なし、過去1年の2営業日での最大下落−0.36%。dカード積立は毎月1日買付・同月10日引き落としなので、売却代金が引き落としに間に合わず一時的に自己資金が要る。d払い残高積立はNISA対象銘柄のみで、NISA口座で売ると非課税枠を使ってしまう"},
+      srcRefs:{sokuuri:[7,8,9,10], bank:[4,6], mileage:[2,3]},
       sources:[
         {n:1, label:"口座の開設や管理に費用はかかりますか？｜マネックス証券公式FAQ", url:"https://faq.monex.co.jp/faq/show/106?site_domain=default"},
         {n:2, label:"投信保有ポイント｜マネックス証券", url:"https://info.monex.co.jp/service/point/fund.html"},
         {n:3, label:"投信保有ポイントが主要ネット証券最高付与率の「最大0.26%」に", url:"https://prtimes.jp/main/html/rd/p/000000506.000005159.html"},
         {n:4, label:"住信SBIネット銀行とマネックス証券、金融商品仲介に関する業務提携を開始", url:"https://www.netbk.co.jp/contents/company/press/2026/0202_004969.html"},
         {n:5, label:"マネックス証券API公開。マネーフォワード MEと連携開始｜Impress Watch", url:"https://www.watch.impress.co.jp/docs/news/1168063.html"},
-        {n:6, label:"マネックス証券とドコモSMTBネット銀行、資金スイープサービス等の提供開始(公式・2026年8月28日発表)", url:"https://prtimes.jp/main/html/rd/p/000000018.000186631.html"}
+        {n:6, label:"マネックス証券とドコモSMTBネット銀行、資金スイープサービス等の提供開始(公式・2026年8月28日発表)", url:"https://prtimes.jp/main/html/rd/p/000000018.000186631.html"},
+        {n:7, label:"ネコ山 ポイ活と投資「【入金力】楽天証券xみずほ楽天カード 11月はポイ活ルーティン最大収益を狙う」(YouTube、2026-09-28。2:54〜6:36で各社の即売り銘柄)", url:"https://www.youtube.com/watch?v=pwWtseGKxmo"},
+        {n:8, label:"投資信託　三菱ＵＦＪ　日本短期債券オープン／マネックス証券(「当ファンドはクレカ積立の対象外です」)", url:"https://fund.monex.co.jp/detail/03317262"},
+        {n:9, label:"投資信託　グローバル変動金利債券ファンド　円ヘッジありコース／マネックス証券", url:"https://fund.monex.co.jp/detail/45314144"},
+        {n:10, label:"グローバル変動金利債券ファンド 円ヘッジありコース／円ヘッジなしコース 愛称：ヘンリー 投資信託説明書（交付目論見書）使用開始日：2026年7月18日(SOMPOアセットマネジメント、p.12お申込みメモ・p.14費用)", url:"https://www.sompo-am.co.jp/fund/0960/msk.pdf"}
       ] },
     { code:"S04", kind:"stock", name:"三菱UFJ eスマート証券",
       rateHeadline:"0.5〜7.0%", rateMax:7.0,
@@ -4506,13 +4520,18 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       basics:"口座開設・維持費 無料／投信100円〜・プチ株1株〜／NISA○（現物株式・米国株式・投資信託・プチ株とも取引手数料無料）",
       pros:["au PAYカード積立・資産形成プログラム（最大0.40%）・Pontaポイント投資が揃い、Ponta経済圏でのポイント循環が一通りできる", "auじぶん銀行との連携（マネーコネクト＋まとめて金利優遇）で入出金の手間を減らしつつ普通預金金利を上乗せできる（マネーコネクトの入出金手数料は無料）", "即時入金対応銀行が三菱UFJ銀行・auじぶん銀行など13行と幅広く、手数料無料・24時間反映"],
       cons:["資産形成プログラムは2026年7月改定で最低保有額のハードルは下がったが、還元率自体は他のネット証券の投信保有ポイント制度と比べると見劣りする水準（要他社比較）", "auID登録が判定日（毎月20日10時）時点で有効である必要があり、登録漏れ・失効に気づきにくい", "家計簿アプリ連携はマネーフォワードMEの二要素認証時エラーやZaimの事前API設定など、一部他社と比べ連携のハードルがやや高い"],
-      srcRefs:{bank:[1,2], mileage:[3,4]},
+      sokuuri:{pick:"三菱UFJ 日本短期債券オープン(円債ファースト)", alt:"", note:"ネコ山(YouTube)の推奨。公式は「積立設定が可能なファンドはすべて対象」。この銘柄の積立可否はファンド詳細ページから読み取れず、三菱UFJ eスマート証券自身の紹介記事と実践者の積立報告で確認(公式では未確認)。当日の基準価額で約定、売却代金は4営業日目から、信託財産留保額なし"},
+      srcRefs:{sokuuri:[6,7,8,9], bank:[1,2], mileage:[3,4]},
       sources:[
         {n:1, label:"まとめて金利優遇｜三菱UFJ eスマート証券", url:"https://kabu.com/item/bab/jbk/interest_rate/default.html"},
         {n:2, label:"マネーコネクト(三菱UFJ銀行/auじぶん銀行)｜三菱UFJ eスマート証券", url:"https://kabu.com/item/payment_cashout/moneyconnect/index.html"},
         {n:3, label:"資産形成プログラム｜三菱UFJ eスマート証券", url:"https://kabu.com/item/fund/point/default.html"},
         {n:4, label:"【重要】資産形成プログラム改定のお知らせ｜三菱UFJ eスマート証券", url:"https://kabu.com/company/pressrelease/20260601_2.html"},
-        {n:5, label:"auじぶん銀行証券連携｜三菱UFJ eスマート証券", url:"https://kabu.com/item/bab/jbk/program/default.html"}
+        {n:5, label:"auじぶん銀行証券連携｜三菱UFJ eスマート証券", url:"https://kabu.com/item/bab/jbk/program/default.html"},
+        {n:6, label:"ネコ山 ポイ活と投資「【入金力】楽天証券xみずほ楽天カード 11月はポイ活ルーティン最大収益を狙う」(YouTube、2026-09-28。2:54〜6:36で各社の即売り銘柄)", url:"https://www.youtube.com/watch?v=pwWtseGKxmo"},
+        {n:7, label:"投資信託説明書（交付目論見書）使用開始日2026.２.13　三菱ＵＦＪ 日本短期債券オープン〈愛称：円債ファースト〉(三菱UFJアセットマネジメント、p.7お申込みメモ・p.8費用)", url:"https://www.am.mufg.jp/pdf/koumokuromi/254924/254924_20260213.pdf"},
+        {n:8, label:"三菱UFJ eスマート証券でau PAY カード決済による投資信託の積立！Pontaポイントたまる！ | 三菱UFJ eスマート証券（旧社名：auカブコム証券）", url:"https://kabu.com/company/lp/lp200.html"},
+        {n:9, label:"金利ある世界での新たな選択肢！三菱ＵＦＪ 日本短期債券オープン〈愛称：円債ファースト〉 | 株のことならネット証券会社【三菱UFJ eスマート証券】", url:"https://kabu.com/kabuyomu/pr/1314.html"}
       ] },
     { code:"S05", kind:"stock", name:"PayPay証券",
       rateHeadline:"0.5〜0.7%", rateMax:0.7,
@@ -4530,13 +4549,16 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       basics:"口座維持費 無料／日本株・米国株は金額指定方式(ミニアプリ100円〜、アプリ1,000円〜・PayPay銀行連携時は100円〜)・投信買付手数料0円／NISA○(つみたて投資枠・成長投資枠の両方)",
       pros:["100円から日本株・米国株・投資信託を「金額指定」で始められる独自方式","PayPayポイント・PayPay銀行・PayPayカードとの連携が強いPayPay経済圏の一員","PayPay銀行との入出金がリアルタイム・双方向で無料完結"],
       cons:["売買手数料無料の代わりにスプレッド(日本株0.5%、米国株0.5〜0.7%＋為替手数料)が実質コスト","投信の保有残高に応じた継続的なポイント付与制度(投信マイレージ的な仕組み)が見当たらない","マネーフォワードMEとの連携が2024年7月に終了しており家計簿アプリでの自動管理がしづらい"],
-      srcRefs:{rate:[1], tsumitate:[1], bank:[2,3]},
+      sokuuri:{pick:"eMAXIS 国内物価連動国債インデックス", alt:"ジパング企業債ファンド", note:"取扱い155本に短期債券ファンド・MMFはないため、円建てで値動きが一番小さいものを選んだ(楽天証券のファンド詳細の1年リスク2.21%、信託財産留保額なし)。公式FAQは「売却してもポイント付与の対象は変わりません」。ただし「約定日の翌日に売却し、かつ繰り返し行ったような場合」はポイント取消の可能性があるので、常に1回分を持っておき、次の積立のときに前の分を売る形が安全"},
+      srcRefs:{sokuuri:[6,7], rate:[1], tsumitate:[1], bank:[2,3]},
       sources:[
         {n:1, label:"PayPayカード公式：資産運用つみたて還元プログラム改定", url:"https://www.paypay-card.co.jp/company/info/004492.html"},
         {n:2, label:"PayPay証券公式：入出金方法", url:"https://www.paypay-sec.co.jp/support/charge/"},
         {n:3, label:"PayPay銀行公式：ステップアップ円預金プレスリリース", url:"https://www.paypay-bank.co.jp/company/press/2026/0617.html"},
         {n:4, label:"PayPay証券公式：手数料", url:"https://www.paypay-sec.co.jp/service/cost/"},
-        {n:5, label:"マネーフォワードMEサポート：PayPay証券の連携終了について", url:"https://support.me.moneyforward.com/hc/ja/articles/34881566497561-PayPay%E8%A8%BC%E5%88%B8%E3%81%AE%E9%80%A3%E6%90%BA%E7%B5%82%E4%BA%86%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6"}
+        {n:5, label:"マネーフォワードMEサポート：PayPay証券の連携終了について", url:"https://support.me.moneyforward.com/hc/ja/articles/34881566497561-PayPay%E8%A8%BC%E5%88%B8%E3%81%AE%E9%80%A3%E6%90%BA%E7%B5%82%E4%BA%86%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6"},
+        {n:6, label:"購入・売却・運用状況の確認方法 | PayPay証券ミニアプリ | PayPay証券", url:"https://www.paypay-sec.co.jp/tool/miniapp/use/"},
+        {n:7, label:"eMAXIS 国内物価連動国債インデックス | 投資信託 | 楽天証券(リスク(年率)、2026.10.02更新)", url:"https://www.rakuten-sec.co.jp/web/fund/detail/?ID=JP90C000B0Y9"}
       ] },
     { code:"S06", kind:"stock", name:"tsumiki証券",
       rateHeadline:"0.1〜0.5%", rateMax:0.5,
@@ -4553,13 +4575,15 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       basics:"口座開設費・維持費 無料(維持費は記載なしのため実質無料と判断)／投資信託のみ7銘柄前後(銘柄数は改廃の可能性あり要確認)・クレカ積立/ポイント投資とも100円〜／単元未満株・個別株の取扱いなし(投信積立専業)／NISA○(つみたて投資枠5銘柄・成長投資枠7銘柄)",
       pros:["エポスカードでの積立継続年数に応じて還元率が段階的に上がる他社にない仕組み","100円・100ポイントという低い最低投資額で始められ、現金を使わないポイント投資にも対応","口座開設費・維持費・販売手数料が無料でコストは信託報酬のみとシンプル"],
       cons:["エポスカード保有者専用サービスで、他社クレジットカードでは積立できない","取扱商品が投資信託7銘柄前後に限定され、個別株・ETF・単元未満株の取扱いがない","月間積立上限10万円で、NISA成長投資枠(年240万円＝月20万円相当)を使い切れない設計"],
-      srcRefs:{rate:[1], tsumitate:[1,3]},
+      sokuuri:{pick:"即売りには向かない", alt:"", note:"引き出した分(移管含む)はポイントの年間集計から差し引かれる(2024年4月から)。エポスゴールド・プラチナの年間ボーナスの集計からも差し引き。7銘柄のうち値動きが一番小さいのは、まるごとひふみ15(債券85%)"},
+      srcRefs:{sokuuri:[6], rate:[1], tsumitate:[1,3]},
       sources:[
         {n:1, label:"tsumiki証券公式：ポイントプログラム", url:"https://www.tsumiki-sec.com/point-program/"},
         {n:2, label:"tsumiki証券公式：NISA案内ページ", url:"https://www.tsumiki-sec.com/nisa/"},
         {n:3, label:"証券会社カタログ(Yahoo!ファイナンス)：tsumiki証券", url:"https://finance.yahoo.co.jp/brokers-hikaku/item/47"},
         {n:4, label:"tsumiki証券公式FAQ：口座開設・投資の手数料", url:"https://faq.tsumiki-sec.com/faq/show/226?category_id=9&site_domain=customer"},
-        {n:5, label:"マネーフォワードME：対応金融関連サービス一覧", url:"https://moneyforward.com/active_services"}
+        {n:5, label:"マネーフォワードME：対応金融関連サービス一覧", url:"https://moneyforward.com/active_services"},
+        {n:6, label:"ポイントプログラム変更についてのお知らせ(tsumiki証券、2024年3月現在、p.1〜2)", url:"https://www.tsumiki-sec.com/news/detail/point_program.pdf"}
       ] },
     { code:"S07", kind:"stock", name:"大和コネクト証券",
       rateHeadline:"0.1〜1.0%", rateMax:1.0,
@@ -4577,15 +4601,20 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       kakeibo:"マネーフォワードME○／Moneytree○(いずれもID・パスワード入力の連携方式、公式アプリガイドに明記)／Zaim△(連携可否は今回未確認)。親会社・大和証券のAPI連携(2022年開始)と同一方式かは公式未確認(確度中)",
       basics:"口座開設費・維持費 無料(維持費の明記なしのため実質無料と判断)／ひな株(単元未満株)1株から・まいにち投信1日100円から／NISA○(つみたて投資枠・成長投資枠双方でひな株・まいにち投信を利用可)",
       pros:["クレカ積立の還元率がプラチナカード利用で一律1.0%とネット証券のクレカ積立の中でもトップクラス","単元未満株(ひな株・ひな株USA)に強く、日本株・米国株それぞれ1株単位で取引可能","ポイント投資がdポイント・Pontaポイント・永久不滅ポイントの3種に対応し選択肢が広い"],
-      cons:["大和ネクスト銀行との連携口座には金利優遇がなく、置いておくだけで金利が上がるメリットはない","即時入金(無料・リアルタイム)対応が「みんなの銀行」のみと少なく、他のネット証券より見劣りする","投信の保有残高に応じた投信マイレージ型のポイント制度がなく、まいにち投信の購入時ポイント(0.01〜0.03%相当)にとどまる"],
-      srcRefs:{rate:[1], tsumitate:[1], bank:[2,5], mileage:[4]},
+      cons:["当月中に売った分はクレカ積立のポイント対象から差し引かれる。JQ CARDセゾンは2024年11月からポイント(JRキューポ)対象外","大和ネクスト銀行との連携口座には金利優遇がなく、置いておくだけで金利が上がるメリットはない","即時入金(無料・リアルタイム)対応が「みんなの銀行」のみと少なく、他のネット証券より見劣りする","投信の保有残高に応じた投信マイレージ型のポイント制度がなく、まいにち投信の購入時ポイント(0.01〜0.03%相当)にとどまる"],
+      sokuuri:{pick:"ダイワ・ライフ・バランス30(翌月以降に売る前提)", alt:"たわらノーロード バランス(堅実型)(現在の取扱いは未確認)", note:"当月中に売った分はポイント対象額から差し引かれる(2024年1月5日積立分から)ので、即売りではなく翌月以降に売る。翌月まで持つので、債券中心のバランス型を選ぶ。JQ CARDセゾン(GOLD含む)は2024年11月1日から大和コネクト証券での利用がJRキューポ加算の対象外で、2025年8月11日(売上到着日)からは年間利用ボーナス・GOLDの年会費無料条件の集計からも外れた"},
+      srcRefs:{sokuuri:[7,8,9,10], rate:[1], tsumitate:[1], bank:[2,5], mileage:[4]},
       sources:[
         {n:1, label:"大和コネクト証券公式：クレカ積立", url:"https://www.connect-sec.co.jp/service/creditcard/"},
         {n:2, label:"大和ネクスト銀行公式：入出金連携サービス", url:"https://www.bank-daiwa.co.jp/service/connect/"},
         {n:3, label:"大和コネクト証券公式：えらべる入金方法", url:"https://www.connect-sec.co.jp/service/deposit/choice.html"},
         {n:4, label:"大和コネクト証券公式：ポイント投資", url:"https://www.connect-sec.co.jp/service/point/"},
         {n:5, label:"大和コネクト証券公式：大和ネクスト銀行の円普通預金口座", url:"https://www.connect-sec.co.jp/open/bank-daiwa.html"},
-        {n:6, label:"大和コネクト証券公式：家計簿アプリとの連携", url:"https://www.connect-sec.co.jp/guide/assets/budgetapp.html"}
+        {n:6, label:"大和コネクト証券公式：家計簿アプリとの連携", url:"https://www.connect-sec.co.jp/guide/assets/budgetapp.html"},
+        {n:7, label:"クレカ積立の永久不滅ポイント付与ルールの変更のお知らせ | 大和コネクト証券(2023.10.23)", url:"https://www.connect-sec.co.jp/news/231023_02.html"},
+        {n:8, label:"大和コネクト証券 / 大和アセットマネジメント株式会社(取扱いファンド一覧、基準日2026/10/07)", url:"https://www.daiwa-am.co.jp/funds/buy/list/11553.html"},
+        {n:9, label:"JQ CARDセゾンの一部サービス変更に関するご案内 | クレジットカードはセゾンカード(2024年9月2日)", url:"https://www.saisoncard.co.jp/customer-support/information/240902_1/"},
+        {n:10, label:"JQ CARDセゾン一部サービス変更のお知らせ | クレジットカードはセゾンカード(2025年7月1日)", url:"https://www.saisoncard.co.jp/customer-support/information/20250701/"}
       ] },
     { code:"S08", kind:"stock", name:"SMBC日興証券",
       rateHeadline:"—", rateMax:0,
@@ -7344,6 +7373,12 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
           {label:"月間上限", value:s.tsumitate.cap}
         ], s.tsumitate.note) + '</div>'
       : '<div class="sect"><h3>クレカ積立（投信積立）</h3><p class="card-plain">非対応（' + (s.rateNote || "") + '）</p></div>';
+    var soku = s.sokuuri
+      ? '<div class="sect"><h3>即売りに向く銘柄' + srcMark(s,'sokuuri') + '</h3>' +
+        '<p class="card-plain"><b>おすすめ：</b>' + s.sokuuri.pick + '</p>' +
+        (s.sokuuri.alt ? '<p class="card-plain"><b>代わり：</b>' + s.sokuuri.alt + '</p>' : '') +
+        '<div class="stat-note">' + foldNote(s.sokuuri.note) + '</div>' + '</div>'
+      : '';
     var bank = s.bankLink
       ? '<div class="sect"><h3>銀行との連携' + srcMark(s,'bank') + '</h3>' +
         renderStockRows([
@@ -7384,6 +7419,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         '<p class="tagline">' + s.pros[0] + '</p>' +
         (s.rateNote ? '<p class="stat-note">' + s.rateNote + '</p>' : '') +
         tsumi +
+        soku +
         bank +
         mileage +
         (s.pointInvest ? '<div class="sect"><h3>ポイント投資</h3><p class="card-plain">' + s.pointInvest + '</p></div>' : '') +
