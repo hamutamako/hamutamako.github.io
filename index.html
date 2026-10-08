@@ -849,7 +849,7 @@
     mark:   "⭐️",          // 名前の途中に入れる飾り。"☆" や "⭐️" にすると付く。"" で消える（2026-08-01に⭐️採用）
     joiner: "の",          // 作者名とアプリ名のつなぎ
     desc:   "銀行・カード・証券・ポイントのカタログ比較と、毎月のポイ活の見込み・チェックリスト（ホーム画面）を1つにまとめた個人用ツール",
-    build:  "2026-10-05a-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
+    build:  "2026-10-08a-public",  // 版。更新のたびに増やす（保存が残ったか確かめるのに使う）
     dataChecked: "2026-10-05", // 金利・還元率などの情報を最後に確認した日（info-recheckスキルの巡回で更新する）
     checkSchedule: "毎月5・10・15・20・25日と月末ごろ", // 巡回の目安（利用者向けの表示に使う）
     store: {               // localStorageのキー。★変更禁止★（変えると今までの記録が読めなくなる）
@@ -901,6 +901,54 @@
      書き方：changes は1変更点ごとに1行（before=変更前、after=変更後、from=適用の起点）。
      targets には対象カードの code（DATAのcodeと同じ書き方）を入れる。 */
   var NEWS = [
+    { id:"20261006-aeonpay-1-5",
+      announced:"2026-10-06",
+      effective:"2026-10-20",
+      targets:["P12","P10"],
+      title:"AEON Payのコード決済がどの店でも1.5%還元に（10/20から、月2万円まで）",
+      changes:[
+        { item:"AEON Payのコード決済（イオンカード払い・チャージ払い）",
+          before:"200円(税込)ごとに1WAON POINT(0.5%)、いつでも2倍の対象店は1.0%",
+          after:"どの店でも合計1.5%（いつでも2倍の対象店は基本1.0%＋特典0.5%、それ以外は基本0.5%＋特典1.0%）。1件200円(税込)以上の支払いが対象で、毎月のご利用金額合計20,000円(税込)まで",
+          from:"2026年10月20日(火)から（終了日は未定）" }
+      ],
+      impact:"WAONタッチ、AEON Pay残高へのチャージ、調剤、WAON POINTで払った分、毎月10日のAEON Payデーなど10倍キャンペーンと重なる分は対象外。特典ポイントは翌々月末ごろ。Apple PayのWAONにMastercard・JCB・AMEXでチャージ→AEON PayのWAONタッチ残高→コード残高へ移してチャージ払いにすると、入口のカードのポイントと重ねられる（移した残高で払った分に特典が付くかは、開始後に実績で確かめる）。",
+      sources:[
+        { label:"AEON Pay決済のご利用でWAON POINT1.5%還元！｜暮らしのマネーサイト（取得日2026-10-08）",
+          url:"https://www.aeon.co.jp/benefits/1-5-percent/" },
+        { label:"AEON Payでおトクにお買い物 10月よりAEON Payの利用促進に向けた各種キャンペーンを実施（@Press、2026年10月6日）",
+          url:"https://www.atpress.ne.jp/news/638280" }
+      ] },
+    { id:"20261006-teppay",
+      announced:"2026-10-06",
+      effective:"2026-10-20",
+      targets:["P15"],
+      title:"モバイルSuicaにコード決済「teppay」（10/20から。最大30万円、ビューカード連携払いも）",
+      changes:[
+        { item:"支払える金額",
+          before:"Suica(タッチ)の残高 20,000円まで",
+          after:"teppay残高：本人確認なし20,000円まで／マイナンバーカードで本人確認すると最大30万円。ビューカード連携払いはカードの利用限度額まで(チャージ不要)",
+          from:"2026年10月20日(火)11時以降、順次" },
+        { item:"ポイント",
+          before:"―",
+          after:"teppay残高払い 0.5%（teppayポイント、JRE POINTに交換できる）／ビューカード連携払い 1%（JRE POINT）",
+          from:"2026年10月20日(火)11時以降、順次" },
+        { item:"Suica残高との関係",
+          before:"―",
+          after:"teppay残高→Suica残高へのチャージはできる。Suica残高→teppay残高へは移せない（一方通行）。teppay残高は家族・友人に送れる",
+          from:"2026年10月20日(火)11時以降、順次" }
+      ],
+      impact:"teppayマーク・Smart Codeマークの店で使う、Suica(タッチ)とは別の残高。teppay残高のままでは電車・バスに乗れない。チャージ元はビューカード・登録した金融機関・セブン銀行/ローソン銀行ATMの現金・ほかの人からの受け取りで、ビューカード以外のカードからは入れられない。ビューカード→teppay残高のチャージでポイントが付くかは未確認。11/4〜12/25は「みんなでteppay！20%還元」（要エントリー、1人5,000ptまで＝25,000円分）。モバイルPASMOは2027年春の予定。",
+      sources:[
+        { label:"teppayとは | teppay（テッペイ）公式サイト：JR東日本（取得日2026-10-08）",
+          url:"https://www.teppay.jp/about/" },
+        { label:"teppay残高へのチャージ方法 | teppay（テッペイ）公式サイト：JR東日本（取得日2026-10-08）",
+          url:"https://www.teppay.jp/guide/charge/" },
+        { label:"みんなでteppay！20％還元キャンペーン | teppay（テッペイ）公式サイト：JR東日本（取得日2026-10-08）",
+          url:"https://www.teppay.jp/campaign-pointrewards-cp/" },
+        { label:"Suica利用は2万円というこれまでの当たり前を超えます（JR東日本、PR TIMES、2026年10月6日）",
+          url:"https://prtimes.jp/main/html/rd/p/000001542.000017557.html" }
+      ] },
     { id:"20261001-mufg-aujibun-transfer-fee",
       announced:"2026-10-01",
       effective:"2027-04-01",
@@ -3514,11 +3562,13 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       intlBrand:null,
       fee:"無料",
       feeNote:"年会費・手数料無料",
-      rateHeadline:"イオンカード払いで0.5〜1%",
-      rateMax:1,
-      rateNote:"イオンカード払い・チャージ払いとも200円(税込)ごとに1WAON POINT(0.5%)、イオングループの対象店舗では200円ごとに2pt(1.0%)。WAONタッチも同じ率。AEON Pay残高へチャージした時にはポイントは付かない(公式FAQ)。イオンカード払い・チャージ払いはボーナスポイント・ありが10デーの進呈対象",
+      rateHeadline:"1.5%(10/20〜)",
+      rateMax:1.5,
+      rateNote:"2026年10月20日(火)から(終了日未定)、コード決済(イオンカード払い・チャージ払い)はどの店でも合計1.5%(いつでも2倍の対象店は基本1.0%＋特典0.5%、それ以外は基本0.5%＋特典1.0%)。1件200円(税込)以上、毎月のご利用金額合計20,000円(税込)まで。WAONタッチ・残高へのチャージ・調剤・WAON POINT利用分・毎月10日のAEON Payデー等10倍キャンペーンと重なる分は対象外で、特典分は翌々月末ごろ進呈(公式)。基本は、イオンカード払い・チャージ払いとも200円(税込)ごとに1WAON POINT(0.5%)、イオングループの対象店舗では200円ごとに2pt(1.0%)。WAONタッチも同じ率。AEON Pay残高へチャージした時にはポイントは付かない(公式FAQ)。イオンカード払い・チャージ払いはボーナスポイント・ありが10デーの進呈対象",
       pointName:"WAON POINT",
       special:[
+        {label:"コード決済1.5%還元(2026-10-20〜)", value:"1.5%", note:"月20,000円(税込)まで・1件200円以上。超えた分は基本ポイントのみ。WAONタッチは対象外(公式)"},
+        {label:"WAON経由で入口カードと重ねる", value:"入口カード分＋1.5%", note:"Apple PayのWAONにMastercard・JCB・AMEXでチャージ→AEON PayのWAONタッチ残高→コード残高へ移してチャージ払い。移した残高で払った分に特典が付くかは開始後に要確認"},
         {label:"WAON POINT払い", value:"1pt=1円換算", note:"AEON Pay決済画面で利用ポイント数を指定して充当可能(公式)"},
         {label:"期間限定キャンペーン(不定期)", value:"還元率上乗せ・初回チャージ20%還元等", note:"実施時期・対象・上限は都度変動(確度中)"}
       ],
@@ -3539,9 +3589,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       },
       limits:"イオンカード・現金からのチャージは1回49,000円まで。銀行口座からは初回チャージから7日間は1回・1日5,000円まで、それ以降は1回10,000円・1日30,000円まで。保有はコード残高・WAONタッチ残高がそれぞれ50,000円まで(50,000円以上になるチャージはできない)。月間のチャージ上限は公式記載を確認できず(未確認)",
       family:"AEON Payコード残高は家族・友人に送金できる(AEON Payアプリ・iAEONアプリの「送る」。電話番号・受取り用URL・QRコード等)。送金は1回・1日5万円・1か月10万円まで、受取りは1回5万円・1日10万円または20回・1か月20万円まで(受取り側のコード残高が5万円以上だと受取り不可)。上限の変更・一部だけの受取りは不可。送金手数料の記載は確認できず(未確認)",
-      pros:["年会費・手数料無料でイオングループの実店舗・提携チェーンで幅広く使える","WAON POINTをそのまま決済に充当でき、ポイントの使い道として便利","イオンカード払い・チャージ払いの支払い時にWAON POINTが貯まる(0.5%、イオングループは1.0%)","コード残高を家族・友人に送金できる"],
-      cons:["イオンカード以外のクレジットカード・デビットカードは一切登録できず、他社カードでの二重取りができない","AEON Pay残高へのチャージ時はポイントが付かない(付くのは支払い時のみ)","銀行口座からのチャージは初回7日間は1日5,000円までと少額"],
-      srcRefs:{rate:[1], special:[4], charge:[2,3,4,5,6,7], limits:[3,5], family:[8]},
+      pros:["2026年10月20日からコード決済がどの店でも1.5%(月2万円まで)","年会費・手数料無料でイオングループの実店舗・提携チェーンで幅広く使える","WAON POINTをそのまま決済に充当でき、ポイントの使い道として便利","イオンカード払い・チャージ払いの支払い時にWAON POINTが貯まる(0.5%、イオングループは1.0%)","コード残高を家族・友人に送金できる"],
+      cons:["イオンカード以外のクレジットカード・デビットカードは一切登録できない(他社カードと重ねるにはApple PayのWAONを経由する手間がかかる)","1.5%還元は月20,000円(税込)までで、特典分の付与は翌々月末ごろ。終了日は未定で予告なく終わることもある","AEON Pay残高へのチャージ時はポイントが付かない(付くのは支払い時のみ)","銀行口座からのチャージは初回7日間は1日5,000円までと少額"],
+      srcRefs:{rate:[10,1], special:[10,11,4], charge:[2,3,4,5,6,7], limits:[3,5], family:[8]},
       sources:[
         {n:1,label:"AEON Payのコード決済・WAONタッチで決済した場合、ポイントは付きますか。 | よくあるご質問| 暮らしのマネーサイト(公式、記事更新日2026-08-25)",url:"https://faq.aeon.co.jp/faq/show/14488?site_domain=default"},
         {n:2,label:"AEON Payコード残高へのチャージ方法を教えてください。 | よくあるご質問| 暮らしのマネーサイト(公式、記事更新日2026-05-25)",url:"https://faq.aeon.co.jp/faq/show/20202?site_domain=default"},
@@ -3551,7 +3601,9 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:6,label:"AEON Payコード残高へチャージする銀行口座の登録・変更方法を教えてください。 | よくあるご質問| 暮らしのマネーサイト(公式、記事更新日2026-05-25)",url:"https://faq.aeon.co.jp/faq/show/20203?site_domain=default"},
         {n:7,label:"AEON Pay（イオンペイ）に登録できるクレジットカードとは？｜イオンカード　暮らしのマネーサイト(イオン公式コラム、記事公開日2024-07-22)",url:"https://www.aeon.co.jp/column/20240722_02/"},
         {n:8,label:"AEON Payのコード残高の送金・受取りに限度額はありますか。 | よくあるご質問| 暮らしのマネーサイト(公式、記事更新日2026-05-25)",url:"https://faq.aeon.co.jp/faq/show/24367?site_domain=default"},
-        {n:9,label:"AEON Payとは──ポイント還元率からメリット、使い方まで全解説(確認日2026-09-23。はま寿司・なか卯等の加盟(2023年4月)の記述、二次情報・内容が古い)",url:"https://appllio.com/what-is-aeon-pay"}
+        {n:9,label:"AEON Payとは──ポイント還元率からメリット、使い方まで全解説(確認日2026-09-23。はま寿司・なか卯等の加盟(2023年4月)の記述、二次情報・内容が古い)",url:"https://appllio.com/what-is-aeon-pay"},
+        {n:10,label:"AEON Pay決済のご利用でWAON POINT1.5%還元！｜暮らしのマネーサイト(公式、取得日2026-10-08)",url:"https://www.aeon.co.jp/benefits/1-5-percent/"},
+        {n:11,label:"WAONタッチ残高へのチャージ方法を教えてください。 | よくあるご質問| 暮らしのマネーサイト(公式、記事更新日2026-05-25。Apple PayのWAONから連携した場合、連携元のアプリでのチャージもWAONタッチ残高に反映)",url:"https://faq.aeon.co.jp/faq/show/34317?category_id=441&site_domain=default"}
       ] },
 
     { code:"P13", kind:"prepaid",
@@ -3673,6 +3725,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
       pointName:"JRE POINT",
       special:[
         {label:"ビューカードでチャージ(アプリ・オートチャージ)", value:"1.5%", note:"JRE POINT。現金チャージは対象外。事前にJRE POINT WEBサイトへのSuica登録が必要(公式)"},
+        {label:"teppay(モバイルSuicaアプリ内のコード決済、2026-10-20〜)", value:"0.5〜1%", note:"teppay残高払い0.5%(teppayポイント)、ビューカード連携払い1%(JRE POINT)。teppayマーク・Smart Codeマークの店で使える(Suicaが使える店とは別)。11/4〜12/25は20%還元キャンペーン(要エントリー、1人5,000ptまで)(公式)"},
         {label:"楽天ペイアプリのSuica(Android)に楽天カードでチャージ", value:"200円→1pt", note:"楽天ポイント。夜間自動チャージも同じ。楽天ポイント(通常ポイント)1pt=1円でチャージも可。おサイフケータイ対応Androidのみ(楽天ペイ公式)"}
       ],
       tsumitate:null,
@@ -3691,11 +3744,11 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
           {label:"Suica電子マネー加盟店での支払い", note:"JRE POINT加盟店では100円または200円(税込)ごとに1pt(店による。要JRE POINT登録)"}
         ]
       },
-      limits:"SF(電子マネー)残高の上限は20,000円で個別変更不可。クレジットカードでのチャージには不正利用防止のため一定期間の独自上限あり(金額・期間は非公開)。Suicaの追加発行時のチャージにも独自上限あり",
-      family:"SF(電子マネー)を別のSuicaへ移すこと・複数のSuicaを1枚にまとめることはできない(公式)。家族間の残高移動は不可",
-      pros:["年会費無料で、鉄道・バスにそのまま乗れ、コンビニ等の電子マネーとしても使える","ビューカードを登録すれば、アプリでのチャージでもオートチャージでもJRE POINT 1.5%","JRE POINTを1pt=1円でSuicaにチャージして使える(2026年2月からモバイルSuicaアプリ内で完結)","Apple Pay・Google Pay・楽天ペイ等、チャージの入口が多い"],
-      cons:["デビットカード・プリペイドカードは原則として登録できず、ブランドプリペイドも非推奨","残高上限が20,000円と低く、クレジットチャージにも非公開の上限がある","ビューカード以外のカードでのチャージには、Suica側のポイントがない","SF残高を別のSuicaへ移したり家族とまとめたりできない"],
-      srcRefs:{rate:[5,6,13,14], special:[6,12], charge:[1,3,7,8,9,10,13,14], limits:[2,4], fee:[11]},
+      limits:"SF(電子マネー)残高の上限は20,000円で個別変更不可(2026-10-20から始まるteppayは別の残高で、本人確認なし20,000円／マイナンバーカードで本人確認すると最大30万円、ビューカード連携払いはカードの利用限度額まで。teppayのチャージ元はビューカード・登録した金融機関・ATMの現金・受け取りのみ)。クレジットカードでのチャージには不正利用防止のため一定期間の独自上限あり(金額・期間は非公開)。Suicaの追加発行時のチャージにも独自上限あり",
+      family:"SF(電子マネー)を別のSuicaへ移すこと・複数のSuicaを1枚にまとめることはできない(公式)。2026-10-20からはteppay残高なら家族・友人に送れる(電話番号・teppay ID・QRコード・URL)。受け取ったteppay残高はSuicaにチャージできるが、Suica残高からteppay残高へは移せない(一方通行)。送金の上限は未確認",
+      pros:["年会費無料で、鉄道・バスにそのまま乗れ、コンビニ等の電子マネーとしても使える","2026-10-20からアプリ内でコード決済teppayが使え、本人確認で最大30万円・ビューカード連携払いで1%","ビューカードを登録すれば、アプリでのチャージでもオートチャージでもJRE POINT 1.5%","JRE POINTを1pt=1円でSuicaにチャージして使える(2026年2月からモバイルSuicaアプリ内で完結)","Apple Pay・Google Pay・楽天ペイ等、チャージの入口が多い"],
+      cons:["デビットカード・プリペイドカードは原則として登録できず、ブランドプリペイドも非推奨","Suica(タッチ)の残高上限は20,000円のまま(大きい支払いは10/20からのteppayを使う)。クレジットチャージにも非公開の上限がある","ビューカード以外のカードでのチャージには、Suica側のポイントがない","SF残高を別のSuicaへ移したり家族とまとめたりできない"],
+      srcRefs:{rate:[5,6,13,14], special:[6,12,15,17,18], charge:[1,3,7,8,9,10,13,14], limits:[2,4,15,16], fee:[11], family:[10,16]},
       sources:[
         {n:1,label:"モバイルSuicaアプリに登録できるクレジットカード・デビットカードを知りたい。 | モバイルSuica よくあるご質問：JR東日本(公式、更新日2024-12-18、確認日2026-09-24)",url:"https://msfaq.mobilesuica.com/faq/show/69?site_domain=default"},
         {n:2,label:"「クレジットチャージには、一定期間にご利用いただける上限額を設けております。（2320）（2321） | モバイルSuica よくあるご質問：JR東日本(公式、確認日2026-09-24)",url:"https://msfaq.mobilesuica.com/faq/show/2110?site_domain=default"},
@@ -3710,7 +3763,11 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
         {n:11,label:"モバイルSuica一部サービスの変更および終了について(JR東日本ニュースリリース 2019年1月16日、p.1「１ 年会費の無料化について」、確認日2026-09-24)",url:"https://www.jreast.co.jp/press/2018/20190107.pdf"},
         {n:12,label:"楽天ペイのSuica - 楽天ペイアプリ(公式、確認日2026-09-24)",url:"https://pay.rakuten.co.jp/topics/suica/"},
         {n:13,label:"登録したSuicaで鉄道に乗って貯める ｜ ポイントを貯める ｜ JR東日本のポイントサービス - JRE POINT(公式、ページに日付の記載なし、取得日2026-09-24)",url:"https://www.jrepoint.jp/point/append/railway/"},
-        {n:14,label:"登録したSuicaのお支払いで貯める ｜ ポイントを貯める ｜ JR東日本のポイントサービス - JRE POINT(公式、ページに日付の記載なし、取得日2026-09-24)",url:"https://www.jrepoint.jp/point/append/suica/"}
+        {n:14,label:"登録したSuicaのお支払いで貯める ｜ ポイントを貯める ｜ JR東日本のポイントサービス - JRE POINT(公式、ページに日付の記載なし、取得日2026-09-24)",url:"https://www.jrepoint.jp/point/append/suica/"},
+        {n:15,label:"teppayとは | teppay（テッペイ）公式サイト：JR東日本(公式、取得日2026-10-08)",url:"https://www.teppay.jp/about/"},
+        {n:16,label:"teppay残高へのチャージ方法 | teppay（テッペイ）公式サイト：JR東日本(公式、取得日2026-10-08。Suica残高との関係の表)",url:"https://www.teppay.jp/guide/charge/"},
+        {n:17,label:"支払い | teppay（テッペイ）公式サイト：JR東日本(公式、取得日2026-10-08)",url:"https://www.teppay.jp/guide/pay/"},
+        {n:18,label:"みんなでteppay！20％還元キャンペーン | teppay（テッペイ）公式サイト：JR東日本(公式、取得日2026-10-08)",url:"https://www.teppay.jp/campaign-pointrewards-cp/"}
       ] },
     { code:"P16", kind:"prepaid",
       name:"モバイルPASMO(パスモ)",
@@ -3980,6 +4037,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     o_nanaco_credit:{label:"クレジットカードでそのつどチャージ(入金)｜【公式】nanaco 電子マネー クレジットカード(公式、取得日2026-09-24)", url:"https://www.nanaco-net.jp/how-to/creditcharge/"},
     o_aeonpay_charge:{label:"AEON Payコード残高へのチャージ方法を教えてください。 | よくあるご質問| 暮らしのマネーサイト(公式、更新日2026-05-25)", url:"https://faq.aeon.co.jp/faq/show/20202?site_domain=default"},
     o_aeonpay_move:{label:"AEON Payコード決済・WAONタッチ残高の移行方法を教えてください。 | よくあるご質問| 暮らしのマネーサイト(公式、更新日2026-05-25)", url:"https://faq.aeon.co.jp/faq/show/34315?site_domain=default"},
+    o_aeonpay_15:{label:"AEON Pay決済のご利用でWAON POINT1.5%還元！｜暮らしのマネーサイト(公式、取得日2026-10-08)", url:"https://www.aeon.co.jp/benefits/1-5-percent/"},
     o_waontouch:{label:"WAONタッチの登録・変更方法を教えてください。 | よくあるご質問| 暮らしのマネーサイト(公式、更新日2026-07-07)", url:"https://faq.aeon.co.jp/faq/show/34316?site_domain=default"},
     o_suica_ap:{label:"Apple Pay（Wallet）に設定したクレジットカード等で、Suicaに入金（チャージ）したい | Suica Apple Pay よくあるご質問(公式、更新日2025-03-04)", url:"https://apfaq.mobilesuica.com/faq/show/1492?site_domain=default"},
     o_pasmo_debit:{label:"銀行口座・携帯電話料金・コンビニ等から入金（チャージ）／定期券購入（クレジットカード以外の決済サービスを利用した、PASMOへの入金（チャージ）／定期券購入）｜モバイルPASMO(公式、取得日2026-09-24)", url:"https://www.pasmo.co.jp/mp/and/charge/another/"},
@@ -4223,7 +4281,7 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
     {f:"0036", t:"P10", st:"zero", off:"楽天銀行公式：電子マネーへのチャージは進呈なし。Apple PayのWAONはデビットも可(Mastercard/JCB)", pr:"ぽいんみー：対象外", src:["o_rbank","o_waon_ap","pm_tool"]},
     {f:"C04", t:"P10", st:"ng", off:"Apple PayのWAON(イオン以外のカード)はMastercard/JCB/AMEXのみでVisa不可。なお三井住友カードのポイント対象外", pr:"", src:["o_waon_ap","o_smbc_vp"]},
     /* ---------- WAON (P10) → ---------- */
-    {f:"P10", t:"P12", st:"zero", off:"AEON PayにWAON(Apple PayのWAON/モバイルWAON等)をWAONタッチとして連携すると、WAONタッチ残高からAEON Payコード残高へ移せる(1円単位、移行先の残高が5万円になるまで)。移行でポイントが付くという記載はない", pr:"", src:["o_waontouch","o_aeonpay_charge","o_aeonpay_move"]},
+    {f:"P10", t:"P12", st:"zero", off:"AEON PayにWAON(Apple PayのWAON/モバイルWAON等)をWAONタッチとして連携すると、WAONタッチ残高からAEON Payコード残高へ移せる(1円単位、移行先の残高が5万円になるまで)。移行でポイントが付くという記載はない。2026-10-20からはコード残高で払う(チャージ払い)と1.5%(月2万円まで)なので、入口カードのポイントと重ねられる(移した残高での支払いが特典の対象外という記載はないが、実績は開始後に要確認)", pr:"", src:["o_waontouch","o_aeonpay_charge","o_aeonpay_move","o_aeonpay_15"]},
     {f:"P10", t:"P02", st:"ng", off:"未確認(公式未調査)", pr:"おにまる 2026-04-09・04-14：Apple PayのWAONでえらべるギフトを買い、au PAYギフトカードに交換してau PAYへチャージする「ぐるぐる」は、交換に3%の手数料が付いて「実質このぐるぐる技は封鎖された」", src:["lv_30934756","lv_30996809"]},
 
     /* ---------- → nanaco (P11) ※iPhoneのApple Pay nanacoはJCB/Mastercard/AMEX ---------- */
@@ -6026,6 +6084,8 @@ points:"独自の倍率制ポイントはなし。現金還元型の「キャッ
      note:"マイルの等価交換の枠（年2万マイル/人）に注意"},
     {name:"au PAYプリカ → Suica → Amazon", mode:"rate", rate:3.0,
      note:"プリカ1枚あたり月5万円まで"},
+    {name:"Mastercardデビット → WAON → AEON Pay", mode:"rate", rate:2.5,
+     note:"1.5%は月2万円まで・翌々月付与。デビットの還元率に合わせて直す"},
     {name:"三菱UFJカード（対象店）", mode:"rate", rate:15.0,
      note:"公式最大15%。自分の達成条件に合わせた率に直して使う"},
     {name:"Olive（コンビニ・飲食のタッチ決済）", mode:"rate", rate:10.0,
